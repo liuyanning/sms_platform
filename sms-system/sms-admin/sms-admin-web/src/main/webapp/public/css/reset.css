@@ -1,0 +1,141 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+    background: transparent;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+    font-size: 100%;
+    font: inherit;
+    -webkit-text-size-adjust: none;
+    list-style: none;
+    font-family: "microsoft yahei";
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+    color: #333;
+}
+
+body {
+    line-height: 1;
+}
+
+button {
+    margin: 0;
+    padding: 0;
+    border: 1px solid transparent;
+    outline: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+object, :focus {
+    outline: none;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section /* HTML 5 */
+{
+    display: block;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+    content: '';
+    content: none;
+}
+
+a img {
+    border: none;
+}
+
+input, button, textarea, select, optgroup, option {
+    font-size: 100%;
+    font: inherit;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden
+}
+
+.clearfix {
+    *+height: 1%;
+}
+
+.al {
+    text-align: left;
+}
+
+.ar {
+    text-align: right;
+}
+
+.ac {
+    text-align: center;
+}
+
+.lc {
+    margin: 0 auto;
+}
+
+.fl, .il .fl {
+    float: left;
+}
+
+.fr, .il .fr {
+    float: right;
+}
+
+.fc, .il .fc {
+    float: none;
+    clear: both;
+}
+
+.rel {
+    position: relative;
+}
+
+.abs {
+    position: absolute;
+}
+
+.il {
+    list-style: none;
+}
+
+.il li {
+    float: left;
+}
+
+.w1000 {
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.box-shadow {
+    box-shadow: 0 0 10px #aaa;
+}
+
+hr {
+    display: block;
+    border: 0;
+    border-top: 1px solid #d8d8d8;
+}

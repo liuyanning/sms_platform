@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Fri Mar 15 16:18:02 CST 2019-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.business.ISmsRouteDAO">
+  <resultMap id="BaseResultMapExt" type="com.hero.wireless.web.entity.business.ext.SmsRouteExt" extends="BaseResultMap">
+  </resultMap>
+  <select id="queryOperatorListByCountry" parameterType="String" resultMap="BaseResultMapExt">
+    SELECT distinct(Route_Name_Code) FROM sms_route s WHERE s.Country_Number = #{0}
+  </select>
+  <select id="query4LocalCache" parameterType="com.hero.wireless.web.entity.business.SmsRouteExample" resultMap="BaseResultMapExt">
+    select * from sms_route where LENGTH(Prefix_Number) &lt;= 11
+    <if test="pagination != null">
+      limit ${pagination.firstResult},${pagination.pageSize}
+    </if>
+  </select>
+</mapper>

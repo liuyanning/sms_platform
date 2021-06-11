@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.send.IReportNotifyDAO">
+
+  <resultMap id="BaseResultMapExt"
+             type="com.hero.wireless.web.entity.send.ext.ReportNotifyExt" extends="BaseResultMap">
+  </resultMap>
+
+  <insert id="insertReportNotifyListSharding" parameterType="com.hero.wireless.web.entity.base.ShardingBatchInsert">
+    insert into report_notify${tableSuffix} (Id, Msg_Batch_No, Enterprise_Msg_Id, Channel_Msg_Id, SP_Number, Country_Code, Country_Number, Phone_No, Channel_No, Sub_Code, Enterprise_No, Agent_No, Enterprise_User_Id, Business_User_Id, Operator, Area_Name, Province_Code, Message_Type_Code, Content, Data_Status_Code, Charset, Content_Length, Sequence, Protocol_Type_Code, Status_Code, Native_Status, Status_Date, Notify_Status_Code, Submit_Status_Code, Submit_Description, Submit_Date, Notify_Response_Status, Notify_Submit_Date, Notify_Response_Date, Input_Log_Date, Description, Remark, Create_Date)
+    values
+    <foreach collection="dataList" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.msg_Batch_No,jdbcType=VARCHAR}, #{item.enterprise_Msg_Id,jdbcType=VARCHAR}, #{item.channel_Msg_Id,jdbcType=VARCHAR}, #{item.SP_Number,jdbcType=VARCHAR}, #{item.country_Code,jdbcType=VARCHAR}, #{item.country_Number,jdbcType=VARCHAR}, #{item.phone_No,jdbcType=VARCHAR}, #{item.channel_No,jdbcType=VARCHAR}, #{item.sub_Code,jdbcType=VARCHAR}, #{item.enterprise_No,jdbcType=VARCHAR}, #{item.agent_No,jdbcType=VARCHAR}, #{item.enterprise_User_Id,jdbcType=INTEGER}, #{item.business_User_Id,jdbcType=INTEGER}, #{item.operator,jdbcType=VARCHAR}, #{item.area_Name,jdbcType=VARCHAR}, #{item.province_Code,jdbcType=VARCHAR}, #{item.message_Type_Code,jdbcType=VARCHAR}, #{item.content,jdbcType=VARCHAR}, #{item.data_Status_Code,jdbcType=VARCHAR}, #{item.charset,jdbcType=VARCHAR}, #{item.content_Length,jdbcType=INTEGER}, #{item.sequence,jdbcType=INTEGER}, #{item.protocol_Type_Code,jdbcType=VARCHAR}, #{item.status_Code,jdbcType=VARCHAR}, #{item.native_Status,jdbcType=VARCHAR}, #{item.status_Date,jdbcType=TIMESTAMP}, #{item.notify_Status_Code,jdbcType=VARCHAR}, #{item.submit_Status_Code,jdbcType=VARCHAR}, #{item.submit_Description,jdbcType=VARCHAR}, #{item.submit_Date,jdbcType=TIMESTAMP}, #{item.notify_Response_Status,jdbcType=VARCHAR}, #{item.notify_Submit_Date,jdbcType=TIMESTAMP}, #{item.notify_Response_Date,jdbcType=TIMESTAMP}, #{item.input_Log_Date,jdbcType=TIMESTAMP}, #{item.description,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.create_Date,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+
+  <select id="countExtByExample" parameterType="com.hero.wireless.web.entity.send.ReportNotifyExample" resultType="java.lang.Integer">
+    select count(1) from report_notify
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+
+  <select id="selectExtByExample" parameterType="com.hero.wireless.web.entity.send.ReportNotifyExample" resultMap="BaseResultMapExt">
+    select
+    <include refid="Base_Column_List" />
+    from report_notify
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null">
+      limit ${pagination.firstResult},${pagination.pageSize}
+    </if>
+  </select>
+
+  <update id="dropTable" parameterType="com.hero.wireless.web.entity.send.ext.ReportNotifyExt">
+    drop table if exists report_notify${tableSuffix}
+  </update>
+
+  <update id="createReportNotifyTable" parameterType="com.hero.wireless.web.entity.send.ext.ReportNotifyExt">
+    CREATE TABLE IF NOT EXISTS report_notify${tableSuffix} (
+      Id bigint NOT NULL,
+      Msg_Batch_No varchar(128) DEFAULT NULL COMMENT '唯一标识',
+      Enterprise_Msg_Id varchar(128) DEFAULT NULL COMMENT '下游的msgId',
+      Channel_Msg_Id varchar(128) DEFAULT NULL COMMENT '通道msgid',
+      SP_Number varchar(128) DEFAULT NULL COMMENT '通道的SP号码',
+      Country_Code varchar(128) DEFAULT NULL COMMENT '国家编码：中国86',
+      Country_Number varchar(128) DEFAULT NULL COMMENT '国家编号：中国cn',
+      Phone_No varchar(128) DEFAULT NULL COMMENT '接受短信手机号',
+      Channel_No varchar(128) DEFAULT NULL COMMENT '通道编号',
+      Sub_Code varchar(128) DEFAULT NULL,
+      Enterprise_No varchar(128) DEFAULT NULL COMMENT '企业编号',
+      Agent_No varchar(128) DEFAULT NULL COMMENT '代理商编号',
+      Enterprise_User_Id int(11) DEFAULT NULL COMMENT '企业用户ID',
+      Business_User_Id int(11) DEFAULT NULL COMMENT '业务员Id（商务）',
+      Operator varchar(50) DEFAULT NULL COMMENT '运营商：cmpp：移动sgip：联通smgp：电信 未知：Unkonw',
+      Area_Name varchar(255) DEFAULT NULL COMMENT '地域',
+      Province_Code varchar(21) DEFAULT NULL COMMENT '省份代码，0311,010省会的电话区号',
+      Message_Type_Code varchar(128) DEFAULT NULL COMMENT '消息类型',
+      Content varchar(512) CHARACTER SET utf8mb4 NOT NULL COMMENT '短消息',
+      Data_Status_Code varchar(11) DEFAULT '0' COMMENT '数据状态：0：正常数据 1：重发的数据 2：第一次发送失败的数据',
+      Charset varchar(32) DEFAULT NULL COMMENT '编码',
+      Content_Length int(11) DEFAULT NULL,
+      Sequence int(11) DEFAULT NULL COMMENT '长短信的序列',
+      Protocol_Type_Code varchar(128) DEFAULT NULL COMMENT 'Web,Cmpp,HttpXml,HttpJson',
+      Status_Code varchar(128) DEFAULT NULL COMMENT '状态，成功 Success，失败 Faild',
+      Native_Status varchar(128) DEFAULT NULL COMMENT '原生状态',
+      Status_Date datetime DEFAULT NULL,
+      Notify_Status_Code varchar(128) DEFAULT NULL COMMENT '通知状态:成功 Success，失败 Faild',
+      Submit_Status_Code varchar(128) DEFAULT NULL,
+      Submit_Description varchar(128) DEFAULT NULL,
+      Submit_Date datetime(3) DEFAULT NULL COMMENT '提交时间',
+      Notify_Response_Status varchar(128) DEFAULT NULL COMMENT '通知响应状态',
+      Notify_Submit_Date datetime(3) DEFAULT NULL COMMENT '通知提交时间',
+      Notify_Response_Date datetime(3) DEFAULT NULL COMMENT '通知返回时间',
+      Input_Log_Date datetime DEFAULT NULL COMMENT 'inputLog创建时间',
+      Description varchar(128) DEFAULT NULL,
+      Remark varchar(128) DEFAULT NULL,
+      Create_Date datetime(3) DEFAULT NULL COMMENT '创建时间',
+      PRIMARY KEY (Id) USING BTREE,
+      KEY Channel_Sub_Msg_No (Channel_Msg_Id) USING BTREE,
+      KEY Enterprise_Msg_No (Msg_Batch_No) USING BTREE,
+      KEY Phone_No (Phone_No) USING BTREE,
+      KEY Submit_Date (Submit_Date) USING BTREE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT
+  </update>
+</mapper>

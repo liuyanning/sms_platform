@@ -1,0 +1,4 @@
+#
+# 自定义的分片规则
+#
+com.hero.wireless.sharding.algorithm.DateShardingAlgorithm

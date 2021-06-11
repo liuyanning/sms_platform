@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.business.IContactDAO">
+  <resultMap id="BaseResultMap" type="com.hero.wireless.web.entity.business.Contact">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="Group_Id" jdbcType="INTEGER" property="group_Id" />
+    <result column="Phone_No" jdbcType="VARCHAR" property="phone_No" />
+    <result column="Real_Name" jdbcType="VARCHAR" property="real_Name" />
+    <result column="Gender" jdbcType="VARCHAR" property="gender" />
+    <result column="Birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="Address" jdbcType="VARCHAR" property="address" />
+    <result column="Company" jdbcType="VARCHAR" property="company" />
+    <result column="Position" jdbcType="VARCHAR" property="position" />
+    <result column="Enterprise_No" jdbcType="VARCHAR" property="enterprise_No" />
+    <result column="Create_Enterprise_User_Id" jdbcType="INTEGER" property="create_Enterprise_User_Id" />
+    <result column="Create_Enterprise_User_Name" jdbcType="VARCHAR" property="create_Enterprise_User_Name" />
+    <result column="Create_Date" jdbcType="TIMESTAMP" property="create_Date" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Id, Group_Id, Phone_No, Real_Name, Gender, Birthday, Address, Company, Position, 
+    Enterprise_No, Create_Enterprise_User_Id, Create_Enterprise_User_Name, Create_Date
+  </sql>
+  <select id="selectByExample" parameterType="com.hero.wireless.web.entity.business.ContactExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from contact
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null">
+      limit ${pagination.firstResult},${pagination.pageSize}
+    </if>
+    <if test="dataLock != null">
+       ${dataLock}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from contact
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from contact
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hero.wireless.web.entity.business.ContactExample">
+    delete from contact
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hero.wireless.web.entity.business.Contact">
+    insert into contact (Id, Group_Id, Phone_No, 
+      Real_Name, Gender, Birthday, 
+      Address, Company, Position, 
+      Enterprise_No, Create_Enterprise_User_Id, 
+      Create_Enterprise_User_Name, Create_Date
+      )
+    values (#{id,jdbcType=INTEGER}, #{group_Id,jdbcType=INTEGER}, #{phone_No,jdbcType=VARCHAR}, 
+      #{real_Name,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, 
+      #{address,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, 
+      #{enterprise_No,jdbcType=VARCHAR}, #{create_Enterprise_User_Id,jdbcType=INTEGER}, 
+      #{create_Enterprise_User_Name,jdbcType=VARCHAR}, #{create_Date,jdbcType=TIMESTAMP}
+      )
+    <selectKey keyProperty="id" resultType="Integer">
+      SELECT LAST_INSERT_ID() AS Id
+    </selectKey>
+  </insert>
+  <insert id="insertList" parameterType="com.hero.wireless.web.entity.business.Contact">
+    insert into contact (Id, Group_Id, Phone_No, Real_Name, Gender, Birthday, Address, Company, Position, Enterprise_No, Create_Enterprise_User_Id, Create_Enterprise_User_Name, Create_Date) 
+ values 
+
+
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=INTEGER}, #{item.group_Id,jdbcType=INTEGER}, #{item.phone_No,jdbcType=VARCHAR}, #{item.real_Name,jdbcType=VARCHAR}, #{item.gender,jdbcType=VARCHAR}, #{item.birthday,jdbcType=TIMESTAMP}, #{item.address,jdbcType=VARCHAR}, #{item.company,jdbcType=VARCHAR}, #{item.position,jdbcType=VARCHAR}, #{item.enterprise_No,jdbcType=VARCHAR}, #{item.create_Enterprise_User_Id,jdbcType=INTEGER}, #{item.create_Enterprise_User_Name,jdbcType=VARCHAR}, #{item.create_Date,jdbcType=TIMESTAMP})
+    </foreach>
+    <selectKey resultType="Integer">
+      SELECT ROW_COUNT() 
+    </selectKey>
+  </insert>
+  <insert id="insertSelective" parameterType="com.hero.wireless.web.entity.business.Contact">
+    insert into contact
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="group_Id != null">
+        Group_Id,
+      </if>
+      <if test="phone_No != null">
+        Phone_No,
+      </if>
+      <if test="real_Name != null">
+        Real_Name,
+      </if>
+      <if test="gender != null">
+        Gender,
+      </if>
+      <if test="birthday != null">
+        Birthday,
+      </if>
+      <if test="address != null">
+        Address,
+      </if>
+      <if test="company != null">
+        Company,
+      </if>
+      <if test="position != null">
+        Position,
+      </if>
+      <if test="enterprise_No != null">
+        Enterprise_No,
+      </if>
+      <if test="create_Enterprise_User_Id != null">
+        Create_Enterprise_User_Id,
+      </if>
+      <if test="create_Enterprise_User_Name != null">
+        Create_Enterprise_User_Name,
+      </if>
+      <if test="create_Date != null">
+        Create_Date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="group_Id != null">
+        #{group_Id,jdbcType=INTEGER},
+      </if>
+      <if test="phone_No != null">
+        #{phone_No,jdbcType=VARCHAR},
+      </if>
+      <if test="real_Name != null">
+        #{real_Name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="enterprise_No != null">
+        #{enterprise_No,jdbcType=VARCHAR},
+      </if>
+      <if test="create_Enterprise_User_Id != null">
+        #{create_Enterprise_User_Id,jdbcType=INTEGER},
+      </if>
+      <if test="create_Enterprise_User_Name != null">
+        #{create_Enterprise_User_Name,jdbcType=VARCHAR},
+      </if>
+      <if test="create_Date != null">
+        #{create_Date,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hero.wireless.web.entity.business.ContactExample" resultType="java.lang.Integer">
+    select count(*) from contact
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update contact
+    <set>
+      <if test="record.id != null">
+        Id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.group_Id != null">
+        Group_Id = #{record.group_Id,jdbcType=INTEGER},
+      </if>
+      <if test="record.phone_No != null">
+        Phone_No = #{record.phone_No,jdbcType=VARCHAR},
+      </if>
+      <if test="record.real_Name != null">
+        Real_Name = #{record.real_Name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null">
+        Gender = #{record.gender,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthday != null">
+        Birthday = #{record.birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.address != null">
+        Address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.company != null">
+        Company = #{record.company,jdbcType=VARCHAR},
+      </if>
+      <if test="record.position != null">
+        Position = #{record.position,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterprise_No != null">
+        Enterprise_No = #{record.enterprise_No,jdbcType=VARCHAR},
+      </if>
+      <if test="record.create_Enterprise_User_Id != null">
+        Create_Enterprise_User_Id = #{record.create_Enterprise_User_Id,jdbcType=INTEGER},
+      </if>
+      <if test="record.create_Enterprise_User_Name != null">
+        Create_Enterprise_User_Name = #{record.create_Enterprise_User_Name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.create_Date != null">
+        Create_Date = #{record.create_Date,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update contact
+    set Id = #{record.id,jdbcType=INTEGER},
+      Group_Id = #{record.group_Id,jdbcType=INTEGER},
+      Phone_No = #{record.phone_No,jdbcType=VARCHAR},
+      Real_Name = #{record.real_Name,jdbcType=VARCHAR},
+      Gender = #{record.gender,jdbcType=VARCHAR},
+      Birthday = #{record.birthday,jdbcType=TIMESTAMP},
+      Address = #{record.address,jdbcType=VARCHAR},
+      Company = #{record.company,jdbcType=VARCHAR},
+      Position = #{record.position,jdbcType=VARCHAR},
+      Enterprise_No = #{record.enterprise_No,jdbcType=VARCHAR},
+      Create_Enterprise_User_Id = #{record.create_Enterprise_User_Id,jdbcType=INTEGER},
+      Create_Enterprise_User_Name = #{record.create_Enterprise_User_Name,jdbcType=VARCHAR},
+      Create_Date = #{record.create_Date,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hero.wireless.web.entity.business.Contact">
+    update contact
+    <set>
+      <if test="group_Id != null">
+        Group_Id = #{group_Id,jdbcType=INTEGER},
+      </if>
+      <if test="phone_No != null">
+        Phone_No = #{phone_No,jdbcType=VARCHAR},
+      </if>
+      <if test="real_Name != null">
+        Real_Name = #{real_Name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        Gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        Birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        Address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        Company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        Position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="enterprise_No != null">
+        Enterprise_No = #{enterprise_No,jdbcType=VARCHAR},
+      </if>
+      <if test="create_Enterprise_User_Id != null">
+        Create_Enterprise_User_Id = #{create_Enterprise_User_Id,jdbcType=INTEGER},
+      </if>
+      <if test="create_Enterprise_User_Name != null">
+        Create_Enterprise_User_Name = #{create_Enterprise_User_Name,jdbcType=VARCHAR},
+      </if>
+      <if test="create_Date != null">
+        Create_Date = #{create_Date,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hero.wireless.web.entity.business.Contact">
+    update contact
+    set Group_Id = #{group_Id,jdbcType=INTEGER},
+      Phone_No = #{phone_No,jdbcType=VARCHAR},
+      Real_Name = #{real_Name,jdbcType=VARCHAR},
+      Gender = #{gender,jdbcType=VARCHAR},
+      Birthday = #{birthday,jdbcType=TIMESTAMP},
+      Address = #{address,jdbcType=VARCHAR},
+      Company = #{company,jdbcType=VARCHAR},
+      Position = #{position,jdbcType=VARCHAR},
+      Enterprise_No = #{enterprise_No,jdbcType=VARCHAR},
+      Create_Enterprise_User_Id = #{create_Enterprise_User_Id,jdbcType=INTEGER},
+      Create_Enterprise_User_Name = #{create_Enterprise_User_Name,jdbcType=VARCHAR},
+      Create_Date = #{create_Date,jdbcType=TIMESTAMP}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

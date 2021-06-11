@@ -1,0 +1,43 @@
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/admin.css" media="all">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+<!--    <script src="/layuiadmin/layui/layui.all.js" charset="utf-8"></script>-->
+    <script src="/layuiadmin/layui/layui.js" charset="utf-8" ></script>
+    <script src="/js/jquery-form.js"></script>
+    <script src="/js/date-fmt.js" charset="utf-8"></script>
+</head>
+<script>
+    //处理字段null、undefined 等
+    function handleData(data) {
+        if(data == '0'){//处理数字0异常显示
+            return data;
+        }
+        if(!data){
+            return '---';
+        }
+        if(data == 'null' || data == 'undefined'){
+            return '---';
+        }
+        return data;
+    }
+    //js获取请求参数
+    function getRequestParam(argname){
+        var url = location.href;
+        var arrStr = url.substring(url.indexOf("?")+1).split("&");
+        for(var i =0;i<arrStr.length;i++){
+            var loc = arrStr[i].indexOf(argname+"=");
+            if(loc!=-1){
+                return arrStr[i].replace(argname+"=","").replace("?","");
+                break;
+            }
+        }
+        return "";
+    }
+</script>

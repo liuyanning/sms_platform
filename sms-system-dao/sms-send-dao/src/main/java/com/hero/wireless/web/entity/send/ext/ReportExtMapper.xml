@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Fri Mar 15 16:40:03 
+	CST 2019 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.send.IReportDAO">
+	<resultMap id="BaseResultMapExt"
+		type="com.hero.wireless.web.entity.send.ext.ReportExt" extends="BaseResultMap">
+        <result property="enterprise.name" column="enterprise_Name" jdbcType="VARCHAR" />
+        <result property="enterpriseUser.real_Name" column="real_Name" jdbcType="VARCHAR" />
+        <result property="count_Total" column="Count_Total" jdbcType="INTEGER" />
+        <result property="send_Success_Total" column="Send_Success_Total" jdbcType="INTEGER"/>
+        <result property="send_Faild_Total" column="Send_Faild_Total" jdbcType="INTEGER"/>
+    </resultMap>
+    
+    <resultMap type="com.hero.wireless.web.entity.ext.SqlStatisticsEntity" id="reportStatisticsResultMap">
+		<result property="count" column="Count" jdbcType="INTEGER"/>
+		<result property="sale_Fee_Total" column="Sale_Fee_Total" jdbcType="FLOAT"/>
+		<result property="profits_Total" column="Profits_Total" jdbcType="FLOAT"/>
+		<result property="enterprise_Count" column="Enterprise_Count" jdbcType="BIGINT"/>
+		<result property="fee_Count" column="Fee_Count" jdbcType="BIGINT"/>
+		<result property="faild_Count" column="Faild_Count" jdbcType="BIGINT"/>
+		<result property="profits" column="Profits" jdbcType="DECIMAL"/>
+		<result property="submit_Success_Total" column="Submit_Success_Total" jdbcType="INTEGER"/>
+		<result property="submit_Faild_Total" column="Submit_Faild_Total" jdbcType="INTEGER"/>
+		<result property="sort_Faild_Total" column="Sort_Faild_Total" jdbcType="INTEGER"/>
+		<result property="send_Success_Total" column="Send_Success_Total" jdbcType="INTEGER"/>
+		<result property="send_Faild_Total" column="Send_Faild_Total" jdbcType="INTEGER"/>
+		<result property="profits_Total" column="Profits_Total" jdbcType="DECIMAL"/>
+		<result property="channel_Unit_Price_Total" column="Channel_Unit_Price_Total" jdbcType="DECIMAL"/>
+		<result property="enterprise_User_Taxes_Total" column="Enterprise_User_Taxes_Total" jdbcType="BIGINT"/>
+		<result property="channel_Taxes_Total" column="Channel_Taxes_Total" jdbcType="BIGINT"/>
+		<result property="create_Date" column="Create_Date" jdbcType="VARCHAR"/>
+	</resultMap>
+
+    <resultMap id="smsStatisticsExtResultMap" type="com.hero.wireless.web.entity.business.ext.SmsStatisticsExt">
+        <result property="channel_No" column="Channel_No" jdbcType="VARCHAR"/>
+        <result property="interface_Name" column="Interface_Name" jdbcType="VARCHAR"/>
+        <result property="enterprise_No" column="Enterprise_No" jdbcType="VARCHAR"/>
+        <result property="profits" column="Profits" jdbcType="DECIMAL"/>
+        <result property="agent_Profits" column="Agent_Profits" jdbcType="DECIMAL"/>
+        <result property="enterprise_User_Taxes" column="Enterprise_User_Taxes" jdbcType="DECIMAL"/>
+        <result property="channel_Taxes" column="Channel_Taxes" jdbcType="DECIMAL"/>
+        <result property="unit_Cost" column="Unit_Cost" jdbcType="DECIMAL"/>
+        <result property="agent_Unit_Cost" column="Agent_Unit_Cost" jdbcType="DECIMAL"/>
+        <result property="enterprise_User_Id" column="Enterprise_User_Id" jdbcType="INTEGER"/>
+        <result property="business_User_Id" column="Business_User_Id" jdbcType="INTEGER"/>
+        <result property="submit_Total" column="Submit_Total" jdbcType="INTEGER"/>
+        <result property="submit_Success_Total" column="Submit_Success_Total" jdbcType="INTEGER"/>
+        <result property="submit_Faild_Total" column="Submit_Faild_Total" jdbcType="INTEGER"/>
+        <result property="sort_Faild_Total" column="Sort_Faild_Total" jdbcType="INTEGER"/>
+        <result property="send_Success_Total" column="Send_Success_Total" jdbcType="INTEGER"/>
+        <result property="send_Faild_Total" column="Send_Faild_Total" jdbcType="INTEGER"/>
+        <result property="send_Unknown_Total" column="Send_Unknown_Total" jdbcType="INTEGER"/>
+        <result property="success_Rate" column="Success_Rate" jdbcType="DECIMAL"/>
+        <result property="failure_Rate" column="Failure_Rate" jdbcType="DECIMAL"/>
+        <result property="statistc_Date" column="Statistc_Date" jdbcType="TIMESTAMP"/>
+        <result property="create_Date" column="Create_Date" jdbcType="TIMESTAMP"/>
+        <result property="faildTotal" column="faildTotal" jdbcType="INTEGER"/>
+        <result property="unknownTotal" column="unknownTotal" jdbcType="INTEGER"/>
+        <result property="time_Cycle" column="Time_Cycle" jdbcType="INTEGER"/>
+        <result property="enterprise_User_Unit_Price" column="Enterprise_User_Unit_Price" jdbcType="DECIMAL"/>
+        <result property="enterpriseUser.available_Amount" column="available_Amount" jdbcType="DECIMAL"/>
+        <result property="enterpriseUser.used_Amount" column="used_Amount" jdbcType="DECIMAL"/>
+        <result property="enterpriseUser.unit_Price" column="unit_Price" jdbcType="DECIMAL"/>
+        <result property="enterpriseUser.real_Name" column="real_Name" jdbcType="VARCHAR"/>
+        <result property="enterprise.name" column="Enterprise_Name" jdbcType="VARCHAR"/>
+        <result property="business_Name" column="Business_Name" jdbcType="VARCHAR"/>
+        <result property="channel_Name" column="Channel_Name" jdbcType="VARCHAR"/>
+        <result property="province_Code" column="Province_Code" jdbcType="VARCHAR"/>
+        <result property="province_Name" column="Province_Name" jdbcType="VARCHAR"/>
+        <result property="agent_No" column="Agent_No" jdbcType="VARCHAR"/>
+        <result property="signature" column="Signature" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMapV2"
+               type="com.hero.wireless.web.entity.send.ext.ReportExt" extends="BaseResultMap">
+        <result property="msg_Batch_No" column="Enterprise_Msg_No" jdbcType="VARCHAR"/>
+        <result property="channel_Msg_Id"  column="Channel_Sub_Msg_No" jdbcType="VARCHAR"/>
+        <result property="submit_Status_Code"  column="Submite_Status_Code" jdbcType="VARCHAR"/>
+        <result property="submit_Description"  column="Submite_Description" jdbcType="VARCHAR" />
+        <result property="submit_Date"  column="Submite_Date" jdbcType="TIMESTAMP"/>
+        <result property="submit_Response_Date"  column="Submite_Response_Date" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    
+	<select id="selectExtByExample" parameterType="com.hero.wireless.web.entity.send.ReportExample"
+		resultMap="BaseResultMapExt">
+		SELECT 
+		 <include refid="Base_Column_List" />
+		 FROM s_send.report 
+		<if test="_parameter != null">
+          <include refid="Example_Where_Clause" />
+        </if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="pagination != null">
+			limit ${pagination.firstResult},${pagination.pageSize}
+		</if>
+	</select>
+	
+	<select id="countExtByExample" parameterType="com.hero.wireless.web.entity.send.ReportExample"
+		resultType="java.lang.Integer">
+		SELECT COUNT(1)
+		FROM s_send.report
+		<if test="_parameter != null">
+	      <include refid="Example_Where_Clause" />
+	    </if>
+	</select>
+
+	<select id="reportStatisticsExtByExample" parameterType="com.hero.wireless.web.entity.send.ReportExample"
+		resultMap="reportStatisticsResultMap">
+		SELECT
+			COUNT(1) AS Count,
+			SUM(IF(IFNULL(Submit_Status_Code,'Faild')='Success',1,0)) Submit_Success_Total,
+			SUM(IF(Submit_Status_Code = 'sort_faild',1,0)) Sort_Faild_Total,
+			SUM(IF(Submit_Status_Code='Faild',1,0)) Submit_Faild_Total,
+			SUM(IF(Submit_Status_Code = 'Success' and IFNULL(Status_Code,'Unknow')='Success',1,0)) Send_Success_Total,
+			SUM(IF(Submit_Status_Code = 'Success' and IFNULL(Status_Code,'Unknow')='Faild',1,0)) Send_Faild_Total
+			FROM s_send.report c
+        	<if test="_parameter != null">
+	          <include refid="Example_Where_Clause" />
+	        </if>
+	</select>
+
+	<update id="updateReportList" parameterType="java.util.List">
+		update s_send.report
+		set Pull_Total = Pull_Total+1,Pull_Date = NOW()
+		where id in
+		<foreach item="item" collection="list" open="(" separator="," close=")">
+			#{item.id,jdbcType=INTEGER}
+		</foreach>
+	</update>
+
+    <select id="queryReportListForExportPage" parameterType="com.hero.wireless.web.entity.send.ReportExample"
+        resultType="map">
+        SELECT
+         <include refid="Base_Column_List" />
+        FROM s_send.report
+	    <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="pagination != null">
+            limit ${pagination.firstResult},${pagination.pageSize}
+        </if>
+    </select>
+
+    <select id="querySmsRealTimeStatisticsReportData" parameterType="com.hero.wireless.web.entity.send.ext.ReportExt"
+            resultType="com.hero.wireless.web.entity.business.ext.SmsRealTimeStatisticsExt">
+        SELECT
+        IFNULL(business_User_Id,0) business_User_Id,
+        IFNULL(agent_No,'0000000000000000') agent_No,
+        IFNULL(channel_No,'unknow') channel_No,
+        IFNULL(enterprise_No,'unknow') enterprise_No,
+        IFNULL(enterprise_User_Id,0) enterprise_User_Id,
+        IFNULL(message_Type_Code,'unknow') message_Type_Code,
+        IFNULL(country_Number,'unknow') country_Number,
+        IFNULL(operator,'unknow') operator,
+        IFNULL(province_Code,'000') province_Code,
+        IFNULL(signature,'---') signature,
+        SUM(IF(Submit_Status_Code = 'success' and Status_Code='success',1,0)) send_Success_Total,
+        SUM(IF(Submit_Status_Code = 'success' and Status_Code='faild',1,0)) send_Faild_Total,
+        0 submit_Total,
+        0 submit_Success_Total,
+        0 submit_Faild_Total,
+        0 sort_Faild_Total,
+        0 profits,
+        0 agent_Profits,
+        0 cost,
+        0 agent_Cost
+        FROM s_send.report
+        WHERE Submit_Date >= #{minSubmitDate} AND Submit_Date &lt;= #{maxSubmitDate}
+        AND Create_Date >= #{minCreateDate} AND Create_Date &lt; #{maxCreateDate}
+        GROUP BY Agent_No,Business_User_Id,Enterprise_No,Enterprise_User_Id,Channel_No,Message_Type_Code,Country_Number,Operator,Province_Code,Signature
+    </select>
+
+    <insert id="insertHistoryReportBySelectSend" parameterType="com.hero.wireless.web.entity.send.ReportExample">
+        INSERT INTO s_history.report
+        (Msg_Batch_No, Enterprise_Msg_Id, Channel_Msg_Id, Product_No, Product_Channel_Id, Group_Code, Priority_Level, SP_Number, Country_Code, Phone_No, Channel_No, Sub_Code, Input_Sub_Code, Enterprise_No, Agent_No, Enterprise_User_Id, Enterprise_User_Unit_Price, Business_User_Id, Operator, Country_Number, MCC, MNC, Area_Name, Province_Code, Message_Type_Code, Content, Charset, Signature, Content_Length, Sequence, Protocol_Type_Code, Status_Code, Sender_Local_IP, Sender_Local_Port, Gate_Ip, Native_Status, Status_Date, Submit_Status_Code, Submit_Description, Submit_Date, Submit_Response_Date, Input_Log_Date, Description, Remark, Create_Date,Data_Status_Code)
+        SELECT
+        Msg_Batch_No, Enterprise_Msg_Id, Channel_Msg_Id, Product_No, Product_Channel_Id, Group_Code, Priority_Level, SP_Number, Country_Code, Phone_No, Channel_No, Sub_Code, Input_Sub_Code, Enterprise_No, Agent_No, Enterprise_User_Id, Enterprise_User_Unit_Price, Business_User_Id, Operator, Country_Number, MCC, MNC, Area_Name, Province_Code, Message_Type_Code, Content, Charset, Signature, Content_Length, Sequence, Protocol_Type_Code, Status_Code, Sender_Local_IP, Sender_Local_Port, Gate_Ip, Native_Status, Status_Date, Submit_Status_Code, Submit_Description, Submit_Date, Submit_Response_Date, Input_Log_Date, Description, Remark, Create_Date,Data_Status_Code
+        FROM s_send.report
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="pagination != null">
+            limit ${pagination.firstResult},${pagination.pageSize}
+        </if>
+    </insert>
+
+    <select id="selectReportMaxIdByExample" parameterType="com.hero.wireless.web.entity.send.ReportExample" resultType="java.lang.Long">
+        SELECT IFNULL(MAX(r.Id), 0) id FROM
+        (
+        SELECT Id FROM report
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="pagination != null">
+            limit ${pagination.firstResult},${pagination.pageSize}
+        </if>
+        ) r
+    </select>
+
+
+    <select id="queryUnknownStatisticListReportData" parameterType="com.hero.wireless.web.entity.business.ext.SmsRealTimeStatisticsExt"
+            resultType="com.hero.wireless.web.entity.business.ext.SmsRealTimeStatisticsExt">
+        SELECT Enterprise_No,Enterprise_User_Id,Channel_No,
+        SUM(IF(Submit_Status_Code = 'Success' and Status_Code='success',1,0)) Send_Success_Total,
+        SUM(IF(Submit_Status_Code = 'Success' and Status_Code='faild',1,0)) Send_Faild_Total
+        FROM report
+        WHERE 1=1
+        <if test="enterprise_No != null and enterprise_No != ''">
+            and Enterprise_No = #{enterprise_No}
+        </if>
+        <if test="enterprise_User_Id != null and enterprise_User_Id != ''">
+            and Enterprise_User_Id = #{enterprise_User_Id}
+        </if>
+        <if test="channel_No != null and channel_No != ''">
+            and Channel_No = #{channel_No}
+        </if>
+        <if test="min_Submit_Date_Str != null">
+            and Submit_Date &gt;= #{min_Submit_Date}
+        </if>
+        <if test="max_Submit_Date_Str != null">
+            and Submit_Date &lt;= #{max_Submit_Date}
+        </if>
+        <if test="groupStr != null and groupStr != ''">
+            GROUP BY ${groupStr}
+        </if>
+    </select>
+
+    <insert id="insertReportListSharding" parameterType="com.hero.wireless.web.entity.base.ShardingBatchInsert">
+        insert into report${tableSuffix} (Id, Msg_Batch_No, Enterprise_Msg_Id, Channel_Msg_Id, Product_No, Product_Channel_Id, Group_Code,
+        Priority_Level, SP_Number, Country_Code, Phone_No, Channel_No, Sub_Code, Input_Sub_Code,
+        Enterprise_No, Agent_No, Enterprise_User_Id, Enterprise_User_Unit_Price, Business_User_Id,
+        Operator, Country_Number, MCC, MNC, Area_Name, Province_Code, Message_Type_Code,
+        Content, Data_Status_Code, Is_Show, Is_Deduct, Charset, Signature, Content_Length, Sequence,
+        Protocol_Type_Code, Status_Code, Sender_Local_IP, Sender_Local_Port, Gate_Ip,
+        Native_Status, Status_Date, Submit_Status_Code, Submit_Description,
+        Submit_Date, Submit_Response_Date, Input_Log_Date, Description, Remark, Create_Date)
+        values
+        <foreach collection="dataList" item="item" separator=",">
+            (#{item.id,jdbcType=BIGINT}, #{item.msg_Batch_No,jdbcType=VARCHAR}, #{item.enterprise_Msg_Id,jdbcType=VARCHAR}, #{item.channel_Msg_Id,jdbcType=VARCHAR}, #{item.product_No,jdbcType=VARCHAR}, #{item.product_Channel_Id,jdbcType=INTEGER}, #{item.group_Code,jdbcType=VARCHAR},
+            #{item.priority_Level,jdbcType=INTEGER}, #{item.SP_Number,jdbcType=VARCHAR}, #{item.country_Code,jdbcType=VARCHAR}, #{item.phone_No,jdbcType=VARCHAR}, #{item.channel_No,jdbcType=VARCHAR}, #{item.sub_Code,jdbcType=VARCHAR}, #{item.input_Sub_Code,jdbcType=VARCHAR},
+            #{item.enterprise_No,jdbcType=VARCHAR}, #{item.agent_No,jdbcType=VARCHAR}, #{item.enterprise_User_Id,jdbcType=INTEGER}, #{item.enterprise_User_Unit_Price,jdbcType=DECIMAL}, #{item.business_User_Id,jdbcType=INTEGER}, #{item.operator,jdbcType=VARCHAR},
+            #{item.country_Number,jdbcType=VARCHAR}, #{item.MCC,jdbcType=VARCHAR}, #{item.MNC,jdbcType=VARCHAR}, #{item.area_Name,jdbcType=VARCHAR}, #{item.province_Code,jdbcType=VARCHAR}, #{item.message_Type_Code,jdbcType=VARCHAR},
+            #{item.content,jdbcType=VARCHAR}, #{item.data_Status_Code,jdbcType=VARCHAR}, #{item.is_Show,jdbcType=BIT}, #{item.is_Deduct,jdbcType=BIT}, #{item.charset,jdbcType=VARCHAR}, #{item.signature,jdbcType=VARCHAR}, #{item.content_Length,jdbcType=INTEGER}, #{item.sequence,jdbcType=INTEGER},
+            #{item.protocol_Type_Code,jdbcType=VARCHAR}, #{item.status_Code,jdbcType=VARCHAR}, #{item.sender_Local_IP,jdbcType=VARCHAR}, #{item.sender_Local_Port,jdbcType=VARCHAR}, #{item.gate_Ip,jdbcType=VARCHAR},
+            #{item.native_Status,jdbcType=VARCHAR}, #{item.status_Date,jdbcType=TIMESTAMP}, #{item.submit_Status_Code,jdbcType=VARCHAR}, #{item.submit_Description,jdbcType=VARCHAR},
+            #{item.submit_Date,jdbcType=TIMESTAMP}, #{item.submit_Response_Date,jdbcType=TIMESTAMP}, #{item.input_Log_Date,jdbcType=TIMESTAMP}, #{item.description,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.create_Date,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+
+    <select id="getReportSmsStatisticsByExt" parameterType="com.hero.wireless.web.entity.business.ext.SmsStatisticsExt"
+            resultMap="smsStatisticsExtResultMap">
+	    SELECT
+		t.Message_Type_Code,
+		t.Agent_No,
+		t.Province_Code,
+		t.Enterprise_User_Id,
+        t.Country_Number,
+		t.Enterprise_User_Unit_Price,
+		t.Business_User_Id,
+		t.Enterprise_No,t.Channel_No,t.Operator,
+		t.Submit_Date AS Statistics_Date,
+		0 AS Submit_Total, NOW() AS Create_Date,
+		0 AS Submit_Success_Total,
+		0 AS Submit_Faild_Total,
+		0 AS Sort_Faild_Total,
+		0 AS Profits,
+		0 AS Agent_Profits,
+		0 AS Unit_Cost,
+		0 AS Agent_Unit_Cost,
+		0 AS Channel_Taxes,
+		0 AS Enterprise_User_Taxes,
+		SUM(IF(t.Status_Code = 'Success',1,0)) Send_Success_Total,
+		SUM(IF(Submit_Status_Code = 'Success' and IFNULL(Status_Code,'Unknow')='Faild',1,0)) Send_Faild_Total,
+		t.Signature
+		FROM
+		report t
+		WHERE 1=1
+		AND t.Submit_Date &gt;= #{minCreateDate}
+		AND t.Submit_Date &lt; #{maxCreateDate}
+		 group by t.Message_Type_Code,t.Province_Code,t.Enterprise_No,t.Enterprise_User_Id,t.Country_Number,t.Channel_No,
+		 t.Operator,t.Business_User_Id,t.Agent_No,t.Enterprise_User_Unit_Price,t.Signature
+	</select>
+
+    <select id="selectReportByLimit" parameterType="com.hero.wireless.web.entity.send.ReportExample" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from report
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="pagination != null">
+            limit ${pagination.pageSize}
+        </if>
+    </select>
+
+    <select id="selectReportHistoryByLimit" parameterType="com.hero.wireless.web.entity.send.ReportExample" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from s_history.report
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="pagination != null">
+            limit ${pagination.pageSize}
+        </if>
+    </select>
+
+    <select id="selectReportHistoryByLimitV2" parameterType="com.hero.wireless.web.entity.send.ext.ReportExt" resultMap="BaseResultMapV2">
+        select
+            Id, Channel_Master_Msg_No, Channel_Sub_Msg_No, Enterprise_Msg_No, SP_Number, Country_Code, Phone_No, Channel_No,
+            Sub_Code, Enterprise_No, Agent_No, Enterprise_User_Id, Enterprise_User_Unit_Price, Business_User_Id, Operator,
+            Area_Name, Province_Code, Message_Type_Code, Content, Signature, Content_Length, Sequence, Protocol_Type_Code,
+            Status_Code, Native_Status, Status_Date, Notify_Status_Code, Submite_Status_Code, Submite_Description, Submite_Date,
+            Description, Remark, Create_Date, Data_Status_Code
+        from s_history.report
+        where Submite_Date &gt;= #{minSubmitDate} AND Submite_Date &lt;= #{maxSubmitDate} AND Id > #{id}
+        order by id limit ${pagination.pageSize}
+    </select>
+
+    <update id="createReportTable" parameterType="com.hero.wireless.web.entity.send.ext.ReportExt">
+		CREATE TABLE IF NOT EXISTS report${tableSuffix} (
+          Id bigint NOT NULL,
+          Msg_Batch_No varchar(128) DEFAULT NULL COMMENT '唯一标识',
+          Enterprise_Msg_Id varchar(128) DEFAULT NULL COMMENT '下游的msgId',
+          Channel_Msg_Id varchar(128) DEFAULT NULL COMMENT '通道msgid',
+          Product_No varchar(128) DEFAULT NULL COMMENT '产品编号',
+          Product_Channel_Id int(11) DEFAULT NULL COMMENT '产品通道id',
+          Group_Code varchar(128) DEFAULT NULL COMMENT '分组编号',
+          Priority_Level int(11) DEFAULT NULL COMMENT '优先级',
+          SP_Number varchar(128) DEFAULT NULL COMMENT '通道的SP号码',
+          Country_Code varchar(128) DEFAULT NULL,
+          Phone_No varchar(128) DEFAULT NULL COMMENT '接受短信手机号',
+          Channel_No varchar(128) DEFAULT NULL,
+          Sub_Code varchar(128) DEFAULT NULL,
+          Input_Sub_Code varchar(128) DEFAULT NULL,
+          Enterprise_No varchar(128) DEFAULT NULL,
+          Agent_No varchar(128) DEFAULT NULL,
+          Enterprise_User_Id int(11) DEFAULT NULL COMMENT '用户标识',
+          Enterprise_User_Unit_Price decimal(12,6) DEFAULT NULL COMMENT '企业用户单价',
+          Business_User_Id int(11) DEFAULT NULL COMMENT '业务员Id',
+          Operator varchar(50) DEFAULT NULL COMMENT '运营商：cmp:移动 sgi:联通 smg:电信 未知:Unkown',
+          Country_Number varchar(128) DEFAULT NULL COMMENT '国家编号',
+          MCC varchar(50) DEFAULT NULL COMMENT '移动国家码',
+          MNC varchar(50) DEFAULT NULL COMMENT '移动网络码',
+          Area_Name varchar(255) DEFAULT NULL COMMENT '地域',
+          Province_Code varchar(21) DEFAULT NULL COMMENT '省份代码，0311,010省会的电话区号',
+          Message_Type_Code varchar(128) DEFAULT NULL COMMENT '消息类型',
+          Content varchar(512) CHARACTER SET utf8mb4 NOT NULL COMMENT '短消息',
+          Data_Status_Code varchar(11) DEFAULT '0' COMMENT '数据状态：0:正常数据 1:重发的数据 2:第一次发送失败的数据',
+          Is_Show bit(1) DEFAULT NULL COMMENT '是否显示',
+          Is_Deduct bit(1) DEFAULT NULL COMMENT '是否是扣量：1:是 0:否',
+          Charset varchar(32) DEFAULT NULL COMMENT '编码',
+          Signature varchar(64) DEFAULT NULL COMMENT '签名',
+          Content_Length int(11) DEFAULT NULL COMMENT '短信字数',
+          Sequence int(11) DEFAULT NULL COMMENT '长短信的序列',
+          Protocol_Type_Code varchar(128) DEFAULT NULL COMMENT 'Web,Cmpp,HttpXml,HttpJson',
+          Status_Code varchar(128) DEFAULT NULL COMMENT '状态，要自己定义:成功 Success，失败 Faild',
+          Sender_Local_IP varchar(128) DEFAULT NULL COMMENT '发送器IP',
+          Sender_Local_Port varchar(128) DEFAULT NULL COMMENT '发送器本地端口',
+          Gate_Ip varchar(128) DEFAULT NULL COMMENT '网关IP',
+          Native_Status varchar(128) DEFAULT NULL COMMENT '原生状态',
+          Status_Date datetime(3) DEFAULT NULL COMMENT '状态时间',
+          Submit_Status_Code varchar(128) DEFAULT NULL COMMENT '提交状态:成功 Success，失败 Faild',
+          Submit_Description varchar(128) DEFAULT NULL COMMENT '提交描述',
+          Submit_Date datetime(3) NOT NULL COMMENT '网关提交时间',
+          Submit_Response_Date datetime(3) DEFAULT NULL COMMENT '提交响应时间',
+          Input_Log_Date datetime(3) DEFAULT NULL COMMENT '在InputLog表中的创建时间',
+          Description varchar(128) DEFAULT NULL,
+          Remark varchar(128) DEFAULT NULL,
+          Create_Date datetime(3) NOT NULL,
+          PRIMARY KEY (Id) USING BTREE,
+          KEY Phone_No (Phone_No) USING BTREE,
+          KEY Submit_Date (Submit_Date) USING BTREE,
+          KEY Channel_Sub_Msg_No (Channel_Msg_Id) USING BTREE,
+          KEY Enterprise_Msg_No (Msg_Batch_No) USING BTREE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT
+  	</update>
+
+
+    <select id="queryReportNativeStatusFromSend" parameterType="com.hero.wireless.web.entity.send.ext.ReportExt"
+            resultMap="BaseResultMapExt">
+        SELECT
+        channel_No,count(1) as count_Total,Native_Status
+        FROM s_send.report
+        WHERE Submit_Date &gt;= #{minSubmitDate} AND Submit_Date &lt;= #{maxSubmitDate}
+        AND Status_Code = 'faild' AND Submit_Status_Code = 'success'
+        <if test="channel_No != null and channel_No != ''">
+            and Channel_No = #{channel_No}
+        </if>
+        <if test="enterprise_User_Id != null">
+            and Enterprise_User_Id = #{enterprise_User_Id}
+        </if>
+        <if test="enterprise_No != null and enterprise_No != ''">
+            and Enterprise_No = #{enterprise_No}
+        </if>
+        <if test="business_User_Id != null">
+            and Business_User_Id = #{business_User_Id}
+        </if>
+        <if test="agent_No != null and agent_No != ''">
+            and Agent_No = #{agent_No}
+        </if>
+        <if test="message_Type_Code != null and message_Type_Code != ''">
+            and Message_Type_Code = #{message_Type_Code}
+        </if>
+        <if test="country_Number != null and country_Number != ''">
+            and Country_Number = #{country_Number}
+        </if>
+        <if test="operator != null and operator != ''">
+            and Operator = #{operator}
+        </if>
+        <if test="province_Code != null and province_Code != ''">
+            and Province_Code = #{province_Code}
+        </if>
+        <if test="signature != null and signature != ''">
+            and Signature = #{signature}
+        </if>
+        GROUP BY Native_Status
+    </select>
+
+
+
+    <select id="querySendCountDetailFromReport" parameterType="com.hero.wireless.web.entity.send.ext.ReportExt"
+            resultMap="BaseResultMapExt">
+        SELECT
+        count(1) as count_Total,Operator,Submit_Date,
+        SUM(IF(Submit_Status_Code = 'success' and Status_Code='success',1,0)) send_Success_Total,
+        SUM(IF(Submit_Status_Code = 'success' and Status_Code='faild',1,0)) send_Faild_Total
+        FROM s_send.report
+        WHERE Submit_Date >= #{minSubmitDate} AND Submit_Date &lt;= #{maxSubmitDate}
+        <if test="groupStr != null and groupStr != ''">
+            <if test="groupStr == 'Submit_Date'">
+                GROUP BY DATE_FORMAT(Submit_Date,'%Y-%m-%d')
+            </if>
+            <if test="groupStr == 'Operator'">
+                GROUP BY ${groupStr}
+            </if>
+        </if>
+        order by DATE_FORMAT(Submit_Date,'%Y-%m-%d') ASC
+    </select>
+
+    <update id="dropReportTable" parameterType="com.hero.wireless.web.entity.send.ext.ReportExt">
+        drop table if exists report${tableSuffix}
+    </update>
+
+    <select id="queryReportNotifyAwaitList" parameterType="com.hero.wireless.web.entity.send.ReportExample" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from report_notify_await
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="pagination != null">
+            limit ${pagination.pageSize}
+        </if>
+    </select>
+
+</mapper>

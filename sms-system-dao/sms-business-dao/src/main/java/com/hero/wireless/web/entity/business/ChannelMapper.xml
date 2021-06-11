@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.business.IChannelDAO">
+  <resultMap id="BaseResultMap" type="com.hero.wireless.web.entity.business.Channel">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="Name" jdbcType="VARCHAR" property="name" />
+    <result column="No" jdbcType="VARCHAR" property="no" />
+    <result column="Status_Code" jdbcType="VARCHAR" property="status_Code" />
+    <result column="Protocol_Type_Code" jdbcType="VARCHAR" property="protocol_Type_Code" />
+    <result column="Session_Status" jdbcType="VARCHAR" property="session_Status" />
+    <result column="Session_Status_Date" jdbcType="TIMESTAMP" property="session_Status_Date" />
+    <result column="Ip" jdbcType="VARCHAR" property="ip" />
+    <result column="Port" jdbcType="INTEGER" property="port" />
+    <result column="Account" jdbcType="VARCHAR" property="account" />
+    <result column="Password" jdbcType="VARCHAR" property="password" />
+    <result column="Trade_Type_Code" jdbcType="VARCHAR" property="trade_Type_Code" />
+    <result column="Group_Code" jdbcType="VARCHAR" property="group_Code" />
+    <result column="Area_Code" jdbcType="VARCHAR" property="area_Code" />
+    <result column="Version" jdbcType="VARCHAR" property="version" />
+    <result column="Max_Concurrent_Total" jdbcType="INTEGER" property="max_Concurrent_Total" />
+    <result column="Submit_Speed" jdbcType="INTEGER" property="submit_Speed" />
+    <result column="Sp_Number" jdbcType="VARCHAR" property="sp_Number" />
+    <result column="Signature_Direction_Code" jdbcType="VARCHAR" property="signature_Direction_Code" />
+    <result column="Signature_Position" jdbcType="VARCHAR" property="signature_Position" />
+    <result column="Channel_Source" jdbcType="VARCHAR" property="channel_Source" />
+    <result column="Other_Parameter" jdbcType="VARCHAR" property="other_Parameter" />
+    <result column="Sender_Local_IP" jdbcType="VARCHAR" property="sender_Local_IP" />
+    <result column="Create_Date" jdbcType="TIMESTAMP" property="create_Date" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Id, Name, No, Status_Code, Protocol_Type_Code, Session_Status, Session_Status_Date, 
+    Ip, Port, Account, Password, Trade_Type_Code, Group_Code, Area_Code, Version, Max_Concurrent_Total, 
+    Submit_Speed, Sp_Number, Signature_Direction_Code, Signature_Position, Channel_Source, 
+    Other_Parameter, Sender_Local_IP, Create_Date
+  </sql>
+  <select id="selectByExample" parameterType="com.hero.wireless.web.entity.business.ChannelExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from channel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null">
+      limit ${pagination.firstResult},${pagination.pageSize}
+    </if>
+    <if test="dataLock != null">
+       ${dataLock}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from channel
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from channel
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hero.wireless.web.entity.business.ChannelExample">
+    delete from channel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hero.wireless.web.entity.business.Channel">
+    insert into channel (Id, Name, No, 
+      Status_Code, Protocol_Type_Code, Session_Status, 
+      Session_Status_Date, Ip, Port, 
+      Account, Password, Trade_Type_Code, 
+      Group_Code, Area_Code, Version, 
+      Max_Concurrent_Total, Submit_Speed, Sp_Number, 
+      Signature_Direction_Code, Signature_Position, 
+      Channel_Source, Other_Parameter, Sender_Local_IP, 
+      Create_Date)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{no,jdbcType=VARCHAR}, 
+      #{status_Code,jdbcType=VARCHAR}, #{protocol_Type_Code,jdbcType=VARCHAR}, #{session_Status,jdbcType=VARCHAR}, 
+      #{session_Status_Date,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, #{port,jdbcType=INTEGER}, 
+      #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{trade_Type_Code,jdbcType=VARCHAR}, 
+      #{group_Code,jdbcType=VARCHAR}, #{area_Code,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, 
+      #{max_Concurrent_Total,jdbcType=INTEGER}, #{submit_Speed,jdbcType=INTEGER}, #{sp_Number,jdbcType=VARCHAR}, 
+      #{signature_Direction_Code,jdbcType=VARCHAR}, #{signature_Position,jdbcType=VARCHAR}, 
+      #{channel_Source,jdbcType=VARCHAR}, #{other_Parameter,jdbcType=VARCHAR}, #{sender_Local_IP,jdbcType=VARCHAR}, 
+      #{create_Date,jdbcType=TIMESTAMP})
+    <selectKey keyProperty="id" resultType="Integer">
+      SELECT LAST_INSERT_ID() AS Id
+    </selectKey>
+  </insert>
+  <insert id="insertList" parameterType="com.hero.wireless.web.entity.business.Channel">
+    insert into channel (Id, Name, No, Status_Code, Protocol_Type_Code, Session_Status, Session_Status_Date, Ip, Port, Account, Password, Trade_Type_Code, Group_Code, Area_Code, Version, Max_Concurrent_Total, Submit_Speed, Sp_Number, Signature_Direction_Code, Signature_Position, Channel_Source, Other_Parameter, Sender_Local_IP, Create_Date) 
+ values 
+
+
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, #{item.no,jdbcType=VARCHAR}, #{item.status_Code,jdbcType=VARCHAR}, #{item.protocol_Type_Code,jdbcType=VARCHAR}, #{item.session_Status,jdbcType=VARCHAR}, #{item.session_Status_Date,jdbcType=TIMESTAMP}, #{item.ip,jdbcType=VARCHAR}, #{item.port,jdbcType=INTEGER}, #{item.account,jdbcType=VARCHAR}, #{item.password,jdbcType=VARCHAR}, #{item.trade_Type_Code,jdbcType=VARCHAR}, #{item.group_Code,jdbcType=VARCHAR}, #{item.area_Code,jdbcType=VARCHAR}, #{item.version,jdbcType=VARCHAR}, #{item.max_Concurrent_Total,jdbcType=INTEGER}, #{item.submit_Speed,jdbcType=INTEGER}, #{item.sp_Number,jdbcType=VARCHAR}, #{item.signature_Direction_Code,jdbcType=VARCHAR}, #{item.signature_Position,jdbcType=VARCHAR}, #{item.channel_Source,jdbcType=VARCHAR}, #{item.other_Parameter,jdbcType=VARCHAR}, #{item.sender_Local_IP,jdbcType=VARCHAR}, #{item.create_Date,jdbcType=TIMESTAMP})
+    </foreach>
+    <selectKey resultType="Integer">
+      SELECT ROW_COUNT() 
+    </selectKey>
+  </insert>
+  <insert id="insertSelective" parameterType="com.hero.wireless.web.entity.business.Channel">
+    insert into channel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="name != null">
+        Name,
+      </if>
+      <if test="no != null">
+        No,
+      </if>
+      <if test="status_Code != null">
+        Status_Code,
+      </if>
+      <if test="protocol_Type_Code != null">
+        Protocol_Type_Code,
+      </if>
+      <if test="session_Status != null">
+        Session_Status,
+      </if>
+      <if test="session_Status_Date != null">
+        Session_Status_Date,
+      </if>
+      <if test="ip != null">
+        Ip,
+      </if>
+      <if test="port != null">
+        Port,
+      </if>
+      <if test="account != null">
+        Account,
+      </if>
+      <if test="password != null">
+        Password,
+      </if>
+      <if test="trade_Type_Code != null">
+        Trade_Type_Code,
+      </if>
+      <if test="group_Code != null">
+        Group_Code,
+      </if>
+      <if test="area_Code != null">
+        Area_Code,
+      </if>
+      <if test="version != null">
+        Version,
+      </if>
+      <if test="max_Concurrent_Total != null">
+        Max_Concurrent_Total,
+      </if>
+      <if test="submit_Speed != null">
+        Submit_Speed,
+      </if>
+      <if test="sp_Number != null">
+        Sp_Number,
+      </if>
+      <if test="signature_Direction_Code != null">
+        Signature_Direction_Code,
+      </if>
+      <if test="signature_Position != null">
+        Signature_Position,
+      </if>
+      <if test="channel_Source != null">
+        Channel_Source,
+      </if>
+      <if test="other_Parameter != null">
+        Other_Parameter,
+      </if>
+      <if test="sender_Local_IP != null">
+        Sender_Local_IP,
+      </if>
+      <if test="create_Date != null">
+        Create_Date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null">
+        #{no,jdbcType=VARCHAR},
+      </if>
+      <if test="status_Code != null">
+        #{status_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="protocol_Type_Code != null">
+        #{protocol_Type_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="session_Status != null">
+        #{session_Status,jdbcType=VARCHAR},
+      </if>
+      <if test="session_Status_Date != null">
+        #{session_Status_Date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null">
+        #{port,jdbcType=INTEGER},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="trade_Type_Code != null">
+        #{trade_Type_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="group_Code != null">
+        #{group_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="area_Code != null">
+        #{area_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="max_Concurrent_Total != null">
+        #{max_Concurrent_Total,jdbcType=INTEGER},
+      </if>
+      <if test="submit_Speed != null">
+        #{submit_Speed,jdbcType=INTEGER},
+      </if>
+      <if test="sp_Number != null">
+        #{sp_Number,jdbcType=VARCHAR},
+      </if>
+      <if test="signature_Direction_Code != null">
+        #{signature_Direction_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="signature_Position != null">
+        #{signature_Position,jdbcType=VARCHAR},
+      </if>
+      <if test="channel_Source != null">
+        #{channel_Source,jdbcType=VARCHAR},
+      </if>
+      <if test="other_Parameter != null">
+        #{other_Parameter,jdbcType=VARCHAR},
+      </if>
+      <if test="sender_Local_IP != null">
+        #{sender_Local_IP,jdbcType=VARCHAR},
+      </if>
+      <if test="create_Date != null">
+        #{create_Date,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hero.wireless.web.entity.business.ChannelExample" resultType="java.lang.Integer">
+    select count(*) from channel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update channel
+    <set>
+      <if test="record.id != null">
+        Id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        Name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.no != null">
+        No = #{record.no,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status_Code != null">
+        Status_Code = #{record.status_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.protocol_Type_Code != null">
+        Protocol_Type_Code = #{record.protocol_Type_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.session_Status != null">
+        Session_Status = #{record.session_Status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.session_Status_Date != null">
+        Session_Status_Date = #{record.session_Status_Date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ip != null">
+        Ip = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.port != null">
+        Port = #{record.port,jdbcType=INTEGER},
+      </if>
+      <if test="record.account != null">
+        Account = #{record.account,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        Password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trade_Type_Code != null">
+        Trade_Type_Code = #{record.trade_Type_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.group_Code != null">
+        Group_Code = #{record.group_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.area_Code != null">
+        Area_Code = #{record.area_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.version != null">
+        Version = #{record.version,jdbcType=VARCHAR},
+      </if>
+      <if test="record.max_Concurrent_Total != null">
+        Max_Concurrent_Total = #{record.max_Concurrent_Total,jdbcType=INTEGER},
+      </if>
+      <if test="record.submit_Speed != null">
+        Submit_Speed = #{record.submit_Speed,jdbcType=INTEGER},
+      </if>
+      <if test="record.sp_Number != null">
+        Sp_Number = #{record.sp_Number,jdbcType=VARCHAR},
+      </if>
+      <if test="record.signature_Direction_Code != null">
+        Signature_Direction_Code = #{record.signature_Direction_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.signature_Position != null">
+        Signature_Position = #{record.signature_Position,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channel_Source != null">
+        Channel_Source = #{record.channel_Source,jdbcType=VARCHAR},
+      </if>
+      <if test="record.other_Parameter != null">
+        Other_Parameter = #{record.other_Parameter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sender_Local_IP != null">
+        Sender_Local_IP = #{record.sender_Local_IP,jdbcType=VARCHAR},
+      </if>
+      <if test="record.create_Date != null">
+        Create_Date = #{record.create_Date,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update channel
+    set Id = #{record.id,jdbcType=INTEGER},
+      Name = #{record.name,jdbcType=VARCHAR},
+      No = #{record.no,jdbcType=VARCHAR},
+      Status_Code = #{record.status_Code,jdbcType=VARCHAR},
+      Protocol_Type_Code = #{record.protocol_Type_Code,jdbcType=VARCHAR},
+      Session_Status = #{record.session_Status,jdbcType=VARCHAR},
+      Session_Status_Date = #{record.session_Status_Date,jdbcType=TIMESTAMP},
+      Ip = #{record.ip,jdbcType=VARCHAR},
+      Port = #{record.port,jdbcType=INTEGER},
+      Account = #{record.account,jdbcType=VARCHAR},
+      Password = #{record.password,jdbcType=VARCHAR},
+      Trade_Type_Code = #{record.trade_Type_Code,jdbcType=VARCHAR},
+      Group_Code = #{record.group_Code,jdbcType=VARCHAR},
+      Area_Code = #{record.area_Code,jdbcType=VARCHAR},
+      Version = #{record.version,jdbcType=VARCHAR},
+      Max_Concurrent_Total = #{record.max_Concurrent_Total,jdbcType=INTEGER},
+      Submit_Speed = #{record.submit_Speed,jdbcType=INTEGER},
+      Sp_Number = #{record.sp_Number,jdbcType=VARCHAR},
+      Signature_Direction_Code = #{record.signature_Direction_Code,jdbcType=VARCHAR},
+      Signature_Position = #{record.signature_Position,jdbcType=VARCHAR},
+      Channel_Source = #{record.channel_Source,jdbcType=VARCHAR},
+      Other_Parameter = #{record.other_Parameter,jdbcType=VARCHAR},
+      Sender_Local_IP = #{record.sender_Local_IP,jdbcType=VARCHAR},
+      Create_Date = #{record.create_Date,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hero.wireless.web.entity.business.Channel">
+    update channel
+    <set>
+      <if test="name != null">
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null">
+        No = #{no,jdbcType=VARCHAR},
+      </if>
+      <if test="status_Code != null">
+        Status_Code = #{status_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="protocol_Type_Code != null">
+        Protocol_Type_Code = #{protocol_Type_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="session_Status != null">
+        Session_Status = #{session_Status,jdbcType=VARCHAR},
+      </if>
+      <if test="session_Status_Date != null">
+        Session_Status_Date = #{session_Status_Date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null">
+        Ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null">
+        Port = #{port,jdbcType=INTEGER},
+      </if>
+      <if test="account != null">
+        Account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        Password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="trade_Type_Code != null">
+        Trade_Type_Code = #{trade_Type_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="group_Code != null">
+        Group_Code = #{group_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="area_Code != null">
+        Area_Code = #{area_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        Version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="max_Concurrent_Total != null">
+        Max_Concurrent_Total = #{max_Concurrent_Total,jdbcType=INTEGER},
+      </if>
+      <if test="submit_Speed != null">
+        Submit_Speed = #{submit_Speed,jdbcType=INTEGER},
+      </if>
+      <if test="sp_Number != null">
+        Sp_Number = #{sp_Number,jdbcType=VARCHAR},
+      </if>
+      <if test="signature_Direction_Code != null">
+        Signature_Direction_Code = #{signature_Direction_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="signature_Position != null">
+        Signature_Position = #{signature_Position,jdbcType=VARCHAR},
+      </if>
+      <if test="channel_Source != null">
+        Channel_Source = #{channel_Source,jdbcType=VARCHAR},
+      </if>
+      <if test="other_Parameter != null">
+        Other_Parameter = #{other_Parameter,jdbcType=VARCHAR},
+      </if>
+      <if test="sender_Local_IP != null">
+        Sender_Local_IP = #{sender_Local_IP,jdbcType=VARCHAR},
+      </if>
+      <if test="create_Date != null">
+        Create_Date = #{create_Date,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hero.wireless.web.entity.business.Channel">
+    update channel
+    set Name = #{name,jdbcType=VARCHAR},
+      No = #{no,jdbcType=VARCHAR},
+      Status_Code = #{status_Code,jdbcType=VARCHAR},
+      Protocol_Type_Code = #{protocol_Type_Code,jdbcType=VARCHAR},
+      Session_Status = #{session_Status,jdbcType=VARCHAR},
+      Session_Status_Date = #{session_Status_Date,jdbcType=TIMESTAMP},
+      Ip = #{ip,jdbcType=VARCHAR},
+      Port = #{port,jdbcType=INTEGER},
+      Account = #{account,jdbcType=VARCHAR},
+      Password = #{password,jdbcType=VARCHAR},
+      Trade_Type_Code = #{trade_Type_Code,jdbcType=VARCHAR},
+      Group_Code = #{group_Code,jdbcType=VARCHAR},
+      Area_Code = #{area_Code,jdbcType=VARCHAR},
+      Version = #{version,jdbcType=VARCHAR},
+      Max_Concurrent_Total = #{max_Concurrent_Total,jdbcType=INTEGER},
+      Submit_Speed = #{submit_Speed,jdbcType=INTEGER},
+      Sp_Number = #{sp_Number,jdbcType=VARCHAR},
+      Signature_Direction_Code = #{signature_Direction_Code,jdbcType=VARCHAR},
+      Signature_Position = #{signature_Position,jdbcType=VARCHAR},
+      Channel_Source = #{channel_Source,jdbcType=VARCHAR},
+      Other_Parameter = #{other_Parameter,jdbcType=VARCHAR},
+      Sender_Local_IP = #{sender_Local_IP,jdbcType=VARCHAR},
+      Create_Date = #{create_Date,jdbcType=TIMESTAMP}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

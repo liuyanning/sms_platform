@@ -1,0 +1,79 @@
+@charset "utf-8";
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, input, form, p, blockquote, th {margin:0;padding:0;}
+h1, h2, h3, h4, h5, h6 {font-size:100%;font-style:normal;font-weight:normal;}
+ol, ul, li {list-style:none;}
+address, caption, cite, code, dfn, em, th, var{font-style:normal;font-weight:normal;}
+fieldset {border:0;}
+caption, th{text-align:left;}
+q:before, q:after{content:'';}
+
+body {font-size:12px;margin:15px;background-color:#fff;font-family: Arial,宋体, Verdana, Helvetica, Sans-serif;}
+
+td,th{color:#000000;font-family:宋体, Arial, Verdana, Helvetica, Sans-serif;font-size:12px;line-height:20px;}
+
+/*链接默认样式*/
+a,a:link,a:visited,a:active{color:#000000;text-decoration:none; font-size:12px;}
+a:hover{color:#ff0006;text-decoration:underline;font-size:12px;}
+/*去除虚线,兼容IE和火狐*/
+a {outline: none;}
+a:active {star:expression(this.onFocus=this.blur());}
+
+img { border: 0; }
+
+input, button, textarea, select {
+ font:12px/1.667 Tahoma,Arial,"宋体",sans-serif;
+}
+
+/* 表格样式 */ 
+.datalist{border:0px solid #cfcfcf;border-collapse:collapse;width:100%; }
+.datalist th{line-height:28px; border:1px solid #cfcfcf; background:url(../images/tablebg.gif) #fff repeat-x 50% top; text-align:center;}
+.datalist th a,.datalist th a:visited,.datalist th a:link{ color:#444; font-weight:bold;}
+
+.datalist td{line-height:28px; border:1px solid #cfcfcf; background-color:#e8eff6;text-align:center;}
+.datalist td a,.datalist td a:visited,.datalist td a:link{ color:#ff5a00; font-weight:bold;}
+/*隔行变色样式*/
+.datalist_AlternatingRowStyle td{line-height:28px; border:1px solid #cfcfcf;background-color:#faf9f9;text-align:center; }
+.datalist_AlternatingRowStyle a,.datalist_AlternatingRowStyle td a:visited,.datalist_AlternatingRowStyle td a:link{ color:#ff5a00; font-weight:bold;}{ color:#ff5a00;}
+
+
+.tableth{ background:url(../images/caozuobg.gif) repeat-x; height:42px; text-align:left; line-height:42px; padding-left:15px; font-weight:bold; border-left:1px solid #cfcfcf;border-right:1px solid #cfcfcf;}
+.tableth a,.tableth a:visited,.tableth a:link{color:#444;font-weight:bold;}
+.tableth a:hover{color:#ff5a00;}
+
+
+
+/*分页*/
+.pagelist{clear:both;font-size:12px;height:30px;line-height:30px;padding-top:2px;margin-top:10px;text-align:center;color:#d73d00; width:100%}
+.pagelist a{color:#363535;text-decoration:none;margin:0px 3px;}
+.pagelist a:hover{color:#d73d00;text-decoration:underline;}
+.pagelist a.red{color:#d73d00;text-decoration:none;font-weight:bold;}
+.pagelist a.red:hover{color:#d73d00;text-decoration:underline;} 
+
+.table{ width:100%;border-collapse:collapse;}
+.table td{line-height:28px;}
+.table td a,.table td a:visited,.table td a:link{color:#ff5a00;font-weight:bold;}
+.table td a:hover{color:#ff5a00;}
+.table th{line-height:28px; border:1px solid #cfcfcf; background:url(../images/tablebg.gif) #fff repeat-x 50% top;}
+
+.right15{ padding-right:15px;}
+.left15{ padding-left:10px;}
+
+.button{ background:url(../images/button.gif); background-repeat:no-repeat; width:70px; height:25px; border:0; line-height:25px; text-align:center;margin-top:20px;}
+
+
+.table0{border:1px solid #5d8ea3;border-collapse:collapse;width:100%; line-height:30px; float:left;font:Verdana, Geneva, sans-serif;}
+.table0 .bg{background-color:#e8eff6; text-align:right;padding-right:15px; }
+.table0 td{border:1px solid #96b9c8; padding-left:15px; width:25%; font:Verdana, Geneva, sans-serif;height:25px;}
+.table0 input{float:left; border:#CCC solid 1px; background:#FFF; height:25px; margin:3px 10px;width:94%;padding:0 3px;}
+.table0 input2{float:left; border:#CCC solid 1px; background:#FFF; height:25px; margin:3px 0;width:100%;padding:0 3px;}
+.table0 input1{float:left; border:#CCC solid 1px; background:#FFF; height:100px; margin:3px 0;width:97%; vertical-align:top;padding:0 3px;}
+.table0 select{float:left; border:#CCC solid 1px; background:#FFF; height:25px; margin:3px 0; width:98%; line-height:21px; padding:1px;}
+.anniu{ width:100%; text-align:center; padding:20px 0; }
+.left_txt{ font:Verdana, Geneva, sans-serif;}
+
+
+.table1{border:1px solid #5d8ea3;border-collapse:collapse;width:100%; line-height:30px; float:left;font:Verdana, Geneva, sans-serif;}
+.table1 .bg{background-color:#e8eff6; text-align:right;padding-right:15px;width:120px;  }
+.table1 td{border:1px solid #96b9c8;padding-left:10px; font:Verdana, Geneva, sans-serif;height:25px;}
+.table1 input{float:left; border:#CCC solid 1px; background:#FFF; height:25px; margin:3px 10px;width:10%;padding:0 3px;}
+.table1 select{float:left; border:#CCC solid 1px; background:#FFF; height:25px; margin:3px 0; width:98%; line-height:21px; padding:1px;}

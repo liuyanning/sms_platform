@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Fri Mar 15 16:18:02 CST 2019-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.business.IBlackListDAO">
+  <resultMap id="BaseResultMapExt" type="com.hero.wireless.web.entity.business.ext.BlackListExt" extends="BaseResultMap">
+  </resultMap>
+  <select id="selectExtByExample" parameterType="com.hero.wireless.web.entity.business.BlackListExample" resultMap="BaseResultMapExt">
+    SELECT  Id, Pool_Code, Enterprise_No, Enterprise_User_Id, Channel_No, Phone_No, Route_Name_Code, Trade_Type_Code,
+    Create_User, Description, Remark, Create_Date FROM black_list b
+    <if test="_parameter != null">
+          <include refid="Example_Where_Clause" />
+        </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null">
+      limit ${pagination.firstResult},${pagination.pageSize}
+    </if>
+  </select>
+    <select id="countExtByExample" parameterType="com.hero.wireless.web.entity.business.BlackListExample" resultType="java.lang.Integer">
+   SELECT COUNT(1) FROM black_list b
+    <if test="_parameter != null">
+          <include refid="Example_Where_Clause" />
+        </if>
+  </select>
+</mapper>

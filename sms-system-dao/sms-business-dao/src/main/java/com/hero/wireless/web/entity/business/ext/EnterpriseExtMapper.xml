@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Fri Mar 15 16:18:38 CST 2019-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.business.IEnterpriseDAO">
+  <resultMap id="BaseResultMapExt" type="com.hero.wireless.web.entity.business.ext.EnterpriseExt"
+    extends="BaseResultMap">
+    <result property="enterprise.enterprise_Name" column="up_Enterprise_Name" jdbcType="VARCHAR"/>
+    <result property="enterprise.id" column="up_Enterprise_Id" jdbcType="INTEGER"/>
+  </resultMap>
+
+  <resultMap type="com.hero.wireless.web.entity.ext.SqlStatisticsEntity" id="EnterpriseStatisticsResultMap">
+    <result property="count" column="Count" jdbcType="INTEGER"/>
+    <result property="sent_Count" column="Sent_Count" jdbcType="BIGINT"/>
+    <result property="used_Amount" column="Used_Amount" jdbcType="DECIMAL"/>
+    <result property="available_Amount" column="Available_Amount" jdbcType="DECIMAL"/>
+  </resultMap>
+
+  <select id="statisticsExtByExample" parameterType="com.hero.wireless.web.entity.business.EnterpriseExample"
+    resultMap="EnterpriseStatisticsResultMap">
+    SELECT
+    COUNT(1) Count,
+    SUM(Sent_Count) Sent_Count,
+    SUM(Used_Amount) Used_Amount,
+    SUM(available_Amount) available_Amount
+    FROM
+    enterprise a
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+  </select>
+
+    <select id="queryEnterpriseListForExportPage" parameterType="com.hero.wireless.web.entity.business.EnterpriseExample"
+        resultType="MAP">
+        SELECT a.*,
+        CASE WHEN  a.`Status` = 'Normal' THEN '正常'
+            WHEN  a.`Status` = 'Locked' THEN '锁定'
+            ELSE '禁用' END as StatusName,
+        CASE WHEN  a.`Authentication_State_Code` = '01' THEN '已通过'
+            WHEN  a.`Authentication_State_Code` = '02' THEN '未通过'
+            ELSE '未认证' END as AuthenticationStateCodeName
+        FROM enterprise a
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="pagination != null">
+            limit ${pagination.firstResult},${pagination.pageSize}
+        </if>
+    </select>
+
+</mapper>

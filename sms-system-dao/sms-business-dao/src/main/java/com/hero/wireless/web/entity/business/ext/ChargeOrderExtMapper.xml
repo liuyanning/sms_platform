@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Fri Mar 15 16:18:09 CST 2019-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.business.IChargeOrderDAO">
+  <resultMap id="BaseResultMapExt" type="com.hero.wireless.web.entity.business.ext.ChargeOrderExt" extends="BaseResultMap">
+
+  </resultMap>
+  <select id="selectExtByExample" parameterType="com.hero.wireless.web.entity.business.ChargeOrderExample" resultMap="BaseResultMapExt">
+    SELECT c.*
+    FROM charge_order c
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null">
+      limit ${pagination.firstResult},${pagination.pageSize}
+    </if>
+  </select>
+    <select id="countExtByExample" parameterType="com.hero.wireless.web.entity.business.ChargeOrderExample" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM charge_order c
+        <if test="_parameter != null">
+          <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+
+    <select id="getChargeOrderListForExport" parameterType="com.hero.wireless.web.entity.business.ChargeOrderExample"
+        resultType="map" >
+        SELECT c.*,
+        (SELECT a.Real_Name from s_business.enterprise_user a WHERE a.Id = c.Enterprise_User_Id) Enterprise_User_Name,
+        CASE
+        WHEN c.Pay_Type_Code = 'failedtoreturn'
+        THEN '失败返还'
+        WHEN c.Pay_Type_Code = 'arrears'
+        THEN '线下欠款'
+        WHEN c.Pay_Type_Code = 'transfer'
+        THEN '转账'
+        WHEN c.Pay_Type_Code = 'check'
+        THEN '支票'
+        WHEN c.Pay_Type_Code = 'cash'
+        THEN '现金'
+        WHEN c.Pay_Type_Code = 'NATIVE'
+        THEN '微信'
+        WHEN c.Pay_Type_Code = 'ZFB_F2F_SWEEP_PAY'
+        THEN '支付宝'
+        END as Pay_Type_Code_Name,
+        CASE
+        WHEN c.Open_Status_Code = 'agree'
+        THEN '同意'
+        WHEN c.Open_Status_Code = 'object'
+        THEN '拒绝'
+        END as Open_Status_Code_Name
+        FROM charge_order c
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="pagination != null">
+            limit ${pagination.firstResult},${pagination.pageSize}
+        </if>
+    </select>
+</mapper>

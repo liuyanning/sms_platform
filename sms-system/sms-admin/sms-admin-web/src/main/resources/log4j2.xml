@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="error">
+	<properties>
+        <property name="LOG_HOME">mydata/logs/admin</property>
+    </properties>
+	<!-- 先定义所有的appender -->
+	<appenders>
+		<!-- 这个输出控制台的配置 -->
+		<Console name="Console" target="SYSTEM_OUT">
+			<!-- 控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+			<ThresholdFilter level="DEBUG" onMatch="ACCEPT" />
+			<!-- 这个都知道是输出日志的格式 -->
+			<PatternLayout pattern="[%-5p] %d{yyyy-MM-dd HH:mm:ss} %c :%m%n" />
+		</Console>
+
+		<!-- 文件会打印出所有信息，这个log每次运行程序会自动清空，由append属性决定，这个也挺有用的，适合临时测试用 -->
+		<!-- append为TRUE表示消息增加到指定文件中，false表示消息覆盖指定的文件内容，默认值是true
+		<File name="log" fileName="D:/logs/test.log" append="false">
+			<PatternLayout pattern="[%-5p] %d{yyyy-MM-dd HH:mm:ss} %c :%m%n" />
+		</File> -->
+
+		<!-- 添加过滤器ThresholdFilter,可以有选择的输出某个级别以上的类别 onMatch="ACCEPT" onMismatch="DENY"意思是匹配就接受,否则直接拒绝
+		<File name="ERROR" fileName="${LOG_HOME}/error.log">
+			<ThresholdFilter level="error" onMatch="ACCEPT"
+				onMismatch="DENY" />
+			<PatternLayout pattern="[%-5p] %d{yyyy-MM-dd HH:mm:ss} %c :%m%n" />
+		</File> -->
+
+		<!-- 这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
+		<RollingFile name="RollingFile" fileName="${LOG_HOME}/log.log"
+			filePattern="${LOG_HOME}/history/debug/$${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.log">
+			<PatternLayout pattern="[%-5p] %d{yyyy-MM-dd HH:mm:ss} %c :%m%n" />
+			<SizeBasedTriggeringPolicy size="10M" />
+			<DefaultRolloverStrategy max="100" />
+		</RollingFile>
+		
+		<RollingFile name="ErrorRollingFile" fileName="${LOG_HOME}/error.log"
+			filePattern="${LOG_HOME}/history/error/$${date:yyyy-MM}/%d{yyyy-MM-dd}-error-%i.log">
+			<PatternLayout pattern="[%-5p] %d{yyyy-MM-dd HH:mm:ss} %c :%m%n" />
+			<SizeBasedTriggeringPolicy size="10M" />
+			<DefaultRolloverStrategy max="100" />
+			<Filters>
+				<ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+			</Filters>
+		</RollingFile>
+		
+		<RollingFile name="ActionRollingFile" fileName="${LOG_HOME}/action.log"
+			filePattern="${LOG_HOME}/history/actionDebug/$${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.log">
+			<PatternLayout pattern="[%-5p] %d{yyyy-MM-dd HH:mm:ss} %c :%m%n" />
+			<SizeBasedTriggeringPolicy size="10M" />
+			<DefaultRolloverStrategy max="100" />
+		</RollingFile>
+		<RollingFile name="ActionErrorRollingFile" fileName="${LOG_HOME}/actionError.log"
+			filePattern="${LOG_HOME}/history/actionError/$${date:yyyy-MM}/%d{yyyy-MM-dd}-error-%i.log">
+			<PatternLayout pattern="[%-5p] %d{yyyy-MM-dd HH:mm:ss} %c :%m%n" />
+			<SizeBasedTriggeringPolicy size="10M" />
+			<DefaultRolloverStrategy max="100" />
+			<Filters>
+				<ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+			</Filters>
+		</RollingFile>
+		
+		<RollingFile name="ServiceRollingFile" fileName="${LOG_HOME}/service.log"
+			filePattern="${LOG_HOME}/history/serviceDebug/$${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.log">
+			<PatternLayout pattern="[%-5p] %d{yyyy-MM-dd HH:mm:ss} %c :%m%n" />
+			<SizeBasedTriggeringPolicy size="10M" />
+			<DefaultRolloverStrategy max="100" />
+		</RollingFile>
+		<RollingFile name="ServiceErrorRollingFile" fileName="${LOG_HOME}/serviceError.log"
+			filePattern="${LOG_HOME}/history/serviceError/$${date:yyyy-MM}/%d{yyyy-MM-dd}-error-%i.log">
+			<PatternLayout pattern="[%-5p] %d{yyyy-MM-dd HH:mm:ss} %c :%m%n" />
+			<SizeBasedTriggeringPolicy size="10M" />
+			<DefaultRolloverStrategy max="100" />
+			<Filters>
+				<ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+			</Filters>
+		</RollingFile>
+		
+		<RollingFile name="DaoRollingFile" fileName="${LOG_HOME}/dao.log"
+			filePattern="${LOG_HOME}/history/daoDebug/$${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.log">
+			<PatternLayout pattern="[%-5p] %d{yyyy-MM-dd HH:mm:ss} %c :%m%n" />
+			<SizeBasedTriggeringPolicy size="10M" />
+			<DefaultRolloverStrategy max="100" />
+		</RollingFile>
+		<RollingFile name="DaoErrorRollingFile" fileName="${LOG_HOME}/daoError.log"
+			filePattern="${LOG_HOME}/history/daoError/$${date:yyyy-MM}/%d{yyyy-MM-dd}-error-%i.log">
+			<PatternLayout pattern="[%-5p] %d{yyyy-MM-dd HH:mm:ss} %c :%m%n" />
+			<SizeBasedTriggeringPolicy size="10M" />
+			<DefaultRolloverStrategy max="100" />
+			<Filters>
+				<ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+			</Filters>
+		</RollingFile>
+	</appenders>
+
+	<!-- 然后定义logger，只有定义了logger并引入的appender，appender才会生效 -->
+	<loggers>
+		<logger name="com.hero.wireless.web.action" level="DEBUG" additivity="false">
+			<appender-ref ref="Console" />
+			<appender-ref ref="ActionRollingFile" />
+		</logger>
+		
+		<logger name="com.hero.wireless.web.service" level="DEBUG" additivity="false">
+			<appender-ref ref="Console" />
+			<appender-ref ref="ServiceRollingFile" />
+			<appender-ref ref="ServiceErrorRollingFile" />
+		</logger>
+		
+		<logger name="com.hero.wireless.web.dao" level="DEBUG" additivity="false">
+			<appender-ref ref="Console" />
+			<appender-ref ref="DaoRollingFile" />
+		</logger>
+		
+		<logger name="com.hero.wireless" level="DEBUG" additivity="false">
+			<appender-ref ref="RollingFile" />
+			<appender-ref ref="ErrorRollingFile"/>
+		</logger>
+		<!-- 建立一个默认的root的logger -->
+		<root level="INFO">
+			<appender-ref ref="RollingFile" />
+			<appender-ref ref="Console" />
+			<appender-ref ref="ErrorRollingFile"/>
+		</root>
+	</loggers>
+</configuration>  

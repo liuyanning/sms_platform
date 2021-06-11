@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<!-- 只扫描controller -->
+	<context:component-scan base-package="com.hero.wireless.web.action" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.RestController"/>
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+	</context:component-scan>
+
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<constructor-arg>
+					<bean class="java.nio.charset.Charset" factory-method="forName">
+						<constructor-arg value="UTF-8"/>
+					</bean>
+				</constructor-arg>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/admin/enterpriseLogin"/>
+			<mvc:exclude-mapping path="/admin/enterpriseLogout"/>
+			<mvc:exclude-mapping path="/admin/enterprise_checkPhoneRepeat"/><!--校验手机号-->
+			<mvc:exclude-mapping path="/admin/enterprise_sendVerificationCode"/><!--发验证码-->
+			<mvc:exclude-mapping path="/admin/enterprise_registerEnterpriseUser"/><!--注册-->
+			<mvc:exclude-mapping path="/admin/charge_payCallBack"/><!--支付回调-->
+			<bean class="com.hero.wireless.web.action.interceptor.LoginAdminInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/admin/enterpriseLogin"/>
+			<mvc:exclude-mapping path="/admin/enterpriseLogout"/>
+			<mvc:exclude-mapping path="/admin/enterprise_checkPhoneRepeat"/><!--校验手机号-->
+			<mvc:exclude-mapping path="/admin/enterprise_sendVerificationCode"/><!--发验证码-->
+			<mvc:exclude-mapping path="/admin/enterprise_registerEnterpriseUser"/><!--注册-->
+            <mvc:exclude-mapping path="/admin/charge_payCallBack"/><!--支付回调-->
+			<bean class="com.hero.wireless.web.action.interceptor.AdminLimitInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/admin/enterpriseLogin"/>
+			<mvc:exclude-mapping path="/admin/enterpriseLogout"/>
+			<bean class="com.hero.wireless.web.action.interceptor.EnterpriseCsrfInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/admin"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+
+</beans>

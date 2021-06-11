@@ -1,0 +1,118 @@
+@charset "utf-8";
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, input, form, p, blockquote, th {margin:0;padding:0;}
+h1, h2, h3, h4, h5, h6 {font-size:100%;font-style:normal;font-weight:normal;}
+ol, ul, li {list-style:none;}
+address, caption, cite, code, dfn, em, th, var{font-style:normal;font-weight:normal;}
+fieldset {border:0;}
+caption, th{text-align:left;}
+q:before, q:after{content:'';}
+
+body {font-size:12px;margin:0px;background-color:#fff;font-family: Arial,宋体, Verdana, Helvetica, Sans-serif; background:url(../images/bg.jpg) repeat-x top;}
+
+td,th{color:#000000;font-family:宋体, Arial, Verdana, Helvetica, Sans-serif;font-size:12px;line-height:20px;}
+
+/*链接默认样式*/
+a,a:link,a:visited,a:active{color:#000000;text-decoration:none; font-size:12px;}
+a:hover{color:#ff0006;text-decoration:underline;font-size:12px;}
+/*去除虚线,兼容IE和火狐*/
+a {outline: none;}
+a:active {star:expression(this.onFocus=this.blur());}
+
+img { border: 0; }
+
+left25{ padding-left:25px;}
+input, button, textarea, select {
+ font:12px/1.667 Tahoma,Arial,"宋体",sans-serif;
+}
+
+#main{ width:100%; height:100%;}
+
+/*首页顶部*/
+#iheader{clear:both;width:100%;}
+.itop{clear:both; width:1002px; margin:0 auto; height:130px;} 
+
+/*首页中部*/
+#icenter{clear:both;width:100%;}
+.imain{clear:both;width:1002px; height:600px; margin:0 auto;background:url(../images/indexcenter.jpg) top left; background-repeat:no-repeat; background-color:#fff;}
+.login{clear:both; float:right; width:339px; padding:25px 0 0 25px; margin-right:130px;}
+.logintable {clear:both;float:right;height:260px; background-color:#FFF; width:337px; padding:15px 0 0 0; border-right:#d5d5d5 solid 1px;border-left:#d5d5d5 solid 1px;}
+.font14{font-size: 14px;font-weight:700; color:#4b4b4b; line-height:27px;}
+.login-text {
+	height:34px;
+	left:24px;
+	border:1px solid #bac5d4;
+	background:#eef3f8;
+	line-height:40px;
+}
+.login-text-focus {
+	border:1px solid #E6BF73;
+}
+
+.login-btn {
+  background: url("../images/button01.gif") top left;
+  background-repeat: no-repeat;
+  border:0;
+  height: 35px;
+  width: 102px;
+  text-align: center;
+}
+
+a.login-btn:hover {
+	background-image: url("../images/button1.gif");
+    background-repeat: no-repeat;
+	background-position:0px 0px;
+	cursor:pointer
+}
+
+.login-btn1 {
+  background-image: url("../images/button02.gif");
+  background-repeat: no-repeat;
+  display: block;
+  float: left;
+  height: 35px;
+  overflow: hidden;
+  text-indent: -99em;
+  width: 102px;
+  margin-left:20px;
+}
+
+a.login-btn1:hover {
+	background-image: url("../images/button2.gif");
+    background-repeat: no-repeat;
+	background-position:0px 0px;
+	cursor:pointer
+}
+#userName, #password {
+  width: 220px;
+  padding-left:5px;
+  font-size:14px;
+  line-height:40px;
+}
+.fucrem {
+  color: #666666 !important;
+  display: inline-block;
+  line-height: 20px;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:normal;
+  padding-left:7px;
+}
+a.fucrem:hover {text-decoration:none;font-size:12px;line-height:20px;cursor:pointer;}
+.red,a.red,a.red:visited,a.red:link,a.red:hover{ color:#848585; font-size:14px;text-decoration:none; font-weight:normal; line-height:36px;}
+.loginbottom{ clear:both; background:url(../images/login02.gif); background-repeat:no-repeat; height:31px;}
+.loginbottom dl{clear:both; float:left; padding:0 25px; line-height:25px;}
+.loginbottom dl dt{ color:#a2010e; padding-top:15px;}
+.loginbottom dl dd{ color:#757575;}
+
+
+/*首页底部*/
+#ifooter{clear:both;width:100%;height:100%;background-color:#d6d6d6;}
+.ibottom{clear:both; width:1002px; margin:0 auto; height:124px; color:#393939; font-size:12px; line-height:30px;font:Verdana, Geneva, sans-serif;} 
+.ibottom dl{padding-top:15px;}
+.ibottom dt{ float:left;clear:both; width:300px;}
+.ibottom dd{text-align:center;}
+.copy,a.copy,a.copy:visited,a.copy:link,a.copy:hover{ color:#a9a9a9; font-size:12px;text-decoration:none; font-weight:normal; line-height:20px;}
+
+.padding_r10{ padding-right:10px;}
+.padding_l10{ padding-left:15px;}
+.zi_hui{ font-size:12px; color:#6f6f6f; line-height:24px; height:26px;}

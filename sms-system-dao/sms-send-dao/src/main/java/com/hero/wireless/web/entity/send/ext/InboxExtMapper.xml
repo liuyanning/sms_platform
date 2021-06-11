@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Fri Mar 15 16:40:03 
+	CST 2019 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.send.IInboxDAO">
+	<resultMap id="BaseResultMapExt"
+		type="com.hero.wireless.web.entity.send.ext.InboxExt" extends="BaseResultMap">
+	</resultMap>
+	<select id="selectExtByExample" parameterType="com.hero.wireless.web.entity.send.InboxExample"
+		resultMap="BaseResultMapExt">
+		SELECT
+			c.*
+		FROM s_send.inbox c
+		<if test="_parameter != null">
+          <include refid="Example_Where_Clause" />
+        </if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="pagination != null">
+			limit ${pagination.firstResult},${pagination.pageSize}
+		</if>
+	</select>
+
+	<select id="countExtByExample" parameterType="com.hero.wireless.web.entity.send.InboxExample"
+		resultType="java.lang.Integer">
+		SELECT COUNT(1)
+		FROM s_send.inbox c
+		<if test="_parameter != null">
+	      <include refid="Example_Where_Clause" />
+	    </if>
+	</select>
+
+	<update id="updateInboxList" parameterType="java.util.List">
+		update s_send.inbox
+		set Pull_Total = Pull_Total+1, Pull_Date = NOW()
+		where id in
+		<foreach item="item" collection="list" open="(" separator="," close=")">
+			#{item.id,jdbcType=INTEGER}
+		</foreach>
+	</update>
+
+    <select id="queryInboxListForExportPage" parameterType="com.hero.wireless.web.entity.send.InboxExample"
+        resultType="map">
+        SELECT i.*
+        FROM s_send.inbox i
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="pagination != null">
+            limit ${pagination.firstResult},${pagination.pageSize}
+        </if>
+    </select>
+</mapper>

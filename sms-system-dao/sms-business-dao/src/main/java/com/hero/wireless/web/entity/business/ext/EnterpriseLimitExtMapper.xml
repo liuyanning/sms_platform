@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Fri Mar 15 16:18:55 CST 2019-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.business.IEnterpriseLimitDAO">
+  <resultMap id="BaseResultMapExt" type="com.hero.wireless.web.entity.business.ext.EnterpriseLimitExt" extends="BaseResultMap">
+  	<result property="enterpriseRole.id" column="r_id" jdbcType="INTEGER"/>
+  </resultMap>
+  
+   <select id="selectBindRoleLimitByExample" parameterType="int" resultMap="BaseResultMapExt">
+   	    SELECT a.*,b.id r_id FROM  enterprise_limit a LEFT JOIN enterprise_role_limit b ON a.Id=b.limit_id AND b.Role_Id=#{value} ORDER BY CODE asc
+  </select>
+</mapper>

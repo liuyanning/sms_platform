@@ -1,0 +1,187 @@
+header {
+    width: 100%;
+    height: 70px;
+    border-bottom: 1px solid #ddd;
+
+}
+
+.header_box {
+    height: 70px;
+    line-height: 70px;
+    color: #333;
+}
+
+.header_box > img {
+    width: 48px;
+    height: 48px;
+    margin-top: 12px;
+}
+
+.header_box > span {
+    display: inline-block;
+}
+
+.header_box > .head_tit {
+    margin-left: 18px;
+}
+
+.header_box > .head_rig {
+    color: #666;
+    font-size: 14px;
+}
+
+.con_wrap {
+    width: 100%;
+    background-color: #54aad7;
+    position: relative;
+    overflow: hidden;
+}
+
+.con_wrap > .shape_bl {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 80%;
+    margin-left: -40%;
+}
+
+.con_con {
+    position: relative;
+}
+
+.con_con_in {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -182px;
+}
+
+.con_con img {
+    width: 500px;
+    height: 363px;
+}
+
+form {
+    width: 315px;
+    height: 320px;
+    background-color: #fff;
+    border-radius: 4px;
+    margin-top: 30px;
+
+
+}
+
+::-webkit-input-placeholder {
+    color: #888;
+    font-size: 12px;
+}
+
+:-moz-placeholder {
+    color: #888;
+    font-size: 12px;
+}
+
+::-moz-placeholder {
+    color: #888;
+    font-size: 12px;
+}
+
+:-ms-input-placeholder {
+    color: #888;
+    font-size: 12px;
+}
+
+.input1 {
+    background: url(../images/user_def.png) no-repeat 6px 10px;
+}
+
+.input2 {
+    background: url(../images/pass_def.png) no-repeat 6px 11px;
+}
+
+.input1, .input2, .input3 {
+    width: 230px;
+    height: 36px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    margin-left: 32px;
+    padding-left: 28px;
+    background-size: 18px 18px;
+}
+
+.input1 {
+    margin-top: 50px;
+}
+
+.vali_wrap {
+    float: left;
+    display: inline-block;
+    margin-left: 32px;
+    height: 38px;
+    /* margin-bottom: 27px; */
+}
+
+.input3 {
+    float: left;
+    width: 140px;
+}
+.input-right {
+    right: 0;
+    top: 0;
+    padding-top: 11px;
+    padding-right: 15px;
+    cursor: pointer;
+    font-size: 0;
+}
+
+.input-right .yzm {
+    margin-top: -11px;
+    width: 75px;
+    height: 40px;
+}
+p.tip {
+    margin-top: 35px;
+    color: red;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+input {
+    margin-bottom: 20px;
+}
+
+.goologo {
+    display: inline-block;
+    background: url(../images/goologo.jpg) no-repeat;
+    width: 43px;
+    height: 41px;
+    margin-left: 10px;
+}
+
+form > button {
+    width: 250px;
+    height: 36px;
+    background-color: #faa600;
+    color: #fff;
+    text-align: center;
+    line-height: 36px;
+    font-size: 16px;
+    border-radius: 4px;
+    margin-left: 32px;
+    margin-bottom: 20px;
+}
+
+footer {
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 13px;
+
+}

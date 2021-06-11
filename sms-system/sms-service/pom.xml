@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<project
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+  xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.hero.wireless</groupId>
+    <artifactId>sms-system</artifactId>
+    <version>3.4.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>sms-service</artifactId>
+  <name>sms-service</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+    <dependency>
+      <groupId>com.hero.wireless</groupId>
+      <artifactId>sms-business-dao</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.hero.wireless</groupId>
+      <artifactId>sms-send-dao</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.hero.wireless</groupId>
+      <artifactId>sms-util</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.drondea.sms</groupId>
+      <artifactId>sms-quick</artifactId>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/aspectj/aspectjweaver -->
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-text</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jooq</groupId>
+      <artifactId>joor</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.libphonenumber</groupId>
+      <artifactId>carrier</artifactId>
+      <version>1.130</version>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.libphonenumber</groupId>
+      <artifactId>geocoder</artifactId>
+      <version>2.141</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>libphonenumber</artifactId>
+          <groupId>com.googlecode.libphonenumber</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>prefixmapper</artifactId>
+          <groupId>com.googlecode.libphonenumber</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>net.jodah</groupId>
+      <artifactId>expiringmap</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.shardingsphere</groupId>
+      <artifactId>shardingsphere-jdbc-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.shardingsphere</groupId>
+      <artifactId>shardingsphere-jdbc-core-spring-namespace</artifactId>
+    </dependency>
+
+  </dependencies>
+</project>

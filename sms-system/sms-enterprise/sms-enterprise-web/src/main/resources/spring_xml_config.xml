@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/data/jpa
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<bean id="propertyConfigurer"
+		  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:datasource.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 扫描的包路径 -->
+    <context:component-scan base-package="com.hero.wireless" >
+    	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    	<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.RestController"/>
+    	<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
+    	
+	<!-- 导入数据库配置 -->
+	<import resource="spring_datasource_config.xml" />
+
+	<!-- 配置文件上传，如果没有使用文件上传可以不用配置，当然如果不配，那么配置文件中也不必引入上传组件包 -->
+	<bean id="multipartResolver"
+		  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 默认编码 -->
+		<property name="defaultEncoding" value="utf-8" />
+		<!-- 文件大小最大值 -->
+		<property name="maxUploadSize" value="2097152" />
+		<!-- 内存中的最大值 -->
+		<property name="maxInMemorySize" value="40960" />
+	</bean>
+	<bean class="com.hero.wireless.web.util.ApplicationContextUtil"></bean>
+	<!-- 分页方法拦截 -->
+	<bean id="pageIDAOInterceptor" class="com.hero.wireless.web.spring.interceptor.PageIDAOInterceptor"></bean>
+	<bean id="pageIExtDAOInterceptor" class="com.hero.wireless.web.spring.interceptor.PageIExtDAOInterceptor"></bean>
+	<aop:config>
+		<aop:pointcut
+			expression="execution(* com.hero.wireless.web.dao.*.I*DAO.selectByExamplePage(..))"
+			id="pageIDAOPointcut" />
+		<aop:advisor advice-ref="pageIDAOInterceptor"
+			pointcut-ref="pageIDAOPointcut" />
+	</aop:config>
+	<aop:config>
+		<aop:pointcut
+			expression="execution(* com.hero.wireless.web.dao.ext.I*DAO.selectExtByExamplePage(..))"
+			id="pageIExtDAOPointcut" />
+		<aop:advisor advice-ref="pageIExtDAOInterceptor"
+			pointcut-ref="pageIExtDAOPointcut" />
+	</aop:config>
+	<!-- 分页方法拦截结束 -->
+</beans>

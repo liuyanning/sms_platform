@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.business.ext.ISmsTemplateExtDAO">
+    <resultMap id="BaseResultMapExt" type="com.hero.wireless.web.entity.business.ext.SmsTemplateExt" >
+        <result column="Enterprise_No" jdbcType="VARCHAR" property="enterprise_No" />
+        <result column="Enterprise_User_Id" jdbcType="INTEGER" property="enterprise_User_Id" />
+        <result column="Template_Name" jdbcType="VARCHAR" property="template_Name" />
+        <result column="Template_Content" jdbcType="VARCHAR" property="template_Content" />
+        <result column="Template_Type" jdbcType="VARCHAR" property="template_Type" />
+        <result column="Approve_Status" jdbcType="VARCHAR" property="approve_Status" />
+        <result column="Description" jdbcType="VARCHAR" property="description" />
+        <result column="Create_Date" jdbcType="TIMESTAMP" property="create_Date" />
+    </resultMap>
+
+    <select id="querySmsTemplateListForExportPage" parameterType="com.hero.wireless.web.entity.business.ext.SmsTemplateExt"
+            resultType="Map">
+
+        SELECT *
+        FROM
+        sms_template
+        WHERE 1=1
+        <if test="enterprise_No != null and enterprise_No != ''">
+            and Enterprise_No = #{enterprise_No}
+        </if>
+
+        <if test="enterprise_User_Id != null and enterprise_User_Id != ''">
+            and Enterprise_User_Id = #{enterprise_User_Id}
+        </if>
+        <if test="template_Name != null and template_Name != ''">
+            and Template_Name = #{template_Name}
+        </if>
+        <if test="template_Content != null and template_Content != ''">
+            and Template_Content = #{template_Content}
+        </if>
+        <if test="template_Type != null and template_Type != ''">
+            and Template_Type = #{template_Type}
+        </if>
+        <if test="approve_Status != null and approve_Status != ''">
+            and Approve_Status = #{approve_Status}
+        </if>
+        <if test="description != null and description != ''">
+            and Description  = #{description}
+        </if>
+
+        <if test="create_Date != null and create_Date != ''">
+            and Create_Date = #{create_Date}
+        </if>
+        <if test="pagination != null">
+            limit ${pagination.firstResult},${pagination.pageSize}
+        </if>
+    </select>
+</mapper>

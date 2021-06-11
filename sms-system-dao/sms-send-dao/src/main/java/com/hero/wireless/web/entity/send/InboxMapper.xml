@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.send.IInboxDAO">
+  <resultMap id="BaseResultMap" type="com.hero.wireless.web.entity.send.Inbox">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="SP_Number" jdbcType="VARCHAR" property="SP_Number" />
+    <result column="Sub_Code" jdbcType="VARCHAR" property="sub_Code" />
+    <result column="Group_Code" jdbcType="VARCHAR" property="group_Code" />
+    <result column="Input_Sub_Code" jdbcType="VARCHAR" property="input_Sub_Code" />
+    <result column="Input_Msg_No" jdbcType="VARCHAR" property="input_Msg_No" />
+    <result column="Input_Content" jdbcType="VARCHAR" property="input_Content" />
+    <result column="Input_Create_Date" jdbcType="TIMESTAMP" property="input_Create_Date" />
+    <result column="Phone_No" jdbcType="VARCHAR" property="phone_No" />
+    <result column="Country_Code" jdbcType="VARCHAR" property="country_Code" />
+    <result column="Content" jdbcType="VARCHAR" property="content" />
+    <result column="Channel_No" jdbcType="VARCHAR" property="channel_No" />
+    <result column="Agent_No" jdbcType="VARCHAR" property="agent_No" />
+    <result column="Enterprise_No" jdbcType="VARCHAR" property="enterprise_No" />
+    <result column="Enterprise_User_Id" jdbcType="INTEGER" property="enterprise_User_Id" />
+    <result column="Protocol_Type_Code" jdbcType="VARCHAR" property="protocol_Type_Code" />
+    <result column="Pull_Total" jdbcType="INTEGER" property="pull_Total" />
+    <result column="Pull_Date" jdbcType="TIMESTAMP" property="pull_Date" />
+    <result column="Notify_Total" jdbcType="INTEGER" property="notify_Total" />
+    <result column="Notify_Date" jdbcType="TIMESTAMP" property="notify_Date" />
+    <result column="Notify_Status_Code" jdbcType="VARCHAR" property="notify_Status_Code" />
+    <result column="Sender_Local_IP" jdbcType="VARCHAR" property="sender_Local_IP" />
+    <result column="Charset" jdbcType="VARCHAR" property="charset" />
+    <result column="Create_Date" jdbcType="TIMESTAMP" property="create_Date" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    Id, SP_Number, Sub_Code, Group_Code, Input_Sub_Code, Input_Msg_No, Input_Content, 
+    Input_Create_Date, Phone_No, Country_Code, Content, Channel_No, Agent_No, Enterprise_No, 
+    Enterprise_User_Id, Protocol_Type_Code, Pull_Total, Pull_Date, Notify_Total, Notify_Date, 
+    Notify_Status_Code, Sender_Local_IP, Charset, Create_Date
+  </sql>
+  <select id="selectByExample" parameterType="com.hero.wireless.web.entity.send.InboxExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from inbox
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null">
+      limit ${pagination.firstResult},${pagination.pageSize}
+    </if>
+    <if test="dataLock != null">
+       ${dataLock}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from inbox
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from inbox
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hero.wireless.web.entity.send.InboxExample">
+    delete from inbox
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hero.wireless.web.entity.send.Inbox">
+    insert into inbox (Id, SP_Number, Sub_Code, 
+      Group_Code, Input_Sub_Code, Input_Msg_No, 
+      Input_Content, Input_Create_Date, Phone_No, 
+      Country_Code, Content, Channel_No, 
+      Agent_No, Enterprise_No, Enterprise_User_Id, 
+      Protocol_Type_Code, Pull_Total, Pull_Date, 
+      Notify_Total, Notify_Date, Notify_Status_Code, 
+      Sender_Local_IP, Charset, Create_Date
+      )
+    values (#{id,jdbcType=INTEGER}, #{SP_Number,jdbcType=VARCHAR}, #{sub_Code,jdbcType=VARCHAR}, 
+      #{group_Code,jdbcType=VARCHAR}, #{input_Sub_Code,jdbcType=VARCHAR}, #{input_Msg_No,jdbcType=VARCHAR}, 
+      #{input_Content,jdbcType=VARCHAR}, #{input_Create_Date,jdbcType=TIMESTAMP}, #{phone_No,jdbcType=VARCHAR}, 
+      #{country_Code,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{channel_No,jdbcType=VARCHAR}, 
+      #{agent_No,jdbcType=VARCHAR}, #{enterprise_No,jdbcType=VARCHAR}, #{enterprise_User_Id,jdbcType=INTEGER}, 
+      #{protocol_Type_Code,jdbcType=VARCHAR}, #{pull_Total,jdbcType=INTEGER}, #{pull_Date,jdbcType=TIMESTAMP}, 
+      #{notify_Total,jdbcType=INTEGER}, #{notify_Date,jdbcType=TIMESTAMP}, #{notify_Status_Code,jdbcType=VARCHAR}, 
+      #{sender_Local_IP,jdbcType=VARCHAR}, #{charset,jdbcType=VARCHAR}, #{create_Date,jdbcType=TIMESTAMP}
+      )
+    <selectKey keyProperty="id" resultType="Integer">
+      SELECT LAST_INSERT_ID() AS Id
+    </selectKey>
+  </insert>
+  <insert id="insertList" parameterType="com.hero.wireless.web.entity.send.Inbox">
+    insert into inbox (Id, SP_Number, Sub_Code, Group_Code, Input_Sub_Code, Input_Msg_No, Input_Content, Input_Create_Date, Phone_No, Country_Code, Content, Channel_No, Agent_No, Enterprise_No, Enterprise_User_Id, Protocol_Type_Code, Pull_Total, Pull_Date, Notify_Total, Notify_Date, Notify_Status_Code, Sender_Local_IP, Charset, Create_Date) 
+ values 
+
+
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=INTEGER}, #{item.SP_Number,jdbcType=VARCHAR}, #{item.sub_Code,jdbcType=VARCHAR}, #{item.group_Code,jdbcType=VARCHAR}, #{item.input_Sub_Code,jdbcType=VARCHAR}, #{item.input_Msg_No,jdbcType=VARCHAR}, #{item.input_Content,jdbcType=VARCHAR}, #{item.input_Create_Date,jdbcType=TIMESTAMP}, #{item.phone_No,jdbcType=VARCHAR}, #{item.country_Code,jdbcType=VARCHAR}, #{item.content,jdbcType=VARCHAR}, #{item.channel_No,jdbcType=VARCHAR}, #{item.agent_No,jdbcType=VARCHAR}, #{item.enterprise_No,jdbcType=VARCHAR}, #{item.enterprise_User_Id,jdbcType=INTEGER}, #{item.protocol_Type_Code,jdbcType=VARCHAR}, #{item.pull_Total,jdbcType=INTEGER}, #{item.pull_Date,jdbcType=TIMESTAMP}, #{item.notify_Total,jdbcType=INTEGER}, #{item.notify_Date,jdbcType=TIMESTAMP}, #{item.notify_Status_Code,jdbcType=VARCHAR}, #{item.sender_Local_IP,jdbcType=VARCHAR}, #{item.charset,jdbcType=VARCHAR}, #{item.create_Date,jdbcType=TIMESTAMP})
+    </foreach>
+    <selectKey resultType="Integer">
+      SELECT ROW_COUNT() 
+    </selectKey>
+  </insert>
+  <insert id="insertSelective" parameterType="com.hero.wireless.web.entity.send.Inbox">
+    insert into inbox
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="SP_Number != null">
+        SP_Number,
+      </if>
+      <if test="sub_Code != null">
+        Sub_Code,
+      </if>
+      <if test="group_Code != null">
+        Group_Code,
+      </if>
+      <if test="input_Sub_Code != null">
+        Input_Sub_Code,
+      </if>
+      <if test="input_Msg_No != null">
+        Input_Msg_No,
+      </if>
+      <if test="input_Content != null">
+        Input_Content,
+      </if>
+      <if test="input_Create_Date != null">
+        Input_Create_Date,
+      </if>
+      <if test="phone_No != null">
+        Phone_No,
+      </if>
+      <if test="country_Code != null">
+        Country_Code,
+      </if>
+      <if test="content != null">
+        Content,
+      </if>
+      <if test="channel_No != null">
+        Channel_No,
+      </if>
+      <if test="agent_No != null">
+        Agent_No,
+      </if>
+      <if test="enterprise_No != null">
+        Enterprise_No,
+      </if>
+      <if test="enterprise_User_Id != null">
+        Enterprise_User_Id,
+      </if>
+      <if test="protocol_Type_Code != null">
+        Protocol_Type_Code,
+      </if>
+      <if test="pull_Total != null">
+        Pull_Total,
+      </if>
+      <if test="pull_Date != null">
+        Pull_Date,
+      </if>
+      <if test="notify_Total != null">
+        Notify_Total,
+      </if>
+      <if test="notify_Date != null">
+        Notify_Date,
+      </if>
+      <if test="notify_Status_Code != null">
+        Notify_Status_Code,
+      </if>
+      <if test="sender_Local_IP != null">
+        Sender_Local_IP,
+      </if>
+      <if test="charset != null">
+        Charset,
+      </if>
+      <if test="create_Date != null">
+        Create_Date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="SP_Number != null">
+        #{SP_Number,jdbcType=VARCHAR},
+      </if>
+      <if test="sub_Code != null">
+        #{sub_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="group_Code != null">
+        #{group_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="input_Sub_Code != null">
+        #{input_Sub_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="input_Msg_No != null">
+        #{input_Msg_No,jdbcType=VARCHAR},
+      </if>
+      <if test="input_Content != null">
+        #{input_Content,jdbcType=VARCHAR},
+      </if>
+      <if test="input_Create_Date != null">
+        #{input_Create_Date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phone_No != null">
+        #{phone_No,jdbcType=VARCHAR},
+      </if>
+      <if test="country_Code != null">
+        #{country_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="channel_No != null">
+        #{channel_No,jdbcType=VARCHAR},
+      </if>
+      <if test="agent_No != null">
+        #{agent_No,jdbcType=VARCHAR},
+      </if>
+      <if test="enterprise_No != null">
+        #{enterprise_No,jdbcType=VARCHAR},
+      </if>
+      <if test="enterprise_User_Id != null">
+        #{enterprise_User_Id,jdbcType=INTEGER},
+      </if>
+      <if test="protocol_Type_Code != null">
+        #{protocol_Type_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="pull_Total != null">
+        #{pull_Total,jdbcType=INTEGER},
+      </if>
+      <if test="pull_Date != null">
+        #{pull_Date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="notify_Total != null">
+        #{notify_Total,jdbcType=INTEGER},
+      </if>
+      <if test="notify_Date != null">
+        #{notify_Date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="notify_Status_Code != null">
+        #{notify_Status_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="sender_Local_IP != null">
+        #{sender_Local_IP,jdbcType=VARCHAR},
+      </if>
+      <if test="charset != null">
+        #{charset,jdbcType=VARCHAR},
+      </if>
+      <if test="create_Date != null">
+        #{create_Date,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hero.wireless.web.entity.send.InboxExample" resultType="java.lang.Integer">
+    select count(*) from inbox
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update inbox
+    <set>
+      <if test="record.id != null">
+        Id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.SP_Number != null">
+        SP_Number = #{record.SP_Number,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sub_Code != null">
+        Sub_Code = #{record.sub_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.group_Code != null">
+        Group_Code = #{record.group_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.input_Sub_Code != null">
+        Input_Sub_Code = #{record.input_Sub_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.input_Msg_No != null">
+        Input_Msg_No = #{record.input_Msg_No,jdbcType=VARCHAR},
+      </if>
+      <if test="record.input_Content != null">
+        Input_Content = #{record.input_Content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.input_Create_Date != null">
+        Input_Create_Date = #{record.input_Create_Date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.phone_No != null">
+        Phone_No = #{record.phone_No,jdbcType=VARCHAR},
+      </if>
+      <if test="record.country_Code != null">
+        Country_Code = #{record.country_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null">
+        Content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channel_No != null">
+        Channel_No = #{record.channel_No,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agent_No != null">
+        Agent_No = #{record.agent_No,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterprise_No != null">
+        Enterprise_No = #{record.enterprise_No,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterprise_User_Id != null">
+        Enterprise_User_Id = #{record.enterprise_User_Id,jdbcType=INTEGER},
+      </if>
+      <if test="record.protocol_Type_Code != null">
+        Protocol_Type_Code = #{record.protocol_Type_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pull_Total != null">
+        Pull_Total = #{record.pull_Total,jdbcType=INTEGER},
+      </if>
+      <if test="record.pull_Date != null">
+        Pull_Date = #{record.pull_Date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.notify_Total != null">
+        Notify_Total = #{record.notify_Total,jdbcType=INTEGER},
+      </if>
+      <if test="record.notify_Date != null">
+        Notify_Date = #{record.notify_Date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.notify_Status_Code != null">
+        Notify_Status_Code = #{record.notify_Status_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sender_Local_IP != null">
+        Sender_Local_IP = #{record.sender_Local_IP,jdbcType=VARCHAR},
+      </if>
+      <if test="record.charset != null">
+        Charset = #{record.charset,jdbcType=VARCHAR},
+      </if>
+      <if test="record.create_Date != null">
+        Create_Date = #{record.create_Date,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update inbox
+    set Id = #{record.id,jdbcType=INTEGER},
+      SP_Number = #{record.SP_Number,jdbcType=VARCHAR},
+      Sub_Code = #{record.sub_Code,jdbcType=VARCHAR},
+      Group_Code = #{record.group_Code,jdbcType=VARCHAR},
+      Input_Sub_Code = #{record.input_Sub_Code,jdbcType=VARCHAR},
+      Input_Msg_No = #{record.input_Msg_No,jdbcType=VARCHAR},
+      Input_Content = #{record.input_Content,jdbcType=VARCHAR},
+      Input_Create_Date = #{record.input_Create_Date,jdbcType=TIMESTAMP},
+      Phone_No = #{record.phone_No,jdbcType=VARCHAR},
+      Country_Code = #{record.country_Code,jdbcType=VARCHAR},
+      Content = #{record.content,jdbcType=VARCHAR},
+      Channel_No = #{record.channel_No,jdbcType=VARCHAR},
+      Agent_No = #{record.agent_No,jdbcType=VARCHAR},
+      Enterprise_No = #{record.enterprise_No,jdbcType=VARCHAR},
+      Enterprise_User_Id = #{record.enterprise_User_Id,jdbcType=INTEGER},
+      Protocol_Type_Code = #{record.protocol_Type_Code,jdbcType=VARCHAR},
+      Pull_Total = #{record.pull_Total,jdbcType=INTEGER},
+      Pull_Date = #{record.pull_Date,jdbcType=TIMESTAMP},
+      Notify_Total = #{record.notify_Total,jdbcType=INTEGER},
+      Notify_Date = #{record.notify_Date,jdbcType=TIMESTAMP},
+      Notify_Status_Code = #{record.notify_Status_Code,jdbcType=VARCHAR},
+      Sender_Local_IP = #{record.sender_Local_IP,jdbcType=VARCHAR},
+      Charset = #{record.charset,jdbcType=VARCHAR},
+      Create_Date = #{record.create_Date,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hero.wireless.web.entity.send.Inbox">
+    update inbox
+    <set>
+      <if test="SP_Number != null">
+        SP_Number = #{SP_Number,jdbcType=VARCHAR},
+      </if>
+      <if test="sub_Code != null">
+        Sub_Code = #{sub_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="group_Code != null">
+        Group_Code = #{group_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="input_Sub_Code != null">
+        Input_Sub_Code = #{input_Sub_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="input_Msg_No != null">
+        Input_Msg_No = #{input_Msg_No,jdbcType=VARCHAR},
+      </if>
+      <if test="input_Content != null">
+        Input_Content = #{input_Content,jdbcType=VARCHAR},
+      </if>
+      <if test="input_Create_Date != null">
+        Input_Create_Date = #{input_Create_Date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phone_No != null">
+        Phone_No = #{phone_No,jdbcType=VARCHAR},
+      </if>
+      <if test="country_Code != null">
+        Country_Code = #{country_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        Content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="channel_No != null">
+        Channel_No = #{channel_No,jdbcType=VARCHAR},
+      </if>
+      <if test="agent_No != null">
+        Agent_No = #{agent_No,jdbcType=VARCHAR},
+      </if>
+      <if test="enterprise_No != null">
+        Enterprise_No = #{enterprise_No,jdbcType=VARCHAR},
+      </if>
+      <if test="enterprise_User_Id != null">
+        Enterprise_User_Id = #{enterprise_User_Id,jdbcType=INTEGER},
+      </if>
+      <if test="protocol_Type_Code != null">
+        Protocol_Type_Code = #{protocol_Type_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="pull_Total != null">
+        Pull_Total = #{pull_Total,jdbcType=INTEGER},
+      </if>
+      <if test="pull_Date != null">
+        Pull_Date = #{pull_Date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="notify_Total != null">
+        Notify_Total = #{notify_Total,jdbcType=INTEGER},
+      </if>
+      <if test="notify_Date != null">
+        Notify_Date = #{notify_Date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="notify_Status_Code != null">
+        Notify_Status_Code = #{notify_Status_Code,jdbcType=VARCHAR},
+      </if>
+      <if test="sender_Local_IP != null">
+        Sender_Local_IP = #{sender_Local_IP,jdbcType=VARCHAR},
+      </if>
+      <if test="charset != null">
+        Charset = #{charset,jdbcType=VARCHAR},
+      </if>
+      <if test="create_Date != null">
+        Create_Date = #{create_Date,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hero.wireless.web.entity.send.Inbox">
+    update inbox
+    set SP_Number = #{SP_Number,jdbcType=VARCHAR},
+      Sub_Code = #{sub_Code,jdbcType=VARCHAR},
+      Group_Code = #{group_Code,jdbcType=VARCHAR},
+      Input_Sub_Code = #{input_Sub_Code,jdbcType=VARCHAR},
+      Input_Msg_No = #{input_Msg_No,jdbcType=VARCHAR},
+      Input_Content = #{input_Content,jdbcType=VARCHAR},
+      Input_Create_Date = #{input_Create_Date,jdbcType=TIMESTAMP},
+      Phone_No = #{phone_No,jdbcType=VARCHAR},
+      Country_Code = #{country_Code,jdbcType=VARCHAR},
+      Content = #{content,jdbcType=VARCHAR},
+      Channel_No = #{channel_No,jdbcType=VARCHAR},
+      Agent_No = #{agent_No,jdbcType=VARCHAR},
+      Enterprise_No = #{enterprise_No,jdbcType=VARCHAR},
+      Enterprise_User_Id = #{enterprise_User_Id,jdbcType=INTEGER},
+      Protocol_Type_Code = #{protocol_Type_Code,jdbcType=VARCHAR},
+      Pull_Total = #{pull_Total,jdbcType=INTEGER},
+      Pull_Date = #{pull_Date,jdbcType=TIMESTAMP},
+      Notify_Total = #{notify_Total,jdbcType=INTEGER},
+      Notify_Date = #{notify_Date,jdbcType=TIMESTAMP},
+      Notify_Status_Code = #{notify_Status_Code,jdbcType=VARCHAR},
+      Sender_Local_IP = #{sender_Local_IP,jdbcType=VARCHAR},
+      Charset = #{charset,jdbcType=VARCHAR},
+      Create_Date = #{create_Date,jdbcType=TIMESTAMP}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Fri Mar 15 16:18:56 CST 2019-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.business.IEnterpriseRoleDAO">
+  <resultMap id="BaseResultMapExt" type="com.hero.wireless.web.entity.business.ext.EnterpriseRoleExt" extends="BaseResultMap">
+    <result property="enterpriseUser.id" column="u_id" jdbcType="INTEGER"/>
+  </resultMap>
+  <select id="selectBindUserRoleByExample" parameterType="int" resultMap="BaseResultMapExt">
+        SELECT a.*,b.id u_id
+        FROM  enterprise_role a
+        LEFT JOIN enterprise_user_roles b ON a.Id=b.Role_Id AND Enterprise_User_Id=#{value}
+  </select>
+</mapper>

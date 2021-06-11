@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.business.ext.ISmsRealTimeStatisticsExtDAO">
+
+    <resultMap id="BaseExtResultMap" type="com.hero.wireless.web.entity.business.ext.SmsRealTimeStatisticsExt">
+        <id column="Id" jdbcType="INTEGER" property="id" />
+        <result column="Agent_No" jdbcType="VARCHAR" property="agent_No" />
+        <result column="Business_User_Id" jdbcType="INTEGER" property="business_User_Id" />
+        <result column="Enterprise_No" jdbcType="VARCHAR" property="enterprise_No" />
+        <result column="Enterprise_User_Id" jdbcType="INTEGER" property="enterprise_User_Id" />
+        <result column="Channel_No" jdbcType="VARCHAR" property="channel_No" />
+        <result column="Message_Type_Code" jdbcType="VARCHAR" property="message_Type_Code" />
+        <result column="Operator" jdbcType="VARCHAR" property="operator" />
+        <result column="Province_Code" jdbcType="VARCHAR" property="province_Code" />
+        <result column="Signature" jdbcType="VARCHAR" property="signature" />
+        <result column="Submit_Total" jdbcType="INTEGER" property="submit_Total" />
+        <result column="Submit_Success_Total" jdbcType="INTEGER" property="submit_Success_Total" />
+        <result column="Submit_Faild_Total" jdbcType="INTEGER" property="submit_Faild_Total" />
+        <result column="Sort_Faild_Total" jdbcType="INTEGER" property="sort_Faild_Total" />
+        <result column="Send_Success_Total" jdbcType="INTEGER" property="send_Success_Total" />
+        <result column="Send_Faild_Total" jdbcType="INTEGER" property="send_Faild_Total" />
+        <result column="Submit_Date" jdbcType="DATE" property="submit_Date" />
+        <result column="Profits" jdbcType="DECIMAL" property="profits" />
+        <result column="Agent_Profits" jdbcType="DECIMAL" property="agent_Profits" />
+        <result column="Cost" jdbcType="DECIMAL" property="cost" />
+        <result column="Agent_Cost" jdbcType="DECIMAL" property="agent_Cost" />
+        <result column="Description" jdbcType="VARCHAR" property="description" />
+        <result column="Remark" jdbcType="VARCHAR" property="remark" />
+        <result column="Create_Date" jdbcType="TIMESTAMP" property="create_Date" />
+    </resultMap>
+
+    <select id="querySmsRealTimeStatisticsGroupDataList" parameterType="com.hero.wireless.web.entity.business.ext.SmsRealTimeStatisticsExt"
+            resultMap="BaseExtResultMap">
+        SELECT
+        Agent_No,Business_User_Id,Enterprise_No,Enterprise_User_Id,Channel_No,Message_Type_Code,
+        Country_Number,Operator,Province_Code,Signature,        Submit_Date,
+        SUM(IFNULL(Submit_Total, 0)) Submit_Total,
+        SUM(IFNULL(Submit_Success_Total, 0)) Submit_Success_Total,
+        SUM(IFNULL(Submit_Faild_Total, 0)) Submit_Faild_Total,
+        SUM(IFNULL(Sort_Faild_Total, 0)) Sort_Faild_Total,
+        SUM(IFNULL(Send_Success_Total, 0)) Send_Success_Total,
+        SUM(IFNULL(Send_Faild_Total, 0)) Send_Faild_Total,
+        SUM(IFNULL(Profits, 0)) Profits,
+        SUM(IFNULL(Agent_Profits, 0)) Agent_Profits,
+        SUM(IFNULL(Cost, 0)) Cost,
+        SUM(IFNULL(Agent_Cost, 0)) Agent_Cost
+        FROM sms_real_time_statistics
+        where 1=1
+        <if test="agent_No != null and agent_No != ''">
+            and Agent_No = #{agent_No}
+        </if>
+        <if test="business_User_Id != null and business_User_Id != ''">
+            and Business_User_Id = #{business_User_Id}
+        </if>
+        <if test="enterprise_No != null and enterprise_No != ''">
+            and Enterprise_No = #{enterprise_No}
+        </if>
+        <if test="enterprise_User_Id != null and enterprise_User_Id != ''">
+            and Enterprise_User_Id = #{enterprise_User_Id}
+        </if>
+        <if test="channel_No != null and channel_No != ''">
+            and Channel_No = #{channel_No}
+        </if>
+        <if test="message_Type_Code != null and message_Type_Code != ''">
+            and Message_Type_Code = #{message_Type_Code}
+        </if>
+        <if test="country_Number != null and country_Number != ''">
+            and Country_Number = #{country_Number}
+        </if>
+        <if test="operator != null and operator != ''">
+            and Operator = #{operator}
+        </if>
+        <if test="province_Code != null and province_Code != ''">
+            and Province_Code = #{province_Code}
+        </if>
+        <if test="signature != null and signature != ''">
+            and Signature = #{signature}
+        </if>
+        <if test="min_Submit_Date != null">
+            and Submit_Date &gt;= #{min_Submit_Date}
+        </if>
+        <if test="max_Submit_Date != null">
+            and Submit_Date &lt;= #{max_Submit_Date}
+        </if>
+        <if test="groupStr != null and groupStr != ''">
+            GROUP BY ${groupStr}
+        </if>
+        <if test="pagination != null">
+            limit ${pagination.firstResult},${pagination.pageSize}
+        </if>
+    </select>
+    <select id="countSmsRealTimeStatisticsGroupDataList" parameterType="com.hero.wireless.web.entity.business.ext.SmsRealTimeStatisticsExt"
+        resultType="Map">
+        select ifnull(count(1),0) as totalRecord
+        from (
+            SELECT
+            Id
+            FROM sms_real_time_statistics
+            where 1=1
+        <if test="agent_No != null and agent_No != ''">
+            and Agent_No = #{agent_No}
+        </if>
+        <if test="business_User_Id != null and business_User_Id != ''">
+            and Business_User_Id = #{business_User_Id}
+        </if>
+        <if test="enterprise_No != null and enterprise_No != ''">
+            and Enterprise_No = #{enterprise_No}
+        </if>
+        <if test="enterprise_User_Id != null and enterprise_User_Id != ''">
+            and Enterprise_User_Id = #{enterprise_User_Id}
+        </if>
+        <if test="channel_No != null and channel_No != ''">
+            and Channel_No = #{channel_No}
+        </if>
+        <if test="message_Type_Code != null and message_Type_Code != ''">
+            and Message_Type_Code = #{message_Type_Code}
+        </if>
+        <if test="country_Number != null and country_Number != ''">
+            and Country_Number = #{country_Number}
+        </if>
+        <if test="operator != null and operator != ''">
+            and Operator = #{operator}
+        </if>
+        <if test="province_Code != null and province_Code != ''">
+            and Province_Code = #{province_Code}
+        </if>
+        <if test="signature != null and signature != ''">
+            and Signature = #{signature}
+        </if>
+        <if test="min_Submit_Date != null">
+            and Submit_Date &gt;= #{min_Submit_Date}
+        </if>
+        <if test="max_Submit_Date != null">
+            and Submit_Date &lt;= #{max_Submit_Date}
+        </if>
+        <if test="groupStr != null and groupStr != ''">
+            GROUP BY ${groupStr}
+        </if>
+        <if test="pagination != null">
+            limit ${pagination.firstResult},${pagination.pageSize}
+        </if>
+        )re
+    </select>
+
+    <select id="querySmsDailySendedStatisticListForExportPage" parameterType="com.hero.wireless.web.entity.business.ext.SmsRealTimeStatisticsExt"
+            resultType="Map">
+        SELECT
+        <foreach item="item" index="index" collection="groupStr.split(',')">
+            <if test="item == 'Agent_No'">
+                (SELECT a.`Name` FROM agent a WHERE a.No= Agent_No) agent_Name,
+            </if>
+            <if test="item == 'Business_User_Id'">
+                (SELECT au.Real_Name FROM admin_user au WHERE au.Id= Business_User_Id) business_User_Name,
+            </if>
+            <if test="item == 'Enterprise_No'">
+                (SELECT e.`Name` FROM enterprise e WHERE e.`No`= enterprise_No) enterprise_Name,
+            </if>
+            <if test="item == 'Enterprise_User_Id'">
+                (SELECT u.Real_Name FROM enterprise_user u WHERE u.Id= Enterprise_User_Id) enterprise_User_Name,
+            </if>
+            <if test="item == 'Channel_No'">
+                (SELECT c.`Name` FROM channel c WHERE c.`No`= channel_No) channel_Name,
+                (SELECT
+                    CASE WHEN  c.`channel_Source` = 'own' THEN '自有通道'
+                    WHEN  c.`channel_Source` = 'other' THEN '第三方通道'
+                    ELSE '' END as channel_Source_Name
+                    FROM channel c WHERE c.`No`= channel_No) channel_Source_Name,
+            </if>
+            <if test="item == 'Country_Number'">
+                IFNULL((SELECT cd.`Name` FROM `code` cd WHERE cd.Sort_Code='country' AND cd.`Code`=Country_Number),'unkown') country_Name,
+            </if>
+            <if test="item == 'Message_Type_Code'">
+                (SELECT cd.`Name` FROM `code` cd WHERE cd.Sort_Code='message_Type_Code' AND cd.`Code`=Message_Type_Code) message_Type_Name,
+            </if>
+            <if test="item == 'Province_Code'">
+                (SELECT cd.`Name` FROM `code` cd WHERE cd.Sort_Code='location' AND cd.`Code`=Province_Code) province_Name,
+            </if>
+            <if test="item == 'Signature'">
+                Signature signature,
+            </if>
+        </foreach>
+        submit_Date,operator,
+        SUM(IFNULL(Submit_Total, 0)) submit_Total,
+        SUM(IFNULL(Submit_Success_Total, 0)) submit_Success_Total,
+        SUM(IFNULL(Submit_Faild_Total, 0)) submit_Faild_Total,
+        SUM(IFNULL(Sort_Faild_Total, 0)) sort_Faild_Total,
+        SUM(IFNULL(Send_Success_Total, 0)) send_Success_Total,
+        SUM(IFNULL(Send_Faild_Total, 0)) send_Faild_Total
+        FROM sms_real_time_statistics
+        where 1=1
+        <if test="agent_No != null and agent_No != ''">
+            and Agent_No = #{agent_No}
+        </if>
+        <if test="business_User_Id != null and business_User_Id != ''">
+            and Business_User_Id = #{business_User_Id}
+        </if>
+        <if test="enterprise_No != null and enterprise_No != ''">
+            and Enterprise_No = #{enterprise_No}
+        </if>
+        <if test="enterprise_User_Id != null and enterprise_User_Id != ''">
+            and Enterprise_User_Id = #{enterprise_User_Id}
+        </if>
+        <if test="channel_No != null and channel_No != ''">
+            and Channel_No = #{channel_No}
+        </if>
+        <if test="message_Type_Code != null and message_Type_Code != ''">
+            and Message_Type_Code = #{message_Type_Code}
+        </if>
+        <if test="country_Number != null and country_Number != ''">
+            and Country_Number = #{country_Number}
+        </if>
+        <if test="operator != null and operator != ''">
+            and Operator = #{operator}
+        </if>
+        <if test="province_Code != null and province_Code != ''">
+            and Province_Code = #{province_Code}
+        </if>
+        <if test="signature != null and signature != ''">
+            and Signature = #{signature}
+        </if>
+        <if test="min_Submit_Date != null">
+            and Submit_Date &gt;= #{min_Submit_Date}
+        </if>
+        <if test="max_Submit_Date != null">
+            and Submit_Date &lt;= #{max_Submit_Date}
+        </if>
+        <if test="groupStr != null and groupStr != ''">
+            GROUP BY ${groupStr}
+        </if>
+        <if test="pagination != null">
+            limit ${pagination.firstResult},${pagination.pageSize}
+        </if>
+
+    </select>
+
+</mapper>

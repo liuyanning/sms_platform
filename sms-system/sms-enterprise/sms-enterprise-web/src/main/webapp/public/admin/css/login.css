@@ -1,0 +1,292 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.box {
+    padding: 30px;
+}
+
+.box .title {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    /* background: url(/static/images/login/title.png) no-repeat center; */
+    display: block;
+    height: 23px;
+    /* margin-top: 35px; */
+}
+
+.box .vision {
+    font-size: 12px;
+    color: #999;
+    text-align: center;
+    margin-bottom: 27px;
+}
+
+.input-box {
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 22px;
+}
+
+.input-box .input {
+    border-radius: 4px;
+    outline: none;
+    line-height: 40px;
+    background: #ffffff;
+    border: 1px solid #c0ccda;
+    width: 100%;
+    height: 38px;
+    font-size: 14px;
+    color: #1f2d3d;
+    padding: 0 50px;
+    box-sizing: border-box;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    font-size: 14px;
+    color: #99a9bf;
+}
+
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+    font-size: 14px;
+    color: #99a9bf;
+}
+
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+    font-size: 14px;
+    color: #99a9bf;
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+    font-size: 14px;
+    color: #99a9bf;
+}
+
+.errorMessage {
+    margin: 0 auto;
+    font-size: 12px;
+    color: red;
+}
+
+.input-box .input:hover {
+    border-color: #8492a6;
+}
+
+.input-box .input:focus {
+    border-color: #5577ff;
+}
+
+.input-box .input.error {
+    border-color: #ff4949;
+}
+
+.error-box {
+    height: 40px;
+    width: 350px;
+    margin: 0 auto;
+    line-height: 40px;
+    color: #fc4343;
+}
+
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #0471b6, #061b25);
+    background-size:1400% 300%;
+    animation: dynamics 6s ease infinite;
+    -webkit-animation: dynamics 6s ease infinite;
+    -moz-animation: dynamics 6s ease infinite;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
+
+.login-area {
+    margin: 0 auto;
+}
+
+.logo {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    margin-top: 26px;
+}
+
+.logo>img {
+    display: inline-block;
+    width: 48px;
+}
+
+.logo>span {
+    margin-left: 18px;
+    font-size: 20px;
+    color: #eee;
+    letter-spacing: 0.2em;
+}
+
+.copy-right {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: #eee;
+    line-height: 1.5;
+}
+
+.copy-right a {
+    color: #bfcbd9;
+}
+
+.login-box {
+    width: 370px;
+    background-color: #fff;
+    margin: 120px auto;
+}
+
+.home {
+    font-size: 14px;
+    color: #999999;
+    /* background: url(/static/images/login/cow.png) no-repeat; */
+    padding-left: 25px;
+    display: inline-block;
+    height: 21px;
+}
+
+.home:hover {
+    color: #fea200;
+}
+
+.login-btn {
+    background-color: #0471b6;
+    display: block;
+    width: 100%;
+    height: 40px;
+    border-radius: 4px;
+    line-height: 40px;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 15px;
+    border: 0;
+    text-decoration: none;
+}
+
+.login-btn:hover {
+    opacity: 0.8;
+}
+
+.input-left {
+    position: absolute;
+    left: 15px;
+    top: 11px;
+}
+
+.input-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding-top: 11px;
+    padding-right: 15px;
+    cursor: pointer;
+    font-size: 0;
+}
+
+.input-right .yzm {
+    margin-top: -6px;
+}
+
+.icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+.icon-user {
+    background: url(/public/admin/images/icon-user.png);
+}
+
+.icon-password {
+    background: url(/public/admin/images/icon-password.png);
+}
+
+.icon-safe {
+    background: url(/public/admin/images/icon-safe.png);
+}
+
+.tips {
+    overflow: hidden;
+}
+
+.tips .tip-error {
+    color: #ff4949;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.tips .tip-right {
+    float: right;
+    color: #5577ff;
+    font-size: 14px;
+    margin-left: 25px;
+    cursor: pointer;
+}
+
+.register {
+    font-size: 14px;
+    color: #8492a6;
+    text-align: center;
+}
+
+.register a {
+    color: #5577ff;
+}
+
+
+.compatibility .show-login {
+    display: none;
+}
+
+.compatibility .show-tips {
+    display: block;
+}
+
+.no-compatibility .show-login {
+    display: block;
+}
+
+.no-compatibility .show-tips {
+    display: none;
+}
+
+.show-tips {
+    padding-top: 20px;
+}
+
+.show-tips h4 {
+    text-align: center;
+    color: #99a9bf;
+    font-size: 18px;
+}
+
+.show-tips p {
+    color: #99a9bf;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.show-tips .link {
+    color: #5577ff;
+}

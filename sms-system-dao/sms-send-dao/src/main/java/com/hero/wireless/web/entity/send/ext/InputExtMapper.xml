@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Fri Mar 15 16:39:54 
+	CST 2019 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.send.IInputDAO">
+	<resultMap id="BaseResultMapExt" type="com.hero.wireless.web.entity.send.ext.InputExt" extends="BaseResultMap">
+		<result property="enterprise.name" column="enterprise_Name" jdbcType="VARCHAR" />
+		<result property="enterpriseUser.real_Name" column="real_Name" jdbcType="VARCHAR" />
+		<result property="audit_Status_Code_Name" column="Audit_Status_Code_Name" jdbcType="VARCHAR" />
+		<result property="is_LMS_Name" column="Is_LMS_Name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="selectAuditingExtByExampleCount" parameterType="com.hero.wireless.web.entity.send.InputExample"
+		resultType="java.lang.Integer">
+		SELECT
+			count(1)
+        FROM
+            (SELECT COUNT(1) FROM input
+                <if test="_parameter != null">
+                  <include refid="Example_Where_Clause" />
+                </if>
+			GROUP BY Assist_Audit_Key) a
+	</select>
+	
+	<select id="selectAuditingExtByExample" parameterType="com.hero.wireless.web.entity.send.InputExample"
+		resultMap="BaseResultMapExt">
+		SELECT
+		 Enterprise_No,
+		 Enterprise_User_Id,
+		 Content,
+         Assist_Audit_Key,
+		 sum(IFNULL(Phone_Nos_Count,0)) Phone_Nos_Count
+		FROM input
+        <if test="_parameter != null">
+          <include refid="Example_Where_Clause" />
+        </if>
+		GROUP BY Assist_Audit_Key
+		<if test="pagination != null">
+			limit ${pagination.firstResult},${pagination.pageSize}
+		</if>
+	</select>
+	
+	
+	<select id="selectExtByExample" parameterType="com.hero.wireless.web.entity.send.InputExample"
+		resultMap="BaseResultMapExt">
+		SELECT *
+		FROM s_send.input 
+		<if test="_parameter != null">
+          <include refid="Example_Where_Clause" />
+        </if>
+        GROUP BY Msg_Batch_No,Enterprise_No,Enterprise_User_Id,Content,Phone_Nos
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="pagination != null">
+			limit ${pagination.firstResult},${pagination.pageSize}
+		</if>
+		
+	</select>
+
+	<select id="countExtByExample" parameterType="com.hero.wireless.web.entity.send.InputExample"
+		resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM s_send.input i
+		<if test="_parameter != null">
+          <include refid="Example_Where_Clause" />
+        </if>
+	</select>
+	<insert id="ibatorgenerated_insertExt" parameterType="java.util.List">
+		insert into input (Id, UUID, Enterprise_Id, User_Id, Is_LMS,
+		Short_Message, Mobiles,
+		Source_Type_Code, Source_IP, Priority_Number, Approve_State_Code, Sub_Code, Send_Time,
+		Description, Remark, Create_Date)
+		values
+		<foreach collection="" item="item" separator=",">
+			(
+			#item.id:INTEGER#,#{item.UUID,jdbcType=VARCHAR},#item.enterprise_Id:INTEGER#,#item.user_Id:INTEGER#,#item.is_LMS:BIT#,
+			#{item.short_Message,jdbcType=VARCHAR},#{item.mobiles,jdbcType=VARCHAR},#{item.source_Type_Code,jdbcType=VARCHAR},#{item.source_IP,jdbcType=VARCHAR},
+			#item.priority_Number:INTEGER#,#{item.approve_State_Code,jdbcType=VARCHAR},#{item.sub_Code,jdbcType=VARCHAR},
+			#{item.send_Time,jdbcType=TIMESTAMP},#{item.description,jdbcType=VARCHAR},#{item.remark,jdbcType=VARCHAR},#{item.create_Date,jdbcType=TIMESTAMP})
+		</foreach>
+	</insert>
+
+	<select id="queryInputListForExportPage" parameterType="com.hero.wireless.web.entity.send.InputExample"
+		resultType="map">
+		SELECT
+		i.*,
+		CASE WHEN i.Is_LMS = '1'
+		THEN '是'
+		ELSE '否'
+		END Is_LMS_Name,
+		CASE WHEN i.Audit_Status_Code = 'Approving'
+		THEN '正在审核'
+		WHEN i.Audit_Status_Code = 'Agree'
+		THEN '同意'
+		ELSE '拒绝'
+		END Audit_Status_Code_Name
+		FROM s_send.input i
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="pagination != null">
+			limit ${pagination.firstResult},${pagination.pageSize}
+		</if>
+	</select>
+</mapper>

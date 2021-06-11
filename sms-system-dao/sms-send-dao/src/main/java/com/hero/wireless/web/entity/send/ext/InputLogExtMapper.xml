@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Fri Mar 15 16:40:03 
+	CST 2019 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.send.IInputLogDAO">
+
+	<resultMap id="BaseResultMapExt"
+		type="com.hero.wireless.web.entity.send.ext.InputLogExt" extends="BaseResultMap">
+		<result property="enterprise.name" column="enterprise_Name" jdbcType="VARCHAR" />
+		<result property="enterpriseUser.real_Name" column="real_Name" jdbcType="VARCHAR" />
+		<result property="time_Cycle" column="Time_Cycle" jdbcType="VARCHAR" />
+		<result property="time_Cycle_Sale_Fee" column="Time_Cycle_Sale_Fee" jdbcType="FLOAT" />
+		<result property="time_Cycle_Profits" column="Time_Cycle_Profits" jdbcType="FLOAT" />
+		<result property="time_Cycle_Fee_Count" column="Time_Cycle_Fee_Count" jdbcType="INTEGER" />
+	</resultMap>
+
+	<resultMap type="com.hero.wireless.web.entity.ext.SqlStatisticsEntity" id="InputLogStatisticsResultMap">
+		<result property="count" column="Count" jdbcType="INTEGER"/>
+		<result property="sale_Fee_Total" column="Sale_Fee_Total" jdbcType="FLOAT"/>
+		<result property="sended_Total" column="Sended_Total" jdbcType="INTEGER"/>
+		<result property="profits_Total" column="Profits_Total" jdbcType="FLOAT"/>
+		<result property="enterprise_Count" column="Enterprise_Count" jdbcType="BIGINT"/>
+		<result property="phone_Nos_Count" column="Phone_Nos_Count" jdbcType="BIGINT"/>
+		<result property="fee_Count" column="Fee_Count" jdbcType="BIGINT"/>
+		<result property="faild_Count" column="Faild_Count" jdbcType="BIGINT"/>
+		<result property="sale_Amount" column="Sale_Amount" jdbcType="DECIMAL"/>
+		<result property="profits" column="Profits" jdbcType="DECIMAL"/>
+	</resultMap>
+
+	<resultMap id="BaseResultMapV2"
+			   type="com.hero.wireless.web.entity.send.InputLog" extends="BaseResultMap">
+		<result property="msg_Batch_No" column="Enterprise_Msg_No" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="selectExtByExample" parameterType="com.hero.wireless.web.entity.send.InputLogExample"
+		resultMap="BaseResultMapExt">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM s_send.input_log
+		<if test="_parameter != null">
+          <include refid="Example_Where_Clause" />
+        </if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="pagination != null">
+			limit ${pagination.firstResult},${pagination.pageSize}
+		</if>
+	</select>
+
+	<select id="countExtByExample" parameterType="com.hero.wireless.web.entity.send.InputLogExample"
+		resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM s_send.input_log
+		<if test="_parameter != null">
+	      <include refid="Example_Where_Clause" />
+	    </if>
+	</select>
+
+
+	<select id="queryStatisticsListByExt" parameterType="com.hero.wireless.web.entity.send.ext.InputLogExt"
+			resultMap="BaseResultMapExt">
+		SELECT DATE_FORMAT(s.Create_Date,
+		<if test="time_Cycle == 'day' or time_Cycle == null">
+			'%Y-%m-%d'
+		</if><if test="time_Cycle == 'week'">
+			'%Y-%u'
+		</if><if test="time_Cycle == 'month'">
+			'%Y-%m'
+		</if><if test="time_Cycle == 'year'">
+			'%Y'
+		</if>
+		) as Time_Cycle,
+		sum(s.Fee_Count) as time_Cycle_Fee_Count,
+		sum(s.Sale_Fee) as time_Cycle_Sale_Fee,
+		sum(s.Profits) as time_Cycle_Profits
+
+		FROM s_send.input_log s
+		where 1=1
+		<if test="enterprise != null">
+			<if test="enterprise.id != null and enterprise.id != ''">
+				AND s.Enterprise_Id = #{enterprise.id}
+			</if>
+			<if test="enterprise.admin_Id != null and enterprise.admin_Id != ''">
+				AND s.Enterprise_Id in (SELECT i.Id FROM s_business.enterprise i WHERE i.Admin_Id = #{enterprise.admin_Id})
+			</if>
+		</if>
+		<if test="min_Create_Date != null and min_Create_Date != ''">
+			AND s.Create_Date &gt;= #{min_Create_Date}
+		</if>
+		<if test="max_Create_Date != null and max_Create_Date != ''">
+			AND s.Create_Date &lt;= #{max_Create_Date}
+		</if>
+		GROUP BY  Time_Cycle
+		order by Time_Cycle desc
+		<if test="pagination != null">
+			limit ${pagination.firstResult},${pagination.pageSize}
+		</if>
+	</select>
+	<select id="countStatisticsListByExt" parameterType="com.hero.wireless.web.entity.send.ext.InputLogExt"
+				resultType="java.lang.Integer">
+		select count(*) from (
+			SELECT
+			DATE_FORMAT(s.Create_Date,
+			<if test="time_Cycle == 'day' or time_Cycle == null">
+				'%Y-%m-%d'
+			</if><if test="time_Cycle == 'week'">
+				'%Y-%u'
+			</if><if test="time_Cycle == 'month'">
+				'%Y-%m'
+			</if><if test="time_Cycle == 'year'">
+				'%Y'
+			</if>
+			) as Time_Cycle
+			FROM s_send.input_log s
+			where 1=1
+			<if test="enterprise != null">
+				<if test="enterprise.id != null and enterprise.id != ''">
+					AND s.Enterprise_Id = #{enterprise.id}
+				</if>
+				<if test="enterprise.admin_Id != null and enterprise.admin_Id != ''">
+					AND s.Enterprise_Id in (SELECT i.Id FROM s_business.enterprise i WHERE i.Admin_Id = #{enterprise.admin_Id})
+				</if>
+			</if>
+			<if test="min_Create_Date != null and min_Create_Date != ''">
+				AND s.Create_Date &gt;= #{min_Create_Date}
+			</if>
+			<if test="max_Create_Date != null and max_Create_Date != ''">
+				AND s.Create_Date &lt;= #{max_Create_Date}
+			</if>
+			GROUP BY Time_Cycle)a
+	</select>
+
+	<select id="statisticsExtByExample" parameterType="com.hero.wireless.web.entity.send.InputLogExample"
+		resultMap="InputLogStatisticsResultMap">
+		SELECT
+		COUNT(1) Count,
+		SUM(Phone_Nos_Count) Phone_Nos_Count,
+		SUM(Fee_Count) Fee_Count,
+		SUM(Faild_Count) Faild_Count,
+		SUM(Sale_Amount) Sale_Amount
+		FROM s_send.input_log 
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+
+	<select id="queryInputLogListForExportPage" parameterType="com.hero.wireless.web.entity.send.ext.InputLogExt"
+		resultType="map">
+		SELECT
+		i.Enterprise_No,Enterprise_User_Id,
+		i.Content,i.Phone_Nos,
+		i.Protocol_Type_Code,
+		i.Source_IP,i.Is_LMS,i.Content_Length,i.Phone_Nos_Count,i.Fee_Count,i.Sale_Amount,i.Priority_Number,
+		i.Audit_Status_Code,
+		i.Message_Type_Code,
+		i.Create_Date
+		FROM s_send.input_log i
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="pagination != null">
+			limit ${pagination.firstResult},${pagination.pageSize}
+		</if>
+	</select>
+
+	<insert id="insertHistoryInputLogBySelectSend" parameterType="com.hero.wireless.web.entity.send.InputLogExample">
+		INSERT INTO s_history.input_log
+		(Msg_Batch_No, Enterprise_Msg_Id, Enterprise_No, Agent_No, Business_User_Id, Enterprise_User_Id, Product_No, Is_LMS, Message_Type_Code, Content, Charset, Phone_Nos, Protocol_Type_Code, Source_IP, Priority_Number, Audit_Status_Code, Audit_Admin_User_Id, Audit_Date, Sub_Code, Input_Sub_Code, Send_Time, Gate_Ip, Content_Length, Phone_Nos_Count, Fee_Count, Faild_Count, Sale_Amount, Description, Remark, Create_Date,Data_Status_Code)
+		SELECT
+		Msg_Batch_No, Enterprise_Msg_Id, Enterprise_No, Agent_No, Business_User_Id, Enterprise_User_Id, Product_No, Is_LMS, Message_Type_Code, Content, Charset, Phone_Nos, Protocol_Type_Code, Source_IP, Priority_Number, Audit_Status_Code, Audit_Admin_User_Id, Audit_Date, Sub_Code, Input_Sub_Code, Send_Time, Gate_Ip, Content_Length, Phone_Nos_Count, Fee_Count, Faild_Count, Sale_Amount, Description, Remark, Create_Date,Data_Status_Code
+		FROM s_send.input_log
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</insert>
+
+	<select id="selectInputLogMaxIdByExample" parameterType="com.hero.wireless.web.entity.send.InputLogExample" resultType="java.lang.Long">
+		SELECT IFNULL(MAX(Id), 0) FROM input_log
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+
+	<insert id="insertInputLogListSharding" parameterType="com.hero.wireless.web.entity.base.ShardingBatchInsert">
+		insert into input_log${tableSuffix} (Id, Msg_Batch_No, Enterprise_Msg_Id, Enterprise_No, Agent_No, Business_User_Id, Enterprise_User_Id, Product_No, Is_LMS, Data_Status_Code, Is_Show, Message_Type_Code, Content, Charset, Phone_Nos, Protocol_Type_Code, Country_Code, Source_IP, Priority_Number, Audit_Status_Code, Audit_Admin_User_Id, Audit_Date, Sub_Code, Input_Sub_Code, Send_Time, Gate_Ip, Content_Length, Phone_Nos_Count, Fee_Count, Faild_Count, Sale_Amount, Description, Remark, Create_Date, Input_Date)
+		values
+		<foreach collection="dataList" item="item" separator=",">
+			(#{item.id,jdbcType=BIGINT}, #{item.msg_Batch_No,jdbcType=VARCHAR}, #{item.enterprise_Msg_Id,jdbcType=VARCHAR}, #{item.enterprise_No,jdbcType=VARCHAR}, #{item.agent_No,jdbcType=VARCHAR}, #{item.business_User_Id,jdbcType=INTEGER}, #{item.enterprise_User_Id,jdbcType=INTEGER}, #{item.product_No,jdbcType=VARCHAR}, #{item.is_LMS,jdbcType=BIT}, #{item.data_Status_Code,jdbcType=VARCHAR}, #{item.is_Show,jdbcType=BIT}, #{item.message_Type_Code,jdbcType=VARCHAR}, #{item.content,jdbcType=VARCHAR}, #{item.charset,jdbcType=VARCHAR}, #{item.phone_Nos,jdbcType=VARCHAR}, #{item.protocol_Type_Code,jdbcType=VARCHAR}, #{item.country_Code,jdbcType=VARCHAR}, #{item.source_IP,jdbcType=VARCHAR}, #{item.priority_Number,jdbcType=INTEGER}, #{item.audit_Status_Code,jdbcType=VARCHAR}, #{item.audit_Admin_User_Id,jdbcType=INTEGER}, #{item.audit_Date,jdbcType=TIMESTAMP}, #{item.sub_Code,jdbcType=VARCHAR}, #{item.input_Sub_Code,jdbcType=VARCHAR}, #{item.send_Time,jdbcType=TIMESTAMP}, #{item.gate_Ip,jdbcType=VARCHAR}, #{item.content_Length,jdbcType=INTEGER}, #{item.phone_Nos_Count,jdbcType=INTEGER}, #{item.fee_Count,jdbcType=INTEGER}, #{item.faild_Count,jdbcType=INTEGER}, #{item.sale_Amount,jdbcType=DECIMAL}, #{item.description,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.create_Date,jdbcType=TIMESTAMP}, #{item.input_Date,jdbcType=TIMESTAMP})
+		</foreach>
+	</insert>
+
+	<select id="selectInputLogByLimit" parameterType="com.hero.wireless.web.entity.send.InputLogExample" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from input_log
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="pagination != null">
+			limit ${pagination.pageSize}
+		</if>
+	</select>
+
+	<select id="selectInputLogHistoryByLimit" parameterType="com.hero.wireless.web.entity.send.InputLogExample" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from s_history.input_log
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="pagination != null">
+			limit ${pagination.pageSize}
+		</if>
+	</select>
+
+	<select id="selectInputLogHistoryByLimitV2" parameterType="com.hero.wireless.web.entity.send.InputLogExample" resultMap="BaseResultMapV2">
+		select
+			Id, Enterprise_Msg_No, Enterprise_No, Agent_No, Business_User_Id, Enterprise_User_Id, Product_No, Is_LMS,
+			Message_Type_Code, Content, Phone_Nos, Protocol_Type_Code, Source_IP, Priority_Number, Audit_Status_Code,
+			Sub_Code, Send_Time, Content_Length, Phone_Nos_Count, Fee_Count, Faild_Count, Sale_Amount, Description,
+			Remark, Create_Date, Data_Status_Code
+		from s_history.input_log
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="pagination != null">
+			limit ${pagination.pageSize}
+		</if>
+	</select>
+
+	<update id="createInputLogTable" parameterType="com.hero.wireless.web.entity.send.ext.InputLogExt">
+		CREATE TABLE IF NOT EXISTS input_log${tableSuffix} (
+		  Id bigint NOT NULL COMMENT '主键',
+		  Msg_Batch_No varchar(50) DEFAULT NULL COMMENT '唯一标识',
+		  Enterprise_Msg_Id varchar(2000) DEFAULT NULL COMMENT '下游的msgId',
+		  Enterprise_No varchar(128) DEFAULT NULL COMMENT '企业Id',
+		  Agent_No varchar(128) DEFAULT NULL COMMENT '代理商Id',
+		  Business_User_Id int(11) DEFAULT NULL COMMENT '业务员Id',
+		  Enterprise_User_Id int(11) DEFAULT NULL COMMENT '用户标识',
+		  Product_No varchar(128) DEFAULT NULL COMMENT '产品编号',
+		  Is_LMS bit(1) DEFAULT NULL COMMENT '是否长短信',
+		  Data_Status_Code varchar(11) DEFAULT '0' COMMENT '数据状态：0：正常数据 1：重发的数据 2：第一次发送失败的数据',
+		  Is_Show bit(1) DEFAULT NULL COMMENT '是否显示',
+		  Message_Type_Code varchar(128) DEFAULT NULL COMMENT '消息类型',
+		  Content varchar(2000) CHARACTER SET utf8mb4 NOT NULL COMMENT '短消息',
+		  Charset varchar(32) DEFAULT NULL COMMENT '编码',
+		  Phone_Nos varchar(8000) DEFAULT NULL COMMENT '手机号码，多个用|分割  最后一位必须是|',
+		  Protocol_Type_Code varchar(128) DEFAULT NULL COMMENT '接口类型  Web,Cmpp,HttpXml,HttpJson',
+		  Country_Code varchar(128) DEFAULT NULL COMMENT '国家代码',
+		  Source_IP varchar(56) DEFAULT NULL COMMENT '提交短信的IP',
+		  Priority_Number int(11) DEFAULT NULL COMMENT '短信优先级',
+		  Audit_Status_Code varchar(128) DEFAULT NULL,
+		  Audit_Admin_User_Id int(11) DEFAULT NULL COMMENT '审核人',
+		  Audit_Date datetime DEFAULT NULL COMMENT '审核日期',
+		  Sub_Code varchar(128) DEFAULT NULL,
+		  Input_Sub_Code varchar(128) DEFAULT NULL,
+		  Input_Date datetime NOT NULL COMMENT '用户提交短信时间',
+		  Send_Time datetime DEFAULT NULL,
+		  Gate_Ip varchar(128) DEFAULT NULL COMMENT '网关IP',
+		  Content_Length int(11) DEFAULT NULL COMMENT '短信字数',
+		  Phone_Nos_Count int(11) DEFAULT NULL COMMENT '手机号码个数',
+		  Fee_Count int(11) DEFAULT NULL COMMENT '计费条数',
+		  Faild_Count int(11) DEFAULT NULL COMMENT '分拣失败条数',
+		  Sale_Amount decimal(20,4) DEFAULT NULL COMMENT '消费金额（元）',
+		  Description varchar(2048) DEFAULT NULL COMMENT '描述',
+		  Remark varchar(2048) DEFAULT NULL COMMENT '备注',
+		  Create_Date datetime NOT NULL COMMENT '创建时间',
+		  PRIMARY KEY (Id) USING BTREE,
+		  KEY Enterprise_Msg_No (Msg_Batch_No) USING BTREE,
+		  KEY Create_Date (Create_Date)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT
+  	</update>
+
+	<update id="dropInputLogTable" parameterType="com.hero.wireless.web.entity.send.ext.InputLogExt">
+        drop table if exists input_log${tableSuffix}
+    </update>
+</mapper>

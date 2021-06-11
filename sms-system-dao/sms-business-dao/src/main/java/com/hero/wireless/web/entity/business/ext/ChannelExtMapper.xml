@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Fri Mar 15 16:18:02 CST 2019-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.business.IChannelDAO">
+  <resultMap id="BaseResultMapExt" type="com.hero.wireless.web.entity.business.ext.ChannelExt" extends="BaseResultMap">
+  </resultMap>
+    <select id="selectMaxGroupCode" resultType="java.lang.Integer">
+        SELECT MAX(Group_Code) FROM s_business.channel
+    </select>
+</mapper>

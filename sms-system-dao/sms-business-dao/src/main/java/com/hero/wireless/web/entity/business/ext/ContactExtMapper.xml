@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Fri Mar 15 16:18:23 CST 2019-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.business.IContactDAO">
+  <resultMap id="BaseResultMapExt" type="com.hero.wireless.web.entity.business.ext.ContactExt" extends="BaseResultMap">
+   <result property="contactGroup.group_Name" column="Group_Name" jdbcType="VARCHAR"/>
+  </resultMap>
+  <select id="selectExtByExample" parameterType="com.hero.wireless.web.entity.business.ContactExample" resultMap="BaseResultMapExt">
+    SELECT b.*,
+    (SELECT a.Group_Name FROM contact_group a WHERE a.Id = b.Group_Id) as Group_Name
+    FROM contact b
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null">
+      limit ${pagination.firstResult},${pagination.pageSize}
+    </if>
+  </select>
+  <select id="countExtByExample" parameterType="com.hero.wireless.web.entity.business.ContactExample" resultType="java.lang.Integer">
+   SELECT COUNT(1) FROM contact b
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+
+    <select id="queryContactListForExportPage" parameterType="com.hero.wireless.web.entity.business.ContactExample"
+        resultType="map" >
+        SELECT b.*,
+        (SELECT a.Group_Name FROM contact_group a WHERE a.Id = b.Group_Id) as Group_Name
+        FROM contact b
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="pagination != null">
+            limit ${pagination.firstResult},${pagination.pageSize}
+        </if>
+    </select>
+
+</mapper>

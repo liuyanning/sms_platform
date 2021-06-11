@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Fri Mar 15 16:19:01 CST 2019-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.business.ext.ISmsStatisticsExtDAO">
+    <resultMap id="resultMapExt" type="com.hero.wireless.web.entity.business.ext.SmsStatisticsExt">
+        <result property="channel_No" column="Channel_No" jdbcType="VARCHAR"/>
+        <result property="interface_Name" column="Interface_Name" jdbcType="VARCHAR"/>
+        <result property="enterprise_No" column="Enterprise_No" jdbcType="VARCHAR"/>
+        <result property="profits" column="Profits" jdbcType="DECIMAL"/>
+        <result property="agent_Profits" column="Agent_Profits" jdbcType="DECIMAL"/>
+        <result property="enterprise_User_Taxes" column="Enterprise_User_Taxes" jdbcType="DECIMAL"/>
+        <result property="channel_Taxes" column="Channel_Taxes" jdbcType="DECIMAL"/>
+        <result property="unit_Cost" column="Unit_Cost" jdbcType="DECIMAL"/>
+        <result property="agent_Unit_Cost" column="Agent_Unit_Cost" jdbcType="DECIMAL"/>
+        <result property="enterprise_User_Id" column="Enterprise_User_Id" jdbcType="INTEGER"/>
+        <result property="business_User_Id" column="Business_User_Id" jdbcType="INTEGER"/>
+        <result property="submit_Total" column="Submit_Total" jdbcType="INTEGER"/>
+        <result property="submit_Success_Total" column="Submit_Success_Total" jdbcType="INTEGER"/>
+        <result property="submit_Faild_Total" column="Submit_Faild_Total" jdbcType="INTEGER"/>
+        <result property="sort_Faild_Total" column="Sort_Faild_Total" jdbcType="INTEGER"/>
+        <result property="send_Success_Total" column="Send_Success_Total" jdbcType="INTEGER"/>
+        <result property="send_Faild_Total" column="Send_Faild_Total" jdbcType="INTEGER"/>
+        <result property="send_Unknown_Total" column="Send_Unknown_Total" jdbcType="INTEGER"/>
+        <result property="success_Rate" column="Success_Rate" jdbcType="DECIMAL"/>
+        <result property="failure_Rate" column="Failure_Rate" jdbcType="DECIMAL"/>
+        <result property="statistc_Date" column="Statistc_Date" jdbcType="TIMESTAMP"/>
+        <result property="create_Date" column="Create_Date" jdbcType="TIMESTAMP"/>
+        <result property="faildTotal" column="faildTotal" jdbcType="INTEGER"/>
+        <result property="unknownTotal" column="unknownTotal" jdbcType="INTEGER"/>
+        <result property="time_Cycle" column="Time_Cycle" jdbcType="INTEGER"/>
+        <result property="enterprise_User_Unit_Price" column="Enterprise_User_Unit_Price" jdbcType="DECIMAL"/>
+        <result property="enterpriseUser.available_Amount" column="available_Amount" jdbcType="DECIMAL"/>
+        <result property="enterpriseUser.used_Amount" column="used_Amount" jdbcType="DECIMAL"/>
+        <result property="enterpriseUser.unit_Price" column="unit_Price" jdbcType="DECIMAL"/>
+        <result property="enterpriseUser.real_Name" column="real_Name" jdbcType="VARCHAR"/>
+        <result property="enterprise.name" column="Enterprise_Name" jdbcType="VARCHAR"/>
+        <result property="business_Name" column="Business_Name" jdbcType="VARCHAR"/>
+        <result property="channel_Name" column="Channel_Name" jdbcType="VARCHAR"/>
+        <result property="province_Code" column="Province_Code" jdbcType="VARCHAR"/>
+        <result property="province_Name" column="Province_Name" jdbcType="VARCHAR"/>
+        <result property="agent_No" column="Agent_No" jdbcType="VARCHAR"/>
+        <result property="signature" column="Signature" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap type="com.hero.wireless.web.entity.ext.SqlStatisticsEntity" id="statisticsResultMap">
+        <result property="count" column="Count" jdbcType="INTEGER"/>
+        <result property="sale_Fee_Total" column="Sale_Fee_Total" jdbcType="FLOAT"/>
+        <result property="profits_Total" column="Profits_Total" jdbcType="FLOAT"/>
+        <result property="enterprise_Count" column="Enterprise_Count" jdbcType="BIGINT"/>
+        <result property="fee_Count" column="Fee_Count" jdbcType="BIGINT"/>
+        <result property="faild_Count" column="Faild_Count" jdbcType="BIGINT"/>
+        <result property="profits" column="Profits" jdbcType="DECIMAL"/>
+        <result property="submit_Success_Total" column="Submit_Success_Total" jdbcType="INTEGER"/>
+        <result property="submit_Faild_Total" column="Submit_Faild_Total" jdbcType="INTEGER"/>
+        <result property="sort_Faild_Total" column="Sort_Faild_Total" jdbcType="INTEGER"/>
+        <result property="send_Success_Total" column="Send_Success_Total" jdbcType="INTEGER"/>
+        <result property="send_Faild_Total" column="Send_Faild_Total" jdbcType="INTEGER"/>
+        <result property="profits_Total" column="Profits_Total" jdbcType="DECIMAL"/>
+        <result property="channel_Unit_Price_Total" column="Channel_Unit_Price_Total" jdbcType="DECIMAL"/>
+        <result property="enterprise_User_Taxes_Total" column="Enterprise_User_Taxes_Total" jdbcType="BIGINT"/>
+        <result property="channel_Taxes_Total" column="Channel_Taxes_Total" jdbcType="BIGINT"/>
+        <result property="create_Date" column="Create_Date" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="querySmsSendFailedByExt" parameterType="com.hero.wireless.web.entity.business.ext.SmsStatisticsExt"
+            resultMap="resultMapExt">
+		SELECT SUM(s.Submit_Faild_Total) Submit_Faild_Total,
+		        s.* ,u.used_Amount,u.Available_Amount,u.real_Name,e.name as Enterprise_Name,
+				SUM(s.Send_Faild_Total) faildTotal,
+				floor(SUM(IFNULL(u.Return_Unknown_Rate,0) * s.Send_Unknown_Total)) unknownTotal
+		FROM s_business.sms_statistics s , s_business.enterprise_user u,s_business.enterprise e
+		WHERE s.Enterprise_User_Id = u.id AND s.Enterprise_User_Id IS NOT NULL
+		AND s.Enterprise_No = e.No
+		AND (s.Send_Faild_Total > 0 or s.Send_Unknown_Total > 0 or s.Submit_Faild_Total > 0)
+		AND u.Fee_Type_Code = 'Success'
+		AND s.Statistics_Date = #{statisticsDateStr,jdbcType=DATE}
+		GROUP BY s.Enterprise_User_Id
+	</select>
+
+    <select id="getSmsStatisticListForExport" parameterType="com.hero.wireless.web.entity.business.ext.SmsStatisticsExt"
+            resultType="map">
+        SELECT
+        DATE_FORMAT(Statistics_Date,
+        <if test="time_Cycle == 'day' or time_Cycle == null">
+            '%Y-%m-%d'
+        </if>
+        <if test="time_Cycle == 'month'">
+            '%Y-%m'
+        </if>
+        ) Time_Cycle,
+        Channel_No,Enterprise_No,Enterprise_User_Id,Business_User_Id,Statistics_Date,Province_Code,
+        Message_Type_Code,Signature,Operator,
+        (SELECT a.Name FROM s_business.code a WHERE a.Sort_Code='location' and a.Value = Province_Code) AS
+        Province_Name,
+        (SELECT a.Name FROM s_business.agent a WHERE a.No = agent_No) AS Agent_Name,
+        (SELECT a.Name FROM s_business.channel a WHERE a.No = Channel_No) AS Channel_Name,
+        (SELECT CASE WHEN  c.`channel_Source` = 'own' THEN '自有通道'
+            WHEN  c.`channel_Source` = 'other' THEN '第三方通道'
+            ELSE '' END as channel_Source_Name
+            FROM channel c WHERE c.`No`= channel_No) channel_Source_Name,
+        (SELECT a.Name FROM s_business.enterprise a WHERE a.No = Enterprise_No) AS Enterprise_Name,
+        (SELECT a.Real_Name FROM s_business.enterprise_user a WHERE a.Id = Enterprise_User_Id) AS
+        Enterprise_User_Name,
+        (SELECT a.Real_Name FROM s_business.admin_user a WHERE a.Id = Business_User_Id) AS Business_Name,
+        IFNULL((SELECT cd.`Name` FROM `code` cd WHERE cd.Sort_Code='country' AND cd.`Code`=Country_Number),'unkown') AS
+        Country_Name,
+        SUM(IFNULL(Profits, 0)) Profits,
+        SUM(IFNULL(Agent_Profits, 0)) Agent_Profits,
+        SUM(IFNULL(Agent_Unit_Cost, 0)) Agent_Unit_Cost,
+        SUM(IFNULL(Enterprise_User_Taxes, 0)) Enterprise_User_Taxes,
+        SUM(IFNULL(Channel_Taxes, 0)) Channel_Taxes,
+        SUM(IFNULL(Unit_Cost, 0)) Unit_Cost,
+        SUM(IFNULL(Submit_Total, 0)) Submit_Total,
+        SUM(IFNULL(Submit_Success_Total, 0)) Submit_Success_Total,
+        SUM(IFNULL(Submit_Faild_Total, 0))+SUM(IFNULL(Sort_Faild_Total, 0)) Submit_Faild_Total,
+        SUM(IFNULL(Send_Success_Total, 0)) Send_Success_Total,
+        SUM(IFNULL(Send_Faild_Total, 0)) Send_Faild_Total,
+        case
+        when SUM(IFNULL(Submit_Success_Total, 0))-SUM(IFNULL(Send_Success_Total,
+        0))-SUM(IFNULL(Send_Faild_Total, 0)) > 0
+        then SUM(IFNULL(Submit_Success_Total, 0))-SUM(IFNULL(Send_Success_Total,
+        0))-SUM(IFNULL(Send_Faild_Total, 0))
+        else 0
+        end as Send_Unknown_Total,
+        IFNULL((SUM(Send_Success_Total)/SUM(Submit_Success_Total)*100),0) Success_Rate,
+        IFNULL((SUM(Send_Faild_Total)/SUM(Submit_Success_Total)*100),0) Failure_Rate
+        FROM s_business.sms_statistics
+        WHERE DATE_FORMAT(Statistics_Date,
+        <if test="time_Cycle == 'day' or time_Cycle == null">
+            '%Y-%m-%d'
+        </if>
+        <if test="time_Cycle == 'month'">
+            '%Y-%m'
+        </if>
+        ) &gt;= #{min_Statistics_Date_Str}
+        and DATE_FORMAT(Statistics_Date,
+        <if test="time_Cycle == 'day' or time_Cycle == null">
+            '%Y-%m-%d'
+        </if>
+        <if test="time_Cycle == 'month'">
+            '%Y-%m'
+        </if>
+        ) &lt;= #{max_Statistics_Date_Str}
+        <if test="country_Number != null and country_Number != ''">
+            and Country_Number = #{country_Number}
+        </if>
+        <if test="operator != null and operator != ''">
+            and Operator = #{operator}
+        </if>
+        <if test="enterprise_No != null and enterprise_No != ''">
+            and Enterprise_No = #{enterprise_No}
+        </if>
+        <if test="agent_No != null and agent_No != ''">
+            and Agent_No = #{agent_No}
+        </if>
+        <if test="enterprise_User_Id != null and enterprise_User_Id != ''">
+            and Enterprise_User_Id = ${enterprise_User_Id}
+        </if>
+        <if test="business_User_Id != null and business_User_Id != ''">
+            and Business_User_Id = ${business_User_Id}
+        </if>
+        <if test="channel_No != null and channel_No != ''">
+            and Channel_No = #{channel_No}
+        </if>
+        <if test="province_Code != null and province_Code != ''">
+            and Province_Code = #{province_Code}
+        </if>
+        <if test="message_Type_Code != null and message_Type_Code != ''">
+            and message_Type_Code = #{message_Type_Code}
+        </if>
+        <if test="signature != null and signature != ''">
+            and Signature = #{signature}
+        </if>
+        <if test="group_Str != null and group_Str != ''">
+            GROUP BY ${group_Str}
+        </if>
+        HAVING 1=1
+        <if test="min_Success_Rate != null and min_Success_Rate != ''">
+            and Success_Rate &gt;= #{min_Success_Rate}
+        </if>
+        <if test="max_Success_Rate != null and max_Success_Rate != ''">
+            and Success_Rate &lt;= #{max_Success_Rate}
+        </if>
+        <if test="min_Failure_Rate != null and min_Failure_Rate != ''">
+            and Failure_Rate &gt;= #{min_Failure_Rate}
+        </if>
+        <if test="max_Failure_Rate != null and max_Failure_Rate != ''">
+            and Failure_Rate &lt;= #{max_Failure_Rate}
+        </if>
+        order by Time_Cycle desc
+        <if test="pagination != null">
+            limit ${pagination.firstResult},${pagination.pageSize}
+        </if>
+    </select>
+
+    <select id="getSmsStatisticExtListByExtPage"
+            parameterType="com.hero.wireless.web.entity.business.ext.SmsStatisticsExt" resultMap="resultMapExt">
+        SELECT
+        DATE_FORMAT(Statistics_Date,
+        <if test="time_Cycle == 'day' or time_Cycle == null">
+            '%Y-%m-%d'
+        </if>
+        <if test="time_Cycle == 'month'">
+            '%Y-%m'
+        </if>
+        ) Time_Cycle,
+        Channel_No,Enterprise_No,Enterprise_User_Id,Business_User_Id,Statistics_Date,Province_Code,
+        Message_Type_Code,Country_Number,Operator,Agent_No,
+        IFNULL(Signature, '---') Signature,
+        SUM(IFNULL(Profits, 0)) Profits,
+        SUM(IFNULL(Agent_Profits, 0)) Agent_Profits,
+        SUM(IFNULL(Agent_Unit_Cost, 0)) Agent_Unit_Cost,
+        SUM(IFNULL(Enterprise_User_Taxes, 0)) Enterprise_User_Taxes,
+        SUM(IFNULL(Channel_Taxes, 0)) Channel_Taxes,
+        SUM(IFNULL(Unit_Cost, 0)) Unit_Cost,
+        SUM(IFNULL(Submit_Total, 0)) Submit_Total,
+        SUM(IFNULL(Submit_Success_Total, 0)) Submit_Success_Total,
+        SUM(IFNULL(Submit_Faild_Total, 0))+SUM(IFNULL(Sort_Faild_Total, 0)) Submit_Faild_Total,
+        SUM(IFNULL(Send_Success_Total, 0)) Send_Success_Total,
+        SUM(IFNULL(Send_Faild_Total, 0)) Send_Faild_Total,
+        SUM(IFNULL(Send_Unknown_Total, 0)) Send_Unknown_Total,
+        IFNULL((SUM(Send_Success_Total)/SUM(Submit_Success_Total)*100),0) Success_Rate,
+        IFNULL((SUM(Send_Faild_Total)/SUM(Submit_Success_Total)*100),0) Failure_Rate
+        FROM s_business.sms_statistics
+        WHERE DATE_FORMAT(Statistics_Date,
+        <if test="time_Cycle == 'day' or time_Cycle == null">
+            '%Y-%m-%d'
+        </if>
+        <if test="time_Cycle == 'month'">
+            '%Y-%m'
+        </if>
+        ) &gt;= #{min_Statistics_Date_Str} and DATE_FORMAT(Statistics_Date,
+        <if test="time_Cycle == 'day' or time_Cycle == null">
+            '%Y-%m-%d'
+        </if>
+        <if test="time_Cycle == 'month'">
+            '%Y-%m'
+        </if>
+        ) &lt;= #{max_Statistics_Date_Str}
+        <if test="country_Number != null and country_Number != ''">
+            and Country_Number = #{country_Number}
+        </if>
+        <if test="operator != null and operator != ''">
+            and Operator = #{operator}
+        </if>
+        <if test="enterprise_No != null and enterprise_No != ''">
+            and Enterprise_No = #{enterprise_No}
+        </if>
+        <if test="agent_No != null and agent_No != ''">
+            and Agent_No = #{agent_No}
+        </if>
+        <if test="enterprise_User_Id != null and enterprise_User_Id != ''">
+            and Enterprise_User_Id = ${enterprise_User_Id}
+        </if>
+        <if test="business_User_Id != null and business_User_Id != ''">
+            and Business_User_Id = ${business_User_Id}
+        </if>
+        <if test="channel_No != null and channel_No != ''">
+            and Channel_No = #{channel_No}
+        </if>
+        <if test="province_Code != null and province_Code != ''">
+            and Province_Code = #{province_Code}
+        </if>
+        <if test="message_Type_Code != null and message_Type_Code != ''">
+            and message_Type_Code = #{message_Type_Code}
+        </if>
+        <if test="signature != null and signature != ''">
+            and Signature = #{signature}
+        </if>
+        <if test="group_Str != null and group_Str != ''">
+            GROUP BY ${group_Str}
+        </if>
+        HAVING 1=1
+        <if test="min_Success_Rate != null and min_Success_Rate != ''">
+            and Success_Rate &gt;= #{min_Success_Rate}
+        </if>
+        <if test="max_Success_Rate != null and max_Success_Rate != ''">
+            and Success_Rate &lt;= #{max_Success_Rate}
+        </if>
+        <if test="min_Failure_Rate != null and min_Failure_Rate != ''">
+            and Failure_Rate &gt;= #{min_Failure_Rate}
+        </if>
+        <if test="max_Failure_Rate != null and max_Failure_Rate != ''">
+            and Failure_Rate &lt;= #{max_Failure_Rate}
+        </if>
+        order by Time_Cycle desc
+        <if test="pagination != null">
+            limit ${pagination.firstResult},${pagination.pageSize}
+        </if>
+    </select>
+
+    <select id="countSmsStatisticExtListByExt"
+            parameterType="com.hero.wireless.web.entity.business.ext.SmsStatisticsExt" resultType="Map">
+        select ifnull(count(1),0) as total_Record,ifnull(sum(j.Submit_Total),0) as Submit_Total
+        from (
+        SELECT
+        DATE_FORMAT(Statistics_Date,
+        <if test="time_Cycle == 'day' or time_Cycle == null">
+            '%Y-%m-%d'
+        </if>
+        <if test="time_Cycle == 'month'">
+            '%Y-%m'
+        </if>
+        ) Time_Cycle,
+        SUM(IFNULL(Submit_Total, 0)) Submit_Total,
+        IFNULL((SUM(Send_Success_Total)/SUM(Submit_Success_Total)*100),0) Success_Rate,
+        IFNULL((SUM(Send_Faild_Total)/SUM(Submit_Success_Total)*100),0) Failure_Rate
+        FROM s_business.sms_statistics
+        WHERE
+        DATE_FORMAT(Statistics_Date,
+        <if test="time_Cycle == 'day' or time_Cycle == null">
+            '%Y-%m-%d'
+        </if>
+        <if test="time_Cycle == 'month'">
+            '%Y-%m'
+        </if>
+        ) &gt;= #{min_Statistics_Date_Str}
+        and DATE_FORMAT(Statistics_Date,
+        <if test="time_Cycle == 'day' or time_Cycle == null">
+            '%Y-%m-%d'
+        </if>
+        <if test="time_Cycle == 'month'">
+            '%Y-%m'
+        </if>
+        ) &lt;= #{max_Statistics_Date_Str}
+        <if test="country_Number != null and country_Number != ''">
+            and Country_Number = #{country_Number}
+        </if>
+        <if test="operator != null and operator != ''">
+            and Operator = #{operator}
+        </if>
+        <if test="enterprise_No != null and enterprise_No != ''">
+            and Enterprise_No = #{enterprise_No}
+        </if>
+        <if test="agent_No != null and agent_No != ''">
+            and Agent_No = #{agent_No}
+        </if>
+        <if test="enterprise_User_Id != null and enterprise_User_Id != ''">
+            and Enterprise_User_Id = ${enterprise_User_Id}
+        </if>
+        <if test="business_User_Id != null and business_User_Id != ''">
+            and Business_User_Id = ${business_User_Id}
+        </if>
+        <if test="channel_No != null and channel_No != ''">
+            and Channel_No = #{channel_No}
+        </if>
+        <if test="province_Code != null and province_Code != ''">
+            and Province_Code = #{province_Code}
+        </if>
+        <if test="message_Type_Code != null and message_Type_Code != ''">
+            and message_Type_Code = #{message_Type_Code}
+        </if>
+        <if test="signature != null and signature != ''">
+            and Signature = #{signature}
+        </if>
+        <if test="group_Str != null and group_Str != ''">
+            GROUP BY ${group_Str}
+        </if>
+        HAVING 1=1
+        <if test="min_Success_Rate != null and min_Success_Rate != ''">
+            and Success_Rate &gt;= #{min_Success_Rate}
+        </if>
+        <if test="max_Success_Rate != null and max_Success_Rate != ''">
+            and Success_Rate &lt;= #{max_Success_Rate}
+        </if>
+        <if test="min_Failure_Rate != null and min_Failure_Rate != ''">
+            and Failure_Rate &gt;= #{min_Failure_Rate}
+        </if>
+        <if test="max_Failure_Rate != null and max_Failure_Rate != ''">
+            and Failure_Rate &lt;= #{max_Failure_Rate}
+        </if>
+        ) j
+    </select>
+
+</mapper>

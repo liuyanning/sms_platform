@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.send.ext.ITimerExtDAO">
+    <!-- 流量 : submit提交成功或失败的-->
+    <select id="getSubmitTotalForVelocity" parameterType="com.hero.wireless.web.entity.business.ext.AlarmExt"
+            resultType="Integer">
+        SELECT
+        SUM(IF(s.Submit_Status_Code ='success' or s.Submit_Status_Code ='faild',1,0))
+        FROM s_send.submit s
+        WHERE s.Submit_Date &gt;= #{min_Submit_Date} AND s.Submit_Date &lt; #{max_Submit_Date}
+        <if test="channel_No != null and channel_No != ''">
+            AND s.Channel_No=#{channel_No}
+        </if>
+        <if test="product_No != null and product_No != ''">
+            AND s.Product_No = #{product_No}
+        </if>
+
+    </select>
+    <!-- submit表提交成功的 -->
+    <select id="getSubmitSuccessTotal" parameterType="com.hero.wireless.web.entity.business.ext.AlarmExt"
+            resultType="Integer">
+        SELECT
+        SUM(IF(s.Submit_Status_Code ='success',1,0))
+        FROM s_send.submit s
+        WHERE s.Submit_Date &gt;= #{min_Submit_Date} AND s.Submit_Date &lt; #{max_Submit_Date}
+        <if test="channel_No != null and channel_No != ''">
+            AND s.Channel_No=#{channel_No}
+        </if>
+        <if test="product_No != null and product_No != ''">
+            AND s.Product_No = #{product_No}
+        </if>
+    </select>
+    <!-- 提交: submit表所有的 -->
+    <select id="getSubmitTotal" parameterType="com.hero.wireless.web.entity.business.ext.AlarmExt" resultType="Integer">
+        SELECT
+        COUNT(1)
+        FROM s_send.submit s
+        WHERE s.Submit_Date &gt;= #{min_Submit_Date} AND s.Submit_Date &lt; #{max_Submit_Date}
+        <if test="channel_No != null and channel_No != ''">
+            AND s.Channel_No=#{channel_No}
+        </if>
+        <if test="product_No != null and product_No != ''">
+            AND s.Product_No = #{product_No}
+        </if>
+    </select>
+    <!-- report表成功的-->
+    <select id="getReportSuccessTotalForReception" parameterType="com.hero.wireless.web.entity.business.ext.AlarmExt"
+            resultType="Integer">
+        SELECT
+        SUM(IF(r.Status_Code ='success',1,0))
+        FROM s_send.report r
+        WHERE r.Submit_Date &gt;= #{min_Submit_Date} AND r.Submit_Date &lt; #{max_Submit_Date}
+        <if test="channel_No != null and channel_No != ''">
+            AND r.Channel_No=#{channel_No}
+        </if>
+        <if test="product_No != null and product_No != ''">
+            AND r.Product_No = #{product_No}
+        </if>
+    </select>
+
+    <!--  回执率 : report成功或失败的-->
+    <select id="getReportTotalForReturnRate" parameterType="com.hero.wireless.web.entity.business.ext.AlarmExt"
+            resultType="Integer">
+        SELECT SUM(IF(r.Status_Code ='success' or r.Status_Code ='faild',1,0))
+            FROM s_send.report r
+            WHERE r.Submit_Date &gt;= #{min_Submit_Date} AND r.Submit_Date &lt; #{max_Submit_Date}
+        <if test="channel_No != null and channel_No != ''">
+            AND r.Channel_No=#{channel_No}
+        </if>
+        <if test="product_No != null and product_No != ''">
+            AND r.Product_No = #{product_No}
+        </if>
+
+  </select>
+
+    <!--  是否存在指定状态码 -->
+    <select id="getChannelReportStatusCode" parameterType="com.hero.wireless.web.entity.business.ext.AlarmExt" resultType="Integer">
+        SELECT 1 FROM s_send.report r
+        WHERE r.Submit_Date &gt;= #{min_Submit_Date} AND r.Submit_Date &lt; #{max_Submit_Date}
+        AND r.Channel_No = #{bind_Value}
+        AND r.Native_Status in
+        <foreach item="item" index="index" collection="threshold_Value.split(',')"  open="(" separator="," close=")">
+            '${item}'
+        </foreach>
+        limit 1
+    </select>
+
+</mapper>

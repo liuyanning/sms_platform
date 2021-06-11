@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Fri Mar 15 16:19:01 CST 2019-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.business.ext.IPlatformSmsStatisticsExtDAO">
+    <resultMap id="resultMapExt" type="com.hero.wireless.web.entity.business.ext.PlatformSmsStatisticsExt">
+        <id column="Id" jdbcType="INTEGER" property="id" />
+        <result column="Platform_No" jdbcType="VARCHAR" property="platform_No" />
+        <result column="Platform_Name" jdbcType="VARCHAR" property="platform_Name" />
+        <result column="Statistics_Type_Code" jdbcType="VARCHAR" property="statistics_Type_Code" />
+        <result column="Submit_Total" jdbcType="INTEGER" property="submit_Total" />
+        <result column="Sort_Faild_Total" jdbcType="INTEGER" property="sort_Faild_Total" />
+        <result column="Submit_Success_Total" jdbcType="INTEGER" property="submit_Success_Total" />
+        <result column="Submit_Faild_Total" jdbcType="INTEGER" property="submit_Faild_Total" />
+        <result column="Send_Success_Total" jdbcType="INTEGER" property="send_Success_Total" />
+        <result column="Send_Faild_Total" jdbcType="INTEGER" property="send_Faild_Total" />
+        <result column="Send_Unknown_Total" jdbcType="INTEGER" property="send_Unknown_Total" />
+        <result column="Statistics_Date" jdbcType="DATE" property="statistics_Date" />
+        <result column="Description" jdbcType="VARCHAR" property="description" />
+        <result column="Remark" jdbcType="VARCHAR" property="remark" />
+        <result column="Create_Date" jdbcType="TIMESTAMP" property="create_Date" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        Id, Platform_No, Platform_Name, Statistics_Type_Code, Submit_Total, Sort_Faild_Total,
+        Submit_Success_Total, Submit_Faild_Total, Send_Success_Total, Send_Faild_Total, Send_Unknown_Total,
+        Statistics_Date, Description, Remark, Create_Date
+    </sql>
+    <select id="getPlatformStatisticListForExport" parameterType="com.hero.wireless.web.entity.business.ext.PlatformSmsStatisticsExt"
+            resultType="map">
+        SELECT
+        <include refid="Base_Column_List" />
+        from platform_sms_statistics
+        where 1=1
+        <if test="platform_No != null and platform_No != ''">
+            and Platform_No = #{platform_No}
+        </if>
+        <if test="min_Statistics_Date_Str != null">
+            and Statistics_Date &gt;= #{min_Statistics_Date_Str}
+        </if>
+        <if test="max_Statistics_Date_Str != null">
+            and Statistics_Date &lt;= #{max_Statistics_Date_Str}
+        </if>
+        <if test="pagination != null">
+            limit ${pagination.firstResult},${pagination.pageSize}
+        </if>
+    </select>
+
+</mapper>

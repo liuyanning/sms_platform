@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:shardingsphere="http://shardingsphere.apache.org/schema/shardingsphere/datasource"
+       xmlns:sharding="http://shardingsphere.apache.org/schema/shardingsphere/sharding"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+        http://shardingsphere.apache.org/schema/shardingsphere/datasource
+        http://shardingsphere.apache.org/schema/shardingsphere/datasource/datasource.xsd
+        http://shardingsphere.apache.org/schema/shardingsphere/sharding
+        http://shardingsphere.apache.org/schema/shardingsphere/sharding/sharding.xsd">
+
+  <!--dataSource配置 -->
+  <bean id="send_ds_0" class="com.alibaba.druid.pool.DruidDataSource"
+        init-method="init" destroy-method="close">
+    <!-- 基本属性 url、user、password -->
+    <property name="url" value="${send.driver-url}" />
+    <property name="username" value="${business.user-name}" />
+    <property name="password" value="${business.user-password}" />
+    <!-- 配置初始化大小、最小、最大 -->
+    <property name="initialSize" value="${send.init-connection-count}" />
+    <property name="minIdle" value="${send.min-connection-count}" />
+    <property name="maxActive" value="${send.max-active-count}" />
+    <!-- 配置获取连接等待超时的时间 -->
+    <property name="maxWait" value="${send.maximum-active-time}" />
+    <property name="useUnfairLock" value="false"></property>
+    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+    <property name="timeBetweenEvictionRunsMillis" value="${send.timeBetweenEvictionRunsMillis}" />
+    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+    <property name="minEvictableIdleTimeMillis" value="300000" />
+    <property name="validationQuery" value="${send.validationQuery}" />
+    <property name="testWhileIdle" value="true" />
+    <property name="testOnBorrow" value="false" />
+    <property name="testOnReturn" value="false" />
+    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+    <property name="poolPreparedStatements" value="false" />
+    <property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+    <!-- 配置监控统计拦截的filters -->
+    <property name="filters" value="${send.filters}" />
+  </bean>
+  <!--dataSource配置结束 -->
+
+  <!--worker-id每台机器不同-->
+  <sharding:key-generate-algorithm id="snowflakeAlgorithm" type="SNOWFLAKE">
+    <props>
+      <prop key="worker-id">1</prop>
+    </props>
+  </sharding:key-generate-algorithm>
+
+  <sharding:sharding-algorithm id="submitTableStrategyAlgorithm" type="CLASS_BASED">
+    <props>
+      <prop key="strategy">STANDARD</prop>
+      <prop key="algorithmClassName">com.hero.wireless.sharding.algorithm.DateShardingAlgorithm</prop>
+      <prop key="table-prefix">submit</prop>
+      <prop key="datetime-pattern">yyyy-MM-dd HH:mm:ss</prop>
+      <prop key="sharding-suffix-pattern">yyyyMMdd</prop>
+    </props>
+  </sharding:sharding-algorithm>
+
+  <sharding:standard-strategy id="submitTableStrategy" sharding-column="Submit_Date" algorithm-ref="submitTableStrategyAlgorithm" />
+  <sharding:key-generate-strategy id="submitKeyGenerator" column="id" algorithm-ref="snowflakeAlgorithm" />
+
+  <sharding:sharding-algorithm id="reportTableStrategyAlgorithm" type="CLASS_BASED">
+    <props>
+      <prop key="strategy">STANDARD</prop>
+      <prop key="algorithmClassName">com.hero.wireless.sharding.algorithm.DateShardingAlgorithm</prop>
+      <prop key="table-prefix">report</prop>
+      <prop key="datetime-pattern">yyyy-MM-dd HH:mm:ss</prop>
+      <prop key="sharding-suffix-pattern">yyyyMMdd</prop>
+    </props>
+  </sharding:sharding-algorithm>
+
+  <sharding:standard-strategy id="reportTableStrategy" sharding-column="Submit_Date" algorithm-ref="reportTableStrategyAlgorithm" />
+  <sharding:key-generate-strategy id="reportKeyGenerator" column="id" algorithm-ref="snowflakeAlgorithm" />
+
+  <sharding:sharding-algorithm id="inputLogTableStrategyAlgorithm" type="CLASS_BASED">
+    <props>
+      <prop key="strategy">STANDARD</prop>
+      <prop key="algorithmClassName">com.hero.wireless.sharding.algorithm.DateShardingAlgorithm</prop>
+      <prop key="table-prefix">input_log</prop>
+      <prop key="datetime-pattern">yyyy-MM-dd HH:mm:ss</prop>
+      <prop key="sharding-suffix-pattern">yyyyMMdd</prop>
+    </props>
+  </sharding:sharding-algorithm>
+
+  <sharding:standard-strategy id="inputLogTableStrategy" sharding-column="Create_Date" algorithm-ref="inputLogTableStrategyAlgorithm" />
+  <sharding:key-generate-strategy id="inputLogKeyGenerator" column="id" algorithm-ref="snowflakeAlgorithm" />
+
+  <sharding:sharding-algorithm id="reportNotifyTableStrategyAlgorithm" type="CLASS_BASED">
+    <props>
+      <prop key="strategy">STANDARD</prop>
+      <prop key="algorithmClassName">com.hero.wireless.sharding.algorithm.DateShardingAlgorithm</prop>
+      <prop key="table-prefix">report_notify</prop>
+      <prop key="datetime-pattern">yyyy-MM-dd HH:mm:ss</prop>
+      <prop key="sharding-suffix-pattern">yyyyMMdd</prop>
+    </props>
+  </sharding:sharding-algorithm>
+
+  <sharding:standard-strategy id="reportNotifyTableStrategy" sharding-column="Submit_Date" algorithm-ref="reportNotifyTableStrategyAlgorithm" />
+  <sharding:key-generate-strategy id="reportNotifyKeyGenerator" column="id" algorithm-ref="snowflakeAlgorithm" />
+
+  <sharding:rule id="shardingRule">
+    <!--这里配置上一个actual-data-nodes表名称，会根据这个表加载表的相关信息-->
+    <sharding:table-rules>
+      <sharding:table-rule logic-table="submit"
+                           actual-data-nodes="send_ds_0.submit,
+                           send_ds_0.submit2021$->{(1..12).collect{t->t.toString().padLeft(2,'0')}}$->{(1..31).collect{t->t.toString().padLeft(2,'0')}}"
+                           table-strategy-ref="submitTableStrategy" key-generate-strategy-ref="submitKeyGenerator" />
+      <sharding:table-rule logic-table="report" actual-data-nodes="send_ds_0.report,
+                            send_ds_0.report2021$->{(1..12).collect{t->t.toString().padLeft(2,'0')}}$->{(1..31).collect{t->t.toString().padLeft(2,'0')}}"
+                           table-strategy-ref="reportTableStrategy" key-generate-strategy-ref="reportKeyGenerator" />
+      <sharding:table-rule logic-table="input_log" actual-data-nodes="send_ds_0.input_log"
+                           table-strategy-ref="inputLogTableStrategy" key-generate-strategy-ref="inputLogKeyGenerator" />
+      <sharding:table-rule logic-table="report_notify" actual-data-nodes="send_ds_0.report_notify"
+                           table-strategy-ref="reportNotifyTableStrategy" key-generate-strategy-ref="reportNotifyKeyGenerator" />
+    </sharding:table-rules>
+    <!--绑定表，用于表关联-->
+    <sharding:binding-table-rules>
+      <sharding:binding-table-rule logic-tables="submit,report"/>
+    </sharding:binding-table-rules>
+  </sharding:rule>
+
+  <shardingsphere:data-source id="shardingDataSource" data-source-names="send_ds_0" rule-refs="shardingRule" >
+    <props>
+      <prop key="sql-show">false</prop>
+    </props>
+  </shardingsphere:data-source>
+
+
+  <!--创建sqlSessionFactory-->
+  <bean id="sqlSendSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <property name="dataSource" ref="shardingDataSource"/>
+    <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+    <property name="mapperLocations"
+      value="classpath*:com/hero/wireless/web/entity/send/**/*Mapper.xml"/>
+  </bean>
+
+  <!--创建sqlSessionFactory-->
+  <bean id="sqlSendNoShardingSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <property name="dataSource" ref="send_ds_0"/>
+    <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+    <property name="mapperLocations"
+              value="classpath*:com/hero/wireless/web/entity/send/**/*Mapper.xml"/>
+  </bean>
+  <!-- 使用MapperScannerConfigurer自动配置basePackage下面的所有映射器 -->
+  <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="basePackage" value="com.hero.wireless.web.dao.send"/>
+    <property name="sqlSessionFactoryBeanName" value="sqlSendSessionFactory"/>
+  </bean>
+
+  <bean id="sqlSendSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+    <constructor-arg index="0" ref="sqlSendSessionFactory"></constructor-arg>
+  </bean>
+  
+  <bean id="sqlSendNoShardingSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+    <constructor-arg index="0" ref="sqlSendNoShardingSessionFactory"></constructor-arg>
+  </bean>
+
+  <!-- Send事务管理 -->
+  <bean id="txSendManager"
+    class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="shardingDataSource"/>
+  </bean>
+  <!-- Send事务管理结束 -->
+
+
+</beans>

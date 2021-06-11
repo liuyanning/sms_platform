@@ -1,0 +1,269 @@
+/* CSS Document */
+body {
+    font-size: 14px;
+    background: #01649f;
+    padding: 0px;
+    margin: 0px;
+    font-family: "微软雅黑", "宋体", Arial, Helvetica, sans-serif;
+}
+
+input {
+    padding: 0px;
+    margin: 0px;
+    border: none;
+}
+
+.main {
+    float: left;
+    width: 100%;
+    min-width: 980px;
+    height: 100%;
+    background-image: url(../images/main-ds.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+
+.main .form-wrapper {
+    width: 980px !important;
+    margin: 0px auto !important;
+}
+
+.main .form-wrapper .form-main {
+    float: left;
+    width: 980px;
+    height: 540px;
+    background-image: url(../images/form-ds.png);
+    background-repeat: no-repeat;
+}
+
+.form-main .fm-img {
+    float: left;
+    width: 252px;
+    margin-left: 164px;
+    margin-right: 8px;
+    margin-top: 20px;
+    height: 240px;
+    background-image: url(../images/logo-hr.png);
+    background-repeat: no-repeat;
+    background-position: right top;
+}
+
+.form-main .fm-img .fmi-logo {
+    float: left;
+    width: 240px;
+    height: 150px;
+}
+
+.form-main .fm-img .fmi-logo-text {
+    float: left;
+    width: 240px;
+    height: 90px;
+    line-height: 42px;
+    font-size: 38px;
+    color: #fff;
+    text-align: center;
+    margin-top: 100px;
+}
+
+.form-main .fm-language {
+    float: left;
+    width: 324px;
+    height: 34px;
+    margin-top: 18px;
+}
+
+.fml-lang-select, #fml-lang-container {
+    border-style: solid;
+    border-color: #78C1FE;
+    border-width: 1px;
+}
+
+.form-main .fml-lang-select {
+    color: #FFF;
+    width: 120px;
+    height: 35px;
+    float: right;
+    padding: 7px 20px 7px 20px;
+    margin-right: 40px;
+    background: url(../images/fmls-down.png) no-repeat right;
+    cursor: pointer;
+}
+
+.form-main #fml-lang-container {
+    z-index: 1000;
+    position: absolute;
+    width: 120px;
+    display: none;
+    background-color: #2D9EFD;
+}
+
+.form-main .fml-lang-option {
+    color: #fff;
+    width: 100%;
+    line-height: 35px;
+    padding-left: 20px;
+    cursor: pointer;
+}
+
+.form-main .fml-lang-option:hover {
+    background-color: #6F6F6F;
+}
+
+.form-main .fm-tab {
+    float: left;
+    width: 324px;
+    height: 230px;
+    margin-top: 40px;
+    color: #fff;
+}
+
+.form-main .fm-tab .fmt-row {
+    float: left;
+    width: 322px;
+    height: 48px;
+}
+
+.form-main .fm-tab .fmt-row .fmtr-title {
+    float: left;
+    width: 110px;
+    height: 38px;
+    line-height: 34px;
+    text-align: right;
+}
+
+.form-main .fm-tab .fmt-row .fmtr-input-span {
+    float: left;
+    width: 298px;
+    height: 38px;
+    background: url(../images/form-input-span.png) no-repeat;
+}
+
+.fmtr-input-span .fmtris-icon {
+    float: left;
+    width: 38px;
+    height: 38px;
+    background-repeat: no-repeat;
+}
+
+.fmtris-icon.icon-user {
+    background-image: url(../images/form-input-icon-user.png);
+}
+
+.fmtris-icon.icon-paw {
+    background-image: url(../images/form-input-icon-paw.png);
+}
+
+.fmtr-input-span .fmtris-input {
+    float: left;
+    width: 260px;
+    height: 36px;
+    line-height: 36px;
+    background-color: #ebf6ff;
+    color: #000000;
+    padding-left: 5px;
+}
+
+.form-main .fm-tab .fmt-row .fmtr-tip-span {
+    float: left;
+    width: 132px;
+    height: 38px;
+    line-height: 32px;
+    background: url(../images/form-input-vcode.png) no-repeat;
+}
+
+.fmtr-tip-input {
+    float: left;
+    width: 132px;
+    height: 38px;
+}
+
+.fmtris-vcode-input {
+    float: left;
+    width: 92px;
+    height: 36px;
+    line-height: 36px;
+    background-color: #ebf6ff;
+    color: #000000;
+    padding-left: 5px;
+}
+
+.fmtrts-vcode-img {
+    float: left;
+    width: 150px;
+    height: 36px;
+    padding-left: 10px;
+}
+
+.fmtr-tip-span .fmtrts-vcode-img img {
+    cursor: pointer;
+}
+
+.fmtr-tip-span .fmtrts-vcode-text {
+    float: left;
+    width: 70px;
+    height: 28px;
+    line-height: 18px;
+    margin-left: 6px;
+    padding-top: 8px;
+}
+
+.fmtr-tip-span .fmtrts-vcode-text a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.form-main .fm-tab .fmt-row .fmtr-check-span {
+    float: left;
+    width: 132px;
+    height: 38px;
+    line-height: 32px;
+}
+
+.fmtr-tip-span .fmtrts-input-checkbox {
+    float: left;
+    width: 14px;
+    height: 14px;
+    margin-top: 11px;
+}
+
+.fmtris-icon {
+    float: left;
+    width: 38px;
+    height: 38px;
+    background-repeat: no-repeat;
+}
+
+.fmtris-icon.icon-tip {
+    background-image: url(../images/form-input-icon-tip.png);
+}
+
+.form-main .fm-tab .fmt-row .fmtr-btn-span {
+    float: left;
+    width: 172px;
+    height: 40px;
+}
+
+.fmtr-btn-span .login-btn {
+    float: left;
+    width: 170px;
+    height: 40px;
+    line-height: 40px;
+    color: #3b3a3a;
+    background-image: url(../images/form-btn-login.png);
+    background-repeat: no-repeat;
+    font-size: 18px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.form-main .fm-copy {
+    float: left;
+    width: 550px;
+    margin-left: 220px;
+    margin-top: 120px;
+    min-height: 26px;
+    line-height: 26px;
+    color: #3b3a3a;
+}
+

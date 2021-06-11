@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+
+
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/task 
+		http://www.springframework.org/schema/task/spring-task-4.0.xsd">
+        
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:datasource.properties</value>
+			</list>
+		</property>
+	</bean>
+	<bean class="com.hero.wireless.web.util.ApplicationContextUtil"></bean>
+	<!-- 导入数据库配置 -->
+	<import resource="spring_datasource_config.xml" />
+	<!-- 定时执行 -->
+	<task:annotation-driven />
+	<!-- 包扫描路径不扫描controller -->
+	<context:component-scan
+		base-package="com.hero.wireless">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.web.bind.annotation.RestController" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+
+
+	<!-- 分页方法拦截 -->
+	<bean id="pageIDAOInterceptor"
+		class="com.hero.wireless.web.spring.interceptor.PageIDAOInterceptor"></bean>
+	<bean id="pageIExtDAOInterceptor"
+		class="com.hero.wireless.web.spring.interceptor.PageIExtDAOInterceptor"></bean>
+	<aop:config>
+		<aop:pointcut
+			expression="execution(* com.hero.wireless.web.dao.*.I*DAO.selectByExamplePage(..))"
+			id="pageIDAOPointcut" />
+		<aop:advisor advice-ref="pageIDAOInterceptor"
+			pointcut-ref="pageIDAOPointcut" />
+	</aop:config>
+	<aop:config>
+		<aop:pointcut
+			expression="execution(* com.hero.wireless.web.dao.ext.I*DAO.selectExtByExamplePage(..))"
+			id="pageIExtDAOPointcut" />
+		<aop:advisor advice-ref="pageIExtDAOInterceptor"
+			pointcut-ref="pageIExtDAOPointcut" />
+	</aop:config>
+	<!-- 分页方法拦截结束 -->
+</beans>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.hero.wireless</groupId>
+		<artifactId>sms-admin</artifactId>
+		<version>3.4.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>sms-admin-web</artifactId>
+	<packaging>war</packaging>
+	<name>sms-admin-web</name>
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/javax.resource/connector-api -->
+		<dependency>
+			<groupId>com.hero.wireless</groupId>
+			<artifactId>sms-admin-action</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+		</dependency>
+	</dependencies>
+	<build>
+        <finalName>sms-admin-web</finalName>
+    </build>
+</project>

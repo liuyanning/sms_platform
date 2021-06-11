@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Fri Mar 15 16:18:59 
+	CST 2019 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hero.wireless.web.dao.business.IEnterpriseUserDAO">
+	<resultMap id="ResultMapExt"
+		type="com.hero.wireless.web.entity.business.ext.EnterpriseUserExt"
+		extends="BaseResultMap">
+		<collection property="roles"
+			select="com.hero.wireless.web.dao.business.IEnterpriseUserDAO.getRolesByUserId"
+			column="Id" />
+		<collection property="limits"
+			select="com.hero.wireless.web.dao.business.IEnterpriseUserDAO.getLimitsByUserId"
+			column="Id" />
+		<collection property="limitOrderIds"
+			select="com.hero.wireless.web.dao.business.IEnterpriseUserDAO.getLimitsByUserIdAndOrderId"
+			column="Id" />
+	</resultMap>
+
+	<select id="selectRolesAndLimitsByExample"
+		parameterType="com.hero.wireless.web.entity.business.EnterpriseUserExample"
+		resultMap="ResultMapExt">
+		select *
+		from enterprise_user
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="pagination != null">
+			limit ${pagination.firstResult},${pagination.pageSize}
+		</if>
+	</select>
+	<select id="getLimitsByUserId" parameterType="int"
+		resultMap="com.hero.wireless.web.dao.business.IEnterpriseLimitDAO.BaseResultMap">
+		<![CDATA[ 
+			SELECT b.* FROM enterprise_role_limit a INNER JOIN
+			enterprise_limit b ON a.limit_id=b.Id INNER JOIN enterprise_user_roles
+			c ON a.Role_Id=c.Role_Id WHERE c.Enterprise_User_Id=#{value} ORDER BY b.Code
+		]]>
+	</select>
+
+	<select id="getLimitsByUserIdAndOrderId" parameterType="int"
+		resultMap="com.hero.wireless.web.dao.business.IEnterpriseLimitDAO.BaseResultMap">
+		<![CDATA[
+			SELECT b.* FROM enterprise_role_limit a INNER JOIN enterprise_limit b ON
+			a.limit_id=b.Id INNER JOIN enterprise_user_roles c ON
+			a.Role_Id=c.Role_Id
+			WHERE c.Enterprise_User_Id=#{value} ORDER BY b.Order_Id ASC
+		]]>
+	</select>
+
+	<select id="getRolesByUserId" parameterType="int"
+	resultType="com.hero.wireless.web.entity.business.EnterpriseRole">
+<!--		resultMap="com.hero.wireless.web.dao.business.IEnterpriseUserRolesDAO.BaseResultMap">-->
+		<![CDATA[
+			SELECT b.* FROM enterprise_user_roles a INNER JOIN enterprise_role b ON
+			a.Role_Id=b.Id where a.Enterprise_User_Id=#{value}
+		]]>
+	</select>
+
+	<select id="selectUserByEnterpriseAndRoleCode"
+		parameterType="com.hero.wireless.web.entity.business.ext.EnterpriseExt"
+		resultMap="ResultMapExt">
+		SELECT u.*
+		FROM enterprise_user u, enterprise_user_roles ur
+		WHERE u.Id = ur.Enterprise_User_Id AND u.Enterprise_No = #{no}
+		AND ur.Role_Id = (SELECT Id FROM enterprise_role r WHERE r.code = #{roleCode})
+	</select>
+
+	<select id="getEnterpriseUserAllBalance" parameterType="List" resultType="double">
+		SELECT SUM(e.Available_Amount) FROM `enterprise_user` e
+		WHERE e.Enterprise_No IN
+		<foreach close=")" collection="enterpriseNoList" item="listItem" open="(" separator=",">
+			#{listItem}
+		</foreach>
+	</select>
+
+    <select id="queryEnterpriseUserListForExportPage" parameterType="com.hero.wireless.web.entity.business.EnterpriseUserExample"
+        resultType="MAP">
+        SELECT
+        a.*,
+        (SELECT b.`Name` FROM enterprise b WHERE b.`No` = a.Enterprise_No) as EnterpriseName,
+        (SELECT b.`Name` FROM product b WHERE b.`No` = a.Product_No) as ProductName,
+        CASE WHEN  a.`Status` = 'Normal' THEN '正常'
+        WHEN  a.`Status` = 'Locked' THEN '锁定'
+        ELSE '禁用' END as StatusName,
+        CASE WHEN  a.`Audit_Type_Code` = 'no_audit' THEN '免审'
+        WHEN  a.`Audit_Type_Code` = 'audit' THEN '审核'
+        ELSE '模板免审' END as AuditTypeCodeName
+        FROM enterprise_user a
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="pagination != null">
+            limit ${pagination.firstResult},${pagination.pageSize}
+        </if>
+    </select>
+</mapper>
