@@ -33,7 +33,7 @@
 CMPP2.0 | 支持 | 支持 |
 CMPP3.0 | 支持 | 支持 |
 CMGP | 支持 | 支持 |
-CMPP | 支持 | 支持 |
+SMPP | 支持 | 支持 |
 SGIP | 不支持 | 支持 |
 [自研HTTP接口](https://gitee.com/zhuang-dian/sms-platform-stand-alone/wikis) | 支持 | 支持 |
 迈远http1.0 | 支持 | 不支持 |
