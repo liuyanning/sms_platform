@@ -60,7 +60,7 @@ ShardingSphere | 分库分表 | 5.0.0-alpha
 Quick-SMS | 自研[短信协议中间件](https://gitee.com/zhuang-dian/quick-sms) | 最新
 LayUI | js框架 | v2.5.4
 
-此平台使用了自研的短信协议中简介，重点实现了滑动窗口控速和减少了异步开发的门槛，如果只想使用中间件，请走[传送门](https://gitee.com/zhuang-dian/quick-sms)。
+此平台使用了自研的短信协议中间件，重点实现了滑动窗口控速和减少了异步开发的门槛，如果只想使用中间件，请走[传送门](https://gitee.com/zhuang-dian/quick-sms)。
 
 ## 工程结构                                                                                                                                                           
 
