@@ -2,7 +2,7 @@
 
 ## 介绍
   为短信开发者提供一个入门的脚手架项目，让开发者迅速掌握CMPP,SGIP,SMPP,SMGP等协议。开发者可以更专注于企业个性化业务的开发，减少学习时间成本。
-  此平台由河北庄点科技科技有限公司研发（http://www.drondea.com/ ）
+  此平台由河北庄点科技有限公司研发（http://www.drondea.com/ ）
 ## 特别注意
   此项目仅为单机版，性能和扩展性都有局限性。此项目仅供研发交流学习，商用请加群获取授权。
 
@@ -59,6 +59,7 @@ Google Guava | 缓存和工具 | 28.2-jre
 ShardingSphere | 分库分表 | 5.0.0-alpha
 Quick-SMS | 自研[短信协议中间件](https://gitee.com/zhuang-dian/quick-sms) | 最新
 LayUI | js框架 | v2.5.4
+此平台使用了自研的短信协议中简介，重点实现了滑动窗口控速和减少了异步开发的门槛，如果只想使用中间件，请走[传送门](https://gitee.com/zhuang-dian/quick-sms)。
 
 ## 工程结构                                                                                                                                                           
 
