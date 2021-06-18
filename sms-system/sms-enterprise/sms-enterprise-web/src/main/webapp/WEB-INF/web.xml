@@ -139,7 +139,7 @@
     </init-param>
     <init-param>
       <param-name>kaptcha.obscurificator.impl</param-name>
-      <param-value>com.google.code.kaptcha.impl.DefaultRipple</param-value>
+      <param-value>com.google.code.kaptcha.impl.ShadowGimpy</param-value>
     </init-param>
     <init-param>
       <param-name>kaptcha.background.clear.from</param-name>
