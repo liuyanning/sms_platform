@@ -18,9 +18,9 @@
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.google.code.kaptcha/kaptcha -->
 		<dependency>
-			<groupId>com.google.code.kaptcha</groupId>
+			<groupId>com.github.penggle</groupId>
 			<artifactId>kaptcha</artifactId>
-			<version>2.3</version>
+			<version>2.3.2</version>
 		</dependency>
 	</dependencies>
 </project>

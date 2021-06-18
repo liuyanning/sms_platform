@@ -583,30 +583,6 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-  <repositories>
-    <repository>
-      <id>rdc-snapshots</id>
-      <name>33517-snapshot-t7KkXP</name>
-      <url>https://repo.rdc.aliyun.com/repository/33517-snapshot-t7KkXP</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository>
-    <repository>
-      <id>rdc-releases</id>
-      <name>33517-release-6y1nBl</name>
-      <url>https://repo.rdc.aliyun.com/repository/33517-release-6y1nBl</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository>
-  </repositories>
   <build>
     <plugins>
       <plugin>
@@ -626,19 +602,6 @@
       </plugin>
     </plugins>
   </build>
-  <!-- eclipse中maven插件上传项目jar包到私服 -->
-  <distributionManagement>
-    <snapshotRepository>
-      <id>rdc-snapshots</id>
-      <name>33517-snapshot-t7KkXP</name>
-      <url>https://repo.rdc.aliyun.com/repository/33517-snapshot-t7KkXP</url>
-    </snapshotRepository>
-    <repository>
-      <id>rdc-releases</id>
-      <name>33517-release-6y1nBl</name>
-      <url>https://repo.rdc.aliyun.com/repository/33517-release-6y1nBl</url>
-    </repository>
-  </distributionManagement>
 
   <modules>
     <module>sms-system</module>
