@@ -51,6 +51,33 @@ public class CommonThreadPoolFactory {
             new ThreadFactoryImpl("ResponseThread_"),
             REJECTED_EXECUTION_HANDLER);
 
+    private final ThreadPoolExecutor SORT_EXECUTOR = new ThreadPoolExecutor(
+            16 + processorNum * 2,
+            16 + processorNum * 3,
+            1000 * 60,
+            TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<>(),
+            new ThreadFactoryImpl("SortCommonThread_"),
+            REJECTED_EXECUTION_HANDLER);
+
+    private final ThreadPoolExecutor SORT_FAIL_EXECUTOR = new ThreadPoolExecutor(
+            8 + processorNum * 2,
+            8 + processorNum * 3,
+            1000 * 60,
+            TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<>(),
+            new ThreadFactoryImpl("SortFailCommonThread_"),
+            REJECTED_EXECUTION_HANDLER);
+
+    private final ThreadPoolExecutor INPUTLOG_EXECUTOR = new ThreadPoolExecutor(
+            8 + processorNum * 2,
+            8 + processorNum * 3,
+            1000 * 60,
+            TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<>(),
+            new ThreadFactoryImpl("InputLogCommonThread_"),
+            REJECTED_EXECUTION_HANDLER);
+
 
     private final ScheduledExecutorService SCHEDULE_EXECUTOR = new ScheduledThreadPoolExecutor(2,
             new ThreadFactoryImpl("BizCommonScheduledThread_"), REJECTED_EXECUTION_HANDLER);
@@ -58,6 +85,18 @@ public class CommonThreadPoolFactory {
 
     public ThreadPoolExecutor getBizPoolExecutor() {
         return BIZ_EXECUTOR;
+    }
+
+    public ThreadPoolExecutor getSortPoolExecutor(){
+        return SORT_EXECUTOR;
+    }
+
+    public ThreadPoolExecutor getInputLogPoolExecutor(){
+        return INPUTLOG_EXECUTOR;
+    }
+
+    public ThreadPoolExecutor getSortFailPoolExecutor(){
+        return SORT_FAIL_EXECUTOR;
     }
 
     public ThreadPoolExecutor getResponseExecutor() {

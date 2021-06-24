@@ -1,5 +1,6 @@
 package com.hero.wireless.sort;
 
+import com.drondea.wireless.util.CommonThreadPoolFactory;
 import com.hero.wireless.enums.Operator;
 import com.hero.wireless.enums.Priority;
 import com.hero.wireless.enums.ProtocolType;
@@ -66,10 +67,18 @@ public class SortSmsServiceImpl implements ISortSMSService {
 				result = sortChargingService.charging(ctx);
 			}
 		}
+
 		QueueUtil.saveInputLogs(Arrays.asList(ctx.getInputLog()));
 		if (result) {
-			// 分拣成功，通知发送器
-			notifySender(ctx);
+			CommonThreadPoolFactory.getInstance().getSortPoolExecutor().submit(() ->
+			{
+				try {
+					// 分拣成功，通知发送器
+					notifySender(ctx);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
 		}
 		// 分拣失败记录直接写入submit
 		saveSortFaildSubmit(ctx, ctx.getFaildList());
@@ -89,7 +98,15 @@ public class SortSmsServiceImpl implements ISortSMSService {
 		if (ObjectUtils.isEmpty(phoneNos)) {
 			return;
 		}
-		ctx.saveSortFaildSubmit(phoneNos);
+		CommonThreadPoolFactory.getInstance().getSortFailPoolExecutor().submit(() ->
+		{
+			try {
+				ctx.saveSortFaildSubmit(phoneNos);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+
 	}
 
 

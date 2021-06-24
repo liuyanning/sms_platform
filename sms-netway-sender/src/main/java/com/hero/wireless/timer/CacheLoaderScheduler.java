@@ -29,4 +29,10 @@ public class CacheLoaderScheduler {
         //加载黑名单
         DatabaseCache.refreshBlackListLocalCache();
     }
+
+    @Scheduled(fixedDelay = 7 * 24 * 60 * 60 * 1000, initialDelay = 3 * 60 * 1000)
+    public void updateMobileArea() {
+        //加载手机号归属地
+        DatabaseCache.refreshMobileAreaLocalCache();
+    }
 }

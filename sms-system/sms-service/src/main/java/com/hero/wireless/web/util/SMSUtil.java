@@ -872,7 +872,7 @@ public abstract class SMSUtil {
 	public static Submit buildSubmitAreaAndOperator(Submit submit) {
 
 		if (StringUtils.isEmpty(submit.getArea_Name())) {
-			MobileArea area = DatabaseCache.getMobileAreaByNumber(submit.getPhone_No(), submit.getCountry_Code(), false);
+			MobileArea area = DatabaseCache.getMobileAreaByNumber(submit.getPhone_No(), submit.getCountry_Code(), true);
 			// 地域
 			if (!ObjectUtils.isEmpty(area)) {
 				submit.setArea_Name(area.getMobile_Area());

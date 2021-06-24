@@ -67,6 +67,10 @@ public class DatabaseCache {
      */
     public static Map<String, Boolean> SMS_WHITE_MAP = new HashMap<>();
     /**
+     * 号码归属地本地缓存
+     */
+    public static Map<String, MobileArea> MOBILE_AREA_MAP = new HashMap<>();
+    /**
      * 黑名单本地缓存
      */
     public static ConcurrentHashMap<String, List<String>> SMS_BLACK_MAP = new ConcurrentHashMap<>();
@@ -367,15 +371,11 @@ public class DatabaseCache {
             SuperLogger.warn(mobileNumber + "无地域归属!");
             return SMSUtil.NULL_MOBILE_AREA;
         }
-
         String key = getMobileAreaKey(mobileNumber.substring(0, 7), "86");
-
         MobileArea mobileArea;
         //本地二级缓存模式
         if (cacheMode) {
-            mobileArea = MOBILE_AREA_LOCAL_CACHE.get(key, () ->
-                getMobileAreaByNumberAndAreaCode(mobileNumber.substring(0, 7), "86")
-            );
+            mobileArea = MOBILE_AREA_MAP.get(key);
         } else {
             mobileArea = getMobileAreaByNumberAndAreaCode(mobileNumber.substring(0, 7), "86");
         }
@@ -458,6 +458,26 @@ public class DatabaseCache {
         }).start();
     }
 
+    public static void refreshMobileAreaLocalCache() {
+        new Thread(() -> {
+            SuperLogger.info("开始加载号码归属地================");
+            Pagination pagination = new Pagination(1, 10000);
+            while(true) {
+                MobileArea mobileArea= new MobileArea();
+                mobileArea.setPagination(pagination);
+                List<MobileArea> mobileAreaLists = databaseCache.businessManage.queryMobileAreaList(mobileArea);
+                if (ObjectUtils.isEmpty(mobileAreaLists)) {
+                    break;
+                }
+                mobileAreaLists.forEach(entity -> {
+                    String key = getMobileAreaKey(entity.getMobile_Number(), "86");
+                    MOBILE_AREA_MAP.put(key, entity);
+                });
+                pagination = new Pagination(pagination.getPageIndex() + 1, 10000);
+            }
+            SuperLogger.info("号码归属地加载了：" + MOBILE_AREA_MAP.size() + "条");
+        }).start();
+    }
 
     /**
      * 单独更新本地路由缓存
