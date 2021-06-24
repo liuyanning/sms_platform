@@ -437,7 +437,7 @@ public abstract class AbstractSenderService implements ISenderSmsService {
 		criteria.andIdGreaterThan(id);
 		criteria.andChannel_NoEqualTo(channelNo);
 		example.setOrderByClause(" id");
-		example.setPagination(new Pagination(100));
+		example.setPagination(new Pagination(1000));
 		List<Submit> submits = this.submitExtDAO.querySubmitAwaitList(example);
 		if (ObjectUtils.isEmpty(submits)) {
 			return submits;
@@ -464,7 +464,7 @@ public abstract class AbstractSenderService implements ISenderSmsService {
 			criteria.andIdGreaterThan(id);
 			criteria.andEnterprise_User_IdEqualTo(userId);
 			example.setOrderByClause(" id");
-			example.setPagination(new Pagination(100));
+			example.setPagination(new Pagination(1000));
 			List<Report> reports = this.reportExtDAO.queryReportNotifyAwaitList(example);
 			if (ObjectUtils.isEmpty(reports)) {
 				return reports;

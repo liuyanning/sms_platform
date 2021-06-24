@@ -75,13 +75,17 @@ public class ReportMsgPuller {
         if (reportCount > 500) {
             return false;
         }
-        List<Report> reportAwait = senderSmsService.getReportAwaitAndDel(userId, beginId, false);
-        if (ObjectUtils.isEmpty(reportAwait)) {
-            return false;
+        String key = "user:" + userId;
+        synchronized (key.intern()) {
+            List<Report> reportAwait = senderSmsService.getReportAwaitAndDel(userId, beginId, false);
+            if (ObjectUtils.isEmpty(reportAwait)) {
+                return false;
+            }
+            //记录最后一个id
+            beginId = reportAwait.get(reportAwait.size() - 1).getId();
+            QueueUtil.notifyReportAwait(protocolType, userId, reportAwait);
         }
-        QueueUtil.notifyReportAwait(protocolType, userId, reportAwait);
-        //记录最后一个id
-        beginId = reportAwait.get(reportAwait.size() - 1).getId();
+
         return true;
     }
 
