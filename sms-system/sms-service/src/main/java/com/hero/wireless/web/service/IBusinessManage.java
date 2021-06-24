@@ -388,4 +388,6 @@ public interface  IBusinessManage {
     List<AlarmLog> queryAlarmLogList(AlarmLog alarmLog);
 
 	List<BlackList> queryBlackListLocalCache(int pageIndex, int pageSize);
+
+	List<MobileArea> queryMobileAreaList(MobileAreaExample mobileAreaExample);
 }

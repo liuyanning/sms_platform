@@ -1003,4 +1003,9 @@ public class BusinessManageImpl extends BaseBusinessManage implements IBusinessM
         return blackListDAO.selectByExample(example);
     }
 
+    @Override
+    public List<MobileArea> queryMobileAreaList(MobileAreaExample mobileAreaExample) {
+        return mobileAreaDAO.selectByExample(mobileAreaExample);
+    }
+
 }

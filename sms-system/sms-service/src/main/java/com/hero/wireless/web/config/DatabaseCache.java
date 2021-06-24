@@ -463,9 +463,9 @@ public class DatabaseCache {
             SuperLogger.info("开始加载号码归属地================");
             Pagination pagination = new Pagination(1, 10000);
             while(true) {
-                MobileArea mobileArea= new MobileArea();
-                mobileArea.setPagination(pagination);
-                List<MobileArea> mobileAreaLists = databaseCache.businessManage.queryMobileAreaList(mobileArea);
+                MobileAreaExample mobileAreaExample = new MobileAreaExample();
+                mobileAreaExample.setPagination(pagination);
+                List<MobileArea> mobileAreaLists = databaseCache.businessManage.queryMobileAreaList(mobileAreaExample);
                 if (ObjectUtils.isEmpty(mobileAreaLists)) {
                     break;
                 }
