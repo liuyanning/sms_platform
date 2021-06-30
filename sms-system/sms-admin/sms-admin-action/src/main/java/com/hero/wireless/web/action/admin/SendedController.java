@@ -8,7 +8,6 @@ import com.drondea.wireless.util.SuperLogger;
 import com.hero.wireless.enums.ContentAuditStatus;
 import com.hero.wireless.enums.MessageType;
 import com.hero.wireless.enums.ReportStatus;
-import com.hero.wireless.enums.SubmitStatus;
 import com.hero.wireless.json.LayUiJsonObjectFmt;
 import com.hero.wireless.json.LayUiObjectMapper;
 import com.hero.wireless.json.LayuiResultUtil;
@@ -646,29 +645,6 @@ public class SendedController extends BaseAdminController {
         } catch (Exception e) {
             SuperLogger.error(e.getMessage(), e);
             return LayuiResultUtil.fail("补发失败：" + e.getMessage());
-        }
-        return LayuiResultUtil.success();
-    }
-
-
-    /**
-     * 发送扣量回执
-     * @param submitExt
-     * @param deductStatusCode
-     * @return
-     */
-    @RequestMapping("sended_sendDeductReport")
-    @ResponseBody
-    @OperateAnnotation(moduleName = "扣量记录", option = "发送扣量回执")
-    @AvoidRepeatableCommitAnnotation(systemModuleName = ADMIN_PLATFORM + "sended_sendDeductReport")
-    public LayUiJsonObjectFmt sendDeductReport(SubmitExt submitExt, String deductStatusCode) {
-        try {
-            submitExt.setIs_Deduct(true);
-            submitExt.setSubmit_Status_Code(SubmitStatus.SUCCESS.toString());
-            sendManage.sendDeductReport(submitExt, deductStatusCode);
-        } catch (Exception e) {
-            SuperLogger.error(e.getMessage(), e);
-            return LayuiResultUtil.fail("发送扣量回执失败：" + e.getMessage());
         }
         return LayuiResultUtil.success();
     }

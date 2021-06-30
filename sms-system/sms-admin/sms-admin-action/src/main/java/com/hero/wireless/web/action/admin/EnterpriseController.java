@@ -114,17 +114,6 @@ public class EnterpriseController extends BaseAdminController {
         return "/enterprise/edit_ip_white";
     }
 
-    /**
-     * 修改扣量规则前置
-     *
-     * @return
-     */
-    @RequestMapping("enterprise_preEditDeductRule")
-    public String preEditDeductRule(BaseParamEntity entity) {
-        preEditUser(entity);
-        return "/enterprise/edit_deduct_rule";
-    }
-
     @RequestMapping("enterprise_preEditUser")
     public String preEditUser(BaseParamEntity entity) {
         if (entity.getCkIds() == null || entity.getCkIds().isEmpty()) {

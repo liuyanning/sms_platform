@@ -433,12 +433,6 @@ public interface ISendManage {
 	void resendSms(SubmitExt submitExt, String subCode, String enterpriseNo, Integer enterpriseUserId);
 
 	/**
-	 * 根据条件批量生成扣量
-	 * @param submitExt
-	 */
-	void sendDeductReport(SubmitExt submitExt, String deductStatusCode);
-
-	/**
 	 * 发送短信（内部调用）
 	 *
 	 * @param mobiles

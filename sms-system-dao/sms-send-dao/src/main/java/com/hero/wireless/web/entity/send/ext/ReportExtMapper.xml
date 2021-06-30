@@ -366,7 +366,7 @@
           Content varchar(512) CHARACTER SET utf8mb4 NOT NULL COMMENT '短消息',
           Data_Status_Code varchar(11) DEFAULT '0' COMMENT '数据状态：0:正常数据 1:重发的数据 2:第一次发送失败的数据',
           Is_Show bit(1) DEFAULT NULL COMMENT '是否显示',
-          Is_Deduct bit(1) DEFAULT NULL COMMENT '是否是扣量：1:是 0:否',
+          Is_Deduct bit(1) DEFAULT NULL COMMENT '',
           Charset varchar(32) DEFAULT NULL COMMENT '编码',
           Signature varchar(64) DEFAULT NULL COMMENT '签名',
           Content_Length int(11) DEFAULT NULL COMMENT '短信字数',

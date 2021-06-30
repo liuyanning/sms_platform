@@ -7,9 +7,6 @@ import com.drondea.sms.message.MessageProvider;
 import com.drondea.sms.session.AbstractClientSessionManager;
 import com.hero.wireless.enums.ChannelStatus;
 import com.hero.wireless.enums.ProtocolType;
-import com.hero.wireless.sender.filter.DeductFilterHandler;
-import com.hero.wireless.sender.filter.Handler;
-import com.hero.wireless.sender.filter.PreventShieldFilterHandler;
 import com.hero.wireless.sms.sender.service.AbstractTcpSenderService;
 import com.hero.wireless.web.entity.business.Channel;
 import com.hero.wireless.web.entity.send.Submit;
@@ -42,14 +39,6 @@ public class SenderUtil {
         }
         // 设置发送器Ip
         submit.setSender_Local_IP(channel.getSender_Local_IP());
-
-        Handler deduct = new DeductFilterHandler();
-        Handler preventShield = new PreventShieldFilterHandler();
-        deduct.setNextHandler(preventShield);
-        submit = deduct.doFilter(channel, submit);
-        if (submit == null) {
-            return null;
-        }
 
         AbstractTcpSenderService service = (AbstractTcpSenderService) ApplicationContextUtil
                 .getBean(ProtocolType.getSenderServiceClasze(channel.getProtocol_Type_Code()));

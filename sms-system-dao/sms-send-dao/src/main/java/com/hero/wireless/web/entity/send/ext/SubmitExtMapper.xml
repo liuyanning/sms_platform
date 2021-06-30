@@ -547,7 +547,7 @@
           Sequence int(11) DEFAULT NULL COMMENT '长短信的序列',
           Sub_Code varchar(32) DEFAULT NULL,
           Is_LMS bit(1) NOT NULL COMMENT '是否长短信',
-		  Is_Deduct bit(1) DEFAULT NULL COMMENT '是否是扣量消息：1:是 0:否',
+		  Is_Deduct bit(1) DEFAULT NULL COMMENT '',
           Data_Status_Code varchar(11) DEFAULT '0' COMMENT '数据状态：0:正常数据 1:重发的数据 2:第一次发送失败的数据',
           Is_Show bit(1) DEFAULT NULL COMMENT '是否显示',
           Message_Type_Code varchar(128) NOT NULL COMMENT '消息类型',

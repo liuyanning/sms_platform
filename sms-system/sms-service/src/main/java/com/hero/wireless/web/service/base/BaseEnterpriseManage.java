@@ -315,8 +315,6 @@ public class BaseEnterpriseManage extends BaseService {
         newUser.setIs_Notify_Report(old.getIs_Notify_Report());
         newUser.setNotify_Report_Url(old.getNotify_Report_Url());
         newUser.setNotify_Mo_Url(old.getNotify_Mo_Url());
-        //扣量配置
-        newUser.setDeduct_Rate(old.getDeduct_Rate());
         enterpriseUserDAO.updateByPrimaryKeySelective(newUser);
     }
 
