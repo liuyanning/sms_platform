@@ -1,9 +1,6 @@
 package com.hero.wireless.sender;
 
 import com.drondea.sms.type.DefaultEventGroupFactory;
-import com.hero.wireless.sender.filter.DeductFilterHandler;
-import com.hero.wireless.sender.filter.Handler;
-import com.hero.wireless.sender.filter.PreventShieldFilterHandler;
 import com.hero.wireless.sender.handler.HttpClentSessionManager;
 import com.hero.wireless.sms.sender.service.HttpServiceImpl;
 import com.hero.wireless.web.entity.business.Channel;
@@ -51,14 +48,6 @@ public class MessageSender {
      */
     private static void submitHttp(Channel channel, Submit submitted) throws Exception {
 
-        /**这里影响性能，优化成平台级开关，默认关闭。后面优化整个链条*/
-        Handler deduct = new DeductFilterHandler();
-        Handler preventShield = new PreventShieldFilterHandler();
-        deduct.setNextHandler(preventShield);
-        submitted = deduct.doFilter(channel, submitted);
-        if (submitted == null) {
-            return;
-        }
         HttpServiceImpl httpServcie = ApplicationContextUtil.getBean(HttpServiceImpl.class);
         httpServcie.submit(submitted);
     }
