@@ -400,11 +400,6 @@
       </dependency>
       <dependency>
         <groupId>com.hero.wireless</groupId>
-        <artifactId>sms-monitor-dao</artifactId>
-        <version>${project-parent-version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.hero.wireless</groupId>
         <artifactId>sms-service</artifactId>
         <version>${project-parent-version}</version>
       </dependency>
