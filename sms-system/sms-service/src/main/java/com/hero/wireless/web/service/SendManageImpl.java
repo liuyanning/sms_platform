@@ -1100,41 +1100,6 @@ public class SendManageImpl extends BaseSendManage implements ISendManage {
 		});
 	}
 
-	@Override
-	public void sendDeductReport(SubmitExt condition, String deductStatusCode) {
-		int maxDeduct = DatabaseCache.getIntValueBySortCodeAndCode("sys_performance_setup", "max_deduct_report", 20000);
-		SubmitExample example = assemblySubmitListConditon(condition, true);
-		List<SubmitExt> list = this.submitExtDAO.selectExtByExample(example);
-		if (list.size() > maxDeduct) {
-			throw new  ServiceException("超过最大数量限制");
-		}
-		if (ObjectUtils.isEmpty(list)) {
-			return;
-		}
-		list.forEach(submit -> {
-			//只有成功的才处理
-			if (!SubmitStatus.SUCCESS.toString().equalsIgnoreCase(submit.getSubmit_Status_Code())) {
-				return;
-			}
-			Report report = SMSUtil.buildReport(submit, submit.getPhone_No());
-			report.setSP_Number(submit.getSP_Number());
-			if (ReportNativeStatus.DELIVRD.toString().equalsIgnoreCase(deductStatusCode)) {
-				report.setNative_Status(ReportNativeStatus.DELIVRD.toString());
-				report.setStatus_Code(ReportStatus.SUCCESS.toString());
-			} else if(ReportStatus.FAILD.toString().equalsIgnoreCase(deductStatusCode)) {
-				report.setNative_Status(deductStatusCode);
-				report.setStatus_Code(ReportStatus.FAILD.toString());
-			} else {
-				report.setNative_Status(deductStatusCode);
-				report.setStatus_Code(ReportStatus.UNKNOWN.toString());
-			}
-
-			report.setStatus_Date(new Date());
-			report.setCreate_Date(new Date());
-			QueueUtil.saveReport(report);
-		});
-	}
-
 	@SuppressWarnings("deprecation")
 	@Override
 	public void sendSMS(String mobiles, String msg,String countryCode) {
