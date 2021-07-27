@@ -5,7 +5,7 @@
   此平台由河北庄点科技有限公司研发（http://www.drondea.com/ ）
 ## 特别注意
 -  此项目仅为单机版，性能和扩展性都有局限性。此项目仅供研发交流学习，禁止商用。
--  此项目依赖sms-quick,我们也做了开源，请走[传送门](https://gitee.com/zhuang-dian/quick-sms)
+-  此项目依赖sms-quick，我们也做了开源，请走[传送门](https://gitee.com/zhuang-dian/quick-sms)
 
 ## 在线体验
 
@@ -151,3 +151,10 @@ sms
         ![发送回执](https://images.gitee.com/uploads/images/2021/0610/152116_130fbd92_647232.png "发送回执.png")
 -   彩信管理---客户端发送彩信的入口、彩信素材、彩信模板的维护
 -   财务管理---发票管理、发送的短信统计
+
+## 常见问题
+
+1. 缺少sms-quick.jar包<br/>
+  此项目依赖sms-quick，我们也做了开源，自己引入即可，请走[传送门](https://gitee.com/zhuang-dian/quick-sms)
+2. 演示地址不能打开<br/>
+  由于服务器资源有限，不定时会关闭演示地址，如需功能演示，进群联系管理员即可
