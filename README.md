@@ -5,7 +5,7 @@
   此平台由河北庄点科技有限公司研发（http://www.drondea.com/ ）
 ## 特别注意
 -  此项目仅为单机版，性能和扩展性都有局限性。此项目仅供研发交流学习，禁止商用。
--  此项目依赖sms-quick，我们也做了开源，请走[传送门](https://gitee.com/zhuang-dian/quick-sms)
+-  此项目依赖sms-quick(基于netty的短信协议处理中间件)，我们也做了开源，请走[传送门](https://gitee.com/zhuang-dian/quick-sms)
 
 ## 在线体验
 
